@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="UIAutomationStudio.UserControlPickElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UIAutomationStudio"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40" />
+			<RowDefinition Height="30" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold">Select UI Element</TextBlock>
+		<CheckBox x:Name="chkChooseElement" Click="OnCheckChooseElement" Grid.Row="1" Height="24" HorizontalAlignment="Center" IsChecked="False">Don't choose a specific UI Element, make a general action</CheckBox>
+		<GroupBox Header="UI Element" Grid.Row="2" HorizontalAlignment="Center" Padding="10" x:Name="groupBoxUIElement">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="30" />
+					<RowDefinition Height="130" />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<StackPanel Orientation="Horizontal">
+					<ToggleButton Margin="10,0,0,0" x:Name="btnChooseElement" Padding="5,0" Height="26" Width="130" VerticalAlignment="Bottom" Click="OnSelectElement" IsEnabled="{Binding MyIsEnabled}">_Select Element</ToggleButton>
+					<ToggleButton Margin="10,0,0,0" x:Name="btnHighlight" Padding="5,0" Height="26" Width="100" VerticalAlignment="Bottom" Click="OnHighlight" IsEnabled="{Binding MyIsEnabled}">_Highlight</ToggleButton>
+					<Button Margin="10,0,0,0" x:Name="btnSelectParent" Padding="5,0" Height="26" Width="100" VerticalAlignment="Bottom" Click="OnSelectParent" IsEnabled="False">Select a Parent</Button>
+				</StackPanel>
+				
+				<Grid Height="70" Grid.Row="1">
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="35" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					
+					<StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+						<TextBlock x:Name="txbLastSelected" HorizontalAlignment="Right" Margin="0,0,5,0" Foreground="{Binding LabelForegroundColor}" FontStyle="Italic">Last selected (for quick selection):</TextBlock>
+						<ComboBox x:Name="cmbLastSelected" Grid.Column="1" Width="200" Height="22" SelectionChanged="OnSelectionChanged" IsEnabled="{Binding MyIsEnabled}" />
+					</StackPanel>
+					
+					<TextBlock x:Name="txtElementTypeLabel" HorizontalAlignment="Right" Margin="0,0,5,0" Grid.Row="1" Foreground="{Binding LabelForegroundColor}">Type:</TextBlock>
+					<TextBlock x:Name="txtElementType" FontWeight="Bold" Grid.Column="1" Grid.Row="1" Foreground="{Binding TextForegroundColor}"></TextBlock>
+					<TextBlock x:Name="txtElementTextLabel" HorizontalAlignment="Right" Grid.Row="2" Margin="0,0,5,0" Foreground="{Binding LabelForegroundColor}">Text:</TextBlock>
+					<TextBlock x:Name="txtElementText" FontWeight="Bold" Grid.Row="2" Grid.Column="1" Foreground="{Binding TextForegroundColor}"></TextBlock>
+				</Grid>
+				
+				<TextBlock Grid.Row="2" TextWrapping="Wrap" x:Name="txtDescription" Foreground="{Binding LabelForegroundColor}">When "Select Element" button is pressed you can pick an UI Element from screen by moving the mouse cursor over the desired element and holding Shift pressed for a second or two.</TextBlock>
+			</Grid>
+		</GroupBox>
+    </Grid>
+</UserControl>

@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="UIAutomationStudio.UserControlScroll"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UIAutomationStudio"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="800">
+			 
+    <Grid>
+        <Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" FontWeight="Bold">Scroll vertically and/or horizontally by specified percents</TextBlock>
+		<TextBlock Grid.Row="1">Leave 0 in the direction where you don't want to scroll</TextBlock>
+		<StackPanel Grid.Row="2" Orientation="Horizontal">
+			<StackPanel Orientation="Horizontal" x:Name="scrollVertically">
+				<TextBlock Margin="0,0,5,0" Style="{StaticResource myStyle}">Vertically: </TextBlock>
+				<TextBox Width="50" Height="24" VerticalAlignment="Top" x:Name="txtVertically">0</TextBox>
+				<TextBlock>%</TextBlock>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" x:Name="scrollHorizontally">
+				<TextBlock Margin="30,0,5,0" Style="{StaticResource myStyle}">Horizontally: </TextBlock>
+				<TextBox Width="50" Height="24" VerticalAlignment="Top" x:Name="txtHorizontally">0</TextBox>
+				<TextBlock>%</TextBlock>
+			</StackPanel>
+		</StackPanel>
+    </Grid>
+</UserControl>

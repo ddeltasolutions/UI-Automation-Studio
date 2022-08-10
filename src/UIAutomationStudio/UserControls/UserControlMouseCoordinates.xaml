@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="UIAutomationStudio.UserControlMouseCoordinates"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UIAutomationStudio"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="800">
+			
+    <Grid x:Name="mouseCoordsGrid">
+        <Grid.RowDefinitions>
+			<RowDefinition Height="30"/>
+			<RowDefinition />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="200" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" FontWeight="Bold" x:Name="txbTitle">Relative mouse coordinates</TextBlock>
+		<StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" x:Name="stackPanelValues">
+			<TextBlock Margin="0,0,5,0" Style="{StaticResource myStyle}" x:Name="txbX">X: </TextBlock>
+			<TextBox Width="50" Height="24" VerticalAlignment="Top" x:Name="txtX" />
+			<TextBlock Margin="10,0,5,0" Style="{StaticResource myStyle}" x:Name="txbY">Y: </TextBlock>
+			<TextBox Width="50" Height="24" VerticalAlignment="Top" x:Name="txtY" />
+			<Button Click="OnClearValues" Margin="10,0,0,0" Height="24" VerticalAlignment="Top" Width="35">Clear</Button>
+		</StackPanel>
+		<ToggleButton Grid.Row="2" Grid.Column="0" Click="OnPickCoordinates" x:Name="btnPickCoords" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Width="105">_Pick coordinates</ToggleButton>
+		<TextBlock Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" x:Name="txbPickDescription" TextWrapping="Wrap" Height="60">When "Pick Coordinates" button is pressed move the mouse pointer at the desired location and then hold Shift pressed for a second.</TextBlock>
+    </Grid>
+</UserControl>
