@@ -1,0 +1,302 @@
+﻿<Window x:Class="UIAutomationStudio.PickKeyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="Pick Key" ShowInTaskbar="False" Height="400" Width="800" Loaded="OnLoaded" ResizeMode="CanResizeWithGrip" MinWidth="400" MinHeight="200" WindowStartupLocation="CenterOwner">
+	
+	<Window.Resources>
+		<Style TargetType="{x:Type Button}">
+			<Setter Property="Template" Value="{StaticResource myControlTemplate}" />
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="Margin" Value="2,2,0,0" />
+		</Style>
+	</Window.Resources>
+	
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="20*" />
+			<RowDefinition Height="65*" />
+			<RowDefinition Height="15*" />
+		</Grid.RowDefinitions>
+		
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="66*" />
+			<ColumnDefinition Width="14*" />
+			<ColumnDefinition Width="20*" />
+		</Grid.ColumnDefinitions>
+
+		<Grid Margin="10,10,10,10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="2*" />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition Width="1.5*" />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition Width="1.5*" />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			
+			<Button x:Name="btnEsc" Click="OnClick">Esc</Button>
+			<Button Grid.Column="1" Margin="22,2,0,0" x:Name="btnF1" Click="OnClick">F1</Button>
+			<Button Grid.Column="2" x:Name="btnF2" Click="OnClick">F2</Button>
+			<Button Grid.Column="3" x:Name="btnF3" Click="OnClick">F3</Button>
+			<Button Grid.Column="4" x:Name="btnF4" Click="OnClick">F4</Button>
+			<Button Grid.Column="5" Margin="12,2,0,0" x:Name="btnF5" Click="OnClick">F5</Button>
+			<Button Grid.Column="6" x:Name="btnF6" Click="OnClick">F6</Button>
+			<Button Grid.Column="7" x:Name="btnF7" Click="OnClick">F7</Button>
+			<Button Grid.Column="8" x:Name="btnF8" Click="OnClick">F8</Button>
+			<Button Grid.Column="9" Margin="12,2,0,0" x:Name="btnF9" Click="OnClick">F9</Button>
+			<Button Grid.Column="10" x:Name="btnF10" Click="OnClick">F10</Button>
+			<Button Grid.Column="11" x:Name="btnF11" Click="OnClick">F11</Button>
+			<Button Grid.Column="12" x:Name="btnF12" Click="OnClick">F12</Button>
+		</Grid>
+		<Grid Grid.Row="1" Margin="10,0,10,0">
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition Height="2*" />
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition Width="2*" />
+				</Grid.ColumnDefinitions>
+				
+				<Button x:Name="btnTilde">`</Button>
+				<Button Grid.Column="1" x:Name="btn1" Click="OnClick">1</Button>
+				<Button Grid.Column="2" x:Name="btn2" Click="OnClick">2</Button>
+				<Button Grid.Column="3" x:Name="btn3" Click="OnClick">3</Button>
+				<Button Grid.Column="4" x:Name="btn4" Click="OnClick">4</Button>
+				<Button Grid.Column="5" x:Name="btn5" Click="OnClick">5</Button>
+				<Button Grid.Column="6" x:Name="btn6" Click="OnClick">6</Button>
+				<Button Grid.Column="7" x:Name="btn7" Click="OnClick">7</Button>
+				<Button Grid.Column="8" x:Name="btn8" Click="OnClick">8</Button>
+				<Button Grid.Column="9" x:Name="btn9" Click="OnClick">9</Button>
+				<Button Grid.Column="10" x:Name="btn0" Click="OnClick">0</Button>
+				<Button Grid.Column="11" x:Name="btnMinus" Click="OnClick">-</Button>
+				<Button Grid.Column="12" x:Name="btnEquals" Click="OnClick">=</Button>
+				<Button Grid.Column="13" x:Name="btnBack" Click="OnClick">Back</Button>
+			</Grid>
+			<Grid Grid.Row="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="14*" />
+					<ColumnDefinition Width="1.5*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1.5*" />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					
+					<Button x:Name="btnTab">Tab</Button>
+					<Button Grid.Column="1" x:Name="btnQ" Click="OnClick">Q</Button>
+					<Button Grid.Column="2" x:Name="btnW" Click="OnClick">W</Button>
+					<Button Grid.Column="3" x:Name="btnE" Click="OnClick">E</Button>
+					<Button Grid.Column="4" x:Name="btnR" Click="OnClick">R</Button>
+					<Button Grid.Column="5" x:Name="btnT" Click="OnClick">T</Button>
+					<Button Grid.Column="6" x:Name="btnY" Click="OnClick">Y</Button>
+					<Button Grid.Column="7" x:Name="btnU" Click="OnClick">U</Button>
+					<Button Grid.Column="8" x:Name="btnI" Click="OnClick">I</Button>
+					<Button Grid.Column="9" x:Name="btnO" Click="OnClick">O</Button>
+					<Button Grid.Column="10" x:Name="btnP" Click="OnClick">P</Button>
+					<Button Grid.Column="11" x:Name="btnSquareP1" Click="OnClick">[</Button>
+					<Button Grid.Column="12" x:Name="btnSquareP2" Click="OnClick">]</Button>
+				</Grid>
+				<Grid Grid.Row="1">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1.7*" />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+				
+					<Button x:Name="btnCaps">Caps</Button>
+					<Button Grid.Column="1" x:Name="btnA" Click="OnClick">A</Button>
+					<Button Grid.Column="2" x:Name="btnS" Click="OnClick">S</Button>
+					<Button Grid.Column="3" x:Name="btnD" Click="OnClick">D</Button>
+					<Button Grid.Column="4" x:Name="btnF" Click="OnClick">F</Button>
+					<Button Grid.Column="5" x:Name="btnG" Click="OnClick">G</Button>
+					<Button Grid.Column="6" x:Name="btnH" Click="OnClick">H</Button>
+					<Button Grid.Column="7" x:Name="btnJ" Click="OnClick">J</Button>
+					<Button Grid.Column="8" x:Name="btnK" Click="OnClick">K</Button>
+					<Button Grid.Column="9" x:Name="btnL" Click="OnClick">L</Button>
+					<Button Grid.Column="10" x:Name="btnSemicolon" Click="OnClick">;</Button>
+					<Button Grid.Column="11" x:Name="btnApostrophe" Click="OnClick">'</Button>
+					<Button Grid.Column="12" x:Name="btnBackslash" Click="OnClick">\</Button>
+				</Grid>
+				<Button Grid.Column="1" Grid.RowSpan="2" x:Name="btnEnter" Click="OnClick">Enter</Button>
+			</Grid>
+			<Grid Grid.Row="2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1.2*" />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition Width="3*" />
+				</Grid.ColumnDefinitions>
+				
+				<Button x:Name="btnLeftShift" Click="OnClick">Shift</Button>
+				<Button Grid.Column="1" x:Name="btnBackslash2" Click="OnClick">\</Button>
+				<Button Grid.Column="2" x:Name="btnZ" Click="OnClick">Z</Button>
+				<Button Grid.Column="3" x:Name="btnX" Click="OnClick">X</Button>
+				<Button Grid.Column="4" x:Name="btnC" Click="OnClick">C</Button>
+				<Button Grid.Column="5" x:Name="btnV" Click="OnClick">V</Button>
+				<Button Grid.Column="6" x:Name="btnB" Click="OnClick">B</Button>
+				<Button Grid.Column="7" x:Name="btnN" Click="OnClick">N</Button>
+				<Button Grid.Column="8" x:Name="btnM" Click="OnClick">M</Button>
+				<Button Grid.Column="9" x:Name="btnComa" Click="OnClick">,</Button>
+				<Button Grid.Column="10" x:Name="btnDot" Click="OnClick">.</Button>
+				<Button Grid.Column="11" x:Name="btnSlash" Click="OnClick">/</Button>
+				<Button Grid.Column="12" x:Name="btnRightShift" Click="OnClick">Shift</Button>
+			</Grid>
+			<Grid Grid.Row="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1.2*" />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition Width="5*" />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition Width="1.2*" />
+				</Grid.ColumnDefinitions>
+				
+				<Button x:Name="btnLeftCtrl" Click="OnClick">Ctrl</Button>
+				<Button Grid.Column="1" x:Name="btnWin" Click="OnClick">Win</Button>
+				<Button Grid.Column="2" x:Name="btnLeftAlt" Click="OnClick">Alt</Button>
+				<Button Grid.Column="3" x:Name="btnSpace" Click="OnClick">Space</Button>
+				<Button Grid.Column="4" x:Name="btnRightAlt" Click="OnClick">Alt</Button>
+				<Button Grid.Column="5" x:Name="btnFn" Click="OnClick">Fn</Button>
+				<Button Grid.Column="6" x:Name="btnRClick" Click="OnClick">RClick</Button>
+				<Button Grid.Column="7" x:Name="btnRightCtrl" Click="OnClick">Ctrl</Button>
+			</Grid>
+		</Grid>
+		<Grid Grid.Column="1" Margin="0,10,0,10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			
+			<Button x:Name="btnPrintScreen" Click="OnClick">PrtScr</Button>
+			<Button Grid.Column="1" x:Name="btnScrollLock" Click="OnClick"><TextBlock>Scroll<LineBreak />Lock</TextBlock></Button>
+			<Button Grid.Column="2" x:Name="btnPause" Click="OnClick">Pause</Button>
+		</Grid>
+		<Grid Grid.Row="1" Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			
+			<Button x:Name="btnInsert" Click="OnClick">Insert</Button>
+			<Button x:Name="btnHome" Grid.Column="1" Click="OnClick">Home</Button>
+			<Button x:Name="btnPageUp" Grid.Column="2" Click="OnClick"><TextBlock>Page<LineBreak />Up</TextBlock></Button>
+			<Button x:Name="btnDelete" Grid.Row="1" Click="OnClick">Del</Button>
+			<Button x:Name="btnEnd" Grid.Row="1" Grid.Column="1" Click="OnClick">End</Button>
+			<Button x:Name="btnPageDown" Grid.Row="1" Grid.Column="2" Click="OnClick"><TextBlock>Page<LineBreak />Down</TextBlock></Button>
+			<Button x:Name="btnUp" Grid.Row="3" Grid.Column="1" Click="OnClick">↑</Button>
+			<Button x:Name="btnLeft" Grid.Row="4" Click="OnClick">←</Button>
+			<Button x:Name="btnDown" Grid.Row="4" Grid.Column="1" Click="OnClick">↓</Button>
+			<Button x:Name="btnRight" Grid.Row="4" Grid.Column="2" Click="OnClick">→</Button>
+		</Grid>
+		<Grid Grid.Row="1" Grid.Column="2" Margin="10,0,10,0">
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			
+			<Button x:Name="btnNumLock" Click="OnClick"><TextBlock>Num<LineBreak />Lock</TextBlock></Button>
+			<Button x:Name="btnDivide" Grid.Column="1" Click="OnClick">/</Button>
+			<Button x:Name="btnMultiply" Grid.Column="2" Click="OnClick">*</Button>
+			<Button x:Name="btnNumMinus" Grid.Column="3" Click="OnClick">-</Button>
+			<Button x:Name="btnNum7" Grid.Row="1" Click="OnClick">7</Button>
+			<Button x:Name="btnNum8" Grid.Row="1" Grid.Column="1" Click="OnClick">8</Button>
+			<Button x:Name="btnNum9" Grid.Row="1" Grid.Column="2" Click="OnClick">9</Button>
+			<Button x:Name="btnPlus" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Click="OnClick">+</Button>
+			<Button x:Name="btnNum4" Grid.Row="2" Click="OnClick">4</Button>
+			<Button x:Name="btnNum5" Grid.Row="2" Grid.Column="1" Click="OnClick">5</Button>
+			<Button x:Name="btnNum6" Grid.Row="2" Grid.Column="2" Click="OnClick">6</Button>
+			<Button x:Name="btnNum1" Grid.Row="3" Click="OnClick">1</Button>
+			<Button x:Name="btnNum2" Grid.Row="3" Grid.Column="1" Click="OnClick">2</Button>
+			<Button x:Name="btnNum3" Grid.Row="3" Grid.Column="2" Click="OnClick">3</Button>
+			<Button x:Name="btnNumEnter" Grid.Row="3" Grid.Column="3" Grid.RowSpan="2" Click="OnClick">Enter</Button>
+			<Button x:Name="btnNum0" Grid.Row="4" Grid.ColumnSpan="2" Click="OnClick">0</Button>
+			<Button x:Name="btnNumDot" Grid.Row="4" Grid.Column="2" Click="OnClick">.</Button>
+		</Grid>
+		
+		<Button Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Height="30" Width="100" IsCancel="True">Close</Button>
+    </Grid>
+</Window>

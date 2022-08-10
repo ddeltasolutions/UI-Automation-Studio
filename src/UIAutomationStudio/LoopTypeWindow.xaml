@@ -1,0 +1,38 @@
+﻿<Window x:Class="UIAutomationStudio.LoopTypeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="Choose the Type of the Loop" Height="200" Width="370" Loaded="OnLoaded" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+		
+	<Window.Resources>
+		<Style TargetType="RadioButton">
+			<Style.Triggers>
+				<Trigger Property="IsChecked" Value="True">
+					<Setter Property="FontSize" Value="13" />
+					<Setter Property="Foreground" Value="Blue" />
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+	</Window.Resources>
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30" />
+			<RowDefinition />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+        <TextBlock Height="30" Margin="5,10,5,0" TextWrapping="Wrap">Choose the Type of the Loop Action:</TextBlock>
+		
+		<RadioButton Grid.Row="1" Click="OnClickRadio" x:Name="radioConditional" Height="22" VerticalAlignment="Top" Margin="5,15,0,0" FontWeight="Bold">Run a Loop while a Conditional Stamement is True</RadioButton>
+		<RadioButton Grid.Row="1" Click="OnClickRadio" x:Name="radioCount" Height="22" VerticalAlignment="Top" Margin="5,37,0,0" FontWeight="Bold">Run a Loop for a specified number of times</RadioButton>
+		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5,51,0,0" Height="22" Visibility="Hidden" x:Name="spCount">
+			<TextBlock Margin="0,1,5,0">Number of times:</TextBlock>
+			<TextBox Width="100" x:Name="txtCount" />
+		</StackPanel>
+		
+		<Button x:Name="btnOK" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,120,0" Height="30" Width="100" IsDefault="True" Click="OnOK" IsEnabled="False">OK >></Button>
+		<Button Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,10,0" Height="30" Width="100" IsCancel="True" Click="OnCancel">Cancel</Button>
+    </Grid>
+</Window>

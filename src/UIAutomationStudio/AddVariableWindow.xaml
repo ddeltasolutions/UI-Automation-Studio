@@ -1,0 +1,25 @@
+﻿<Window x:Class="UIAutomationStudio.AddVariableWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="Add Condition Wizard" Height="510" Width="600" Loaded="OnLoaded" ResizeMode="CanResizeWithGrip" MinWidth="400" MinHeight="200" WindowStartupLocation="CenterOwner" Closing="OnWindowClosing" 
+		ShowInTaskbar="False">
+    <DockPanel>
+		<Border BorderThickness="0" BorderBrush="Black" DockPanel.Dock="Bottom" Height="60">
+			<Grid>
+				<Button Width="100" Height="30" Margin="10" HorizontalAlignment="Right" Click="OnCancel" IsCancel="True">Cancel</Button>
+				<Button Width="100" Height="30" Margin="0,0,120,0" HorizontalAlignment="Right" Click="OnNextPage" x:Name="nextBtn" IsDefault="True">Next >></Button>
+				<Button Width="100" Height="30" Margin="0,0,230,0" HorizontalAlignment="Right" Click="OnPrevPage" Visibility="Hidden" x:Name="prevBtn">&lt;&lt; Previous</Button>
+			</Grid>
+		</Border>
+		
+		<Border BorderThickness="0" BorderBrush="Black">
+			<GroupBox BorderBrush="#FFFFFFFF" x:Name="myGroupBox">
+				
+			</GroupBox>
+		</Border>
+    </DockPanel>
+</Window>

@@ -1,0 +1,43 @@
+﻿<Window x:Class="UIAutomationStudio.PropertiesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="Properties" Height="310" Width="460" Loaded="OnLoaded" ResizeMode="CanResizeWithGrip" MinWidth="400" MinHeight="200" WindowStartupLocation="CenterOwner">
+	<Window.Resources>
+		<Style TargetType="{x:Type TextBox}">
+			<Setter Property="Foreground" Value="Blue" />
+			<Setter Property="FontWeight" Value="Bold" />
+		</Style>
+	</Window.Resources>
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+        
+		<GroupBox Grid.Row="0" Header="UI Element">
+			<StackPanel Margin="0,10,0,0">
+				<StackPanel>
+					<TextBlock Margin="0,0,0,5">Top Level Window Text:</TextBlock>
+					<Grid>
+						<TextBox IsReadOnly="True" Margin="0,0,55,0" HorizontalAlignment="Stretch" x:Name="txtWindow" />
+						<Button HorizontalAlignment="Right" Width="50" x:Name="btnChangeTopLevel" Click="OnChange">Change</Button>
+					</Grid>
+				</StackPanel>
+				
+				<StackPanel Margin="0,10,0,0" x:Name="spElement">
+					<TextBlock Margin="0,0,0,5">Element Text:</TextBlock>
+					<Grid>
+						<TextBox IsReadOnly="True" Margin="0,0,55,0" HorizontalAlignment="Stretch" x:Name="txtElement" />
+						<Button HorizontalAlignment="Right" Width="50" x:Name="btnChangeElement" Click="OnChange">Change</Button>
+					</Grid>
+				</StackPanel>
+			</StackPanel>
+		</GroupBox>
+		
+		<Button Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,10,0" Height="30" Width="100" IsCancel="True" IsDefault="True">Close</Button>
+    </Grid>
+</Window>

@@ -1,0 +1,23 @@
+﻿<Window x:Class="UIAutomationStudio.EditFieldWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="Edit Field" Height="130" Width="460" Loaded="OnLoaded" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+		
+		<StackPanel Grid.Row="0" Margin="5,5,5,0">
+			<TextBlock Margin="0,0,0,5">Text:</TextBlock>
+			<TextBox x:Name="txtField" />
+		</StackPanel>
+		
+		<Button Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,120,0" Height="30" Width="100" IsDefault="True" Click="OnOK">OK</Button>
+		<Button Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,10,0" Height="30" Width="100" IsCancel="True">Cancel</Button>
+    </Grid>
+</Window>

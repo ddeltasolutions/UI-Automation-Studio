@@ -1,0 +1,18 @@
+﻿<Window x:Class="UIAutomationStudio.SelectParentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="Select a Parent" Height="300" Width="400" Loaded="OnLoaded" ResizeMode="CanResizeWithGrip" MinWidth="400" MinHeight="200" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+        <TreeView x:Name="treeViewParents" Grid.Row="0" />
+		<Button Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,120,0" Height="30" Width="100" IsDefault="True" Click="OnOK">OK</Button>
+		<Button Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,10,0" Height="30" Width="100" IsCancel="True">Cancel</Button>
+    </Grid>
+</Window>

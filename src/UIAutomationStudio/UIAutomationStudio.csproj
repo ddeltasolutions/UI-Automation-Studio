@@ -1,0 +1,540 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B4EB8B5F-2702-4059-B89F-972CC3625986}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>UIAutomationStudio</RootNamespace>
+    <AssemblyName>UIAutomationStudio</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>appicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+	<Reference Include="System.Windows.Forms" />
+	
+	<Reference Include="UIDeskAutomation">
+        <HintPath>Lib\UIDeskAutomation.dll</HintPath>
+    </Reference>
+	<Reference Include="UIAutomationClient">
+        <HintPath>Lib\Interop.UIAutomationClient.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Action.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Element.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Task.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="IParameters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Helpers\RunAction.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="MyCommands.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Helpers\Helper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="MainWindowCmdsAndPrefs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="MainWindow.Conditions.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Variable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Helpers\ElementHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Condition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="ConditionalAction.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="LoopAction.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Helpers\HelpMessages.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Helpers\XmlExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Helpers\Evaluator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="UserControlMainScreen.DrawingActions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="UserControlMainScreen.DrawingArrows.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Helpers\DrawArrowHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="Helpers\UndoRedo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Compile Include="UserControls\UserControlSelectAction.Init.cs">
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="AddActionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="AddActionWindow.xaml.cs">
+      <DependentUpon>AddActionWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="AddVariableWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="AddVariableWindow.xaml.cs">
+      <DependentUpon>AddVariableWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="AddConditionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="AddConditionWindow.xaml.cs">
+      <DependentUpon>AddConditionWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="SelectParentWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="SelectParentWindow.xaml.cs">
+      <DependentUpon>SelectParentWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="MessageBoxWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="MessageBoxWindow.xaml.cs">
+      <DependentUpon>MessageBoxWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="PasteOptionsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="PasteOptionsWindow.xaml.cs">
+      <DependentUpon>PasteOptionsWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="TransparentWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="TransparentWindow.xaml.cs">
+      <DependentUpon>TransparentWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="AboutWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="PickKeyWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="PickKeyWindow.xaml.cs">
+      <DependentUpon>PickKeyWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="SpeedWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="SpeedWindow.xaml.cs">
+      <DependentUpon>SpeedWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="LogicalOpWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="LogicalOpWindow.xaml.cs">
+      <DependentUpon>LogicalOpWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="HelpMessageWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="HelpMessageWindow.xaml.cs">
+      <DependentUpon>HelpMessageWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="ChangeDestinationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="ChangeDestinationWindow.xaml.cs">
+      <DependentUpon>ChangeDestinationWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="StopPauseResumeWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="StopPauseResumeWindow.xaml.cs">
+      <DependentUpon>StopPauseResumeWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="PropertiesWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="PropertiesWindow.xaml.cs">
+      <DependentUpon>PropertiesWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="EditFieldWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="EditFieldWindow.xaml.cs">
+      <DependentUpon>EditFieldWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="SelectActionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="SelectActionWindow.xaml.cs">
+      <DependentUpon>SelectActionWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="LoopTypeWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="LoopTypeWindow.xaml.cs">
+      <DependentUpon>LoopTypeWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	
+	<Compile Include="UserControls\UserControlPickElement.xaml.cs">
+      <DependentUpon>UserControls\UserControlPickElement.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlPickElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlSelectAction.xaml.cs">
+      <DependentUpon>UserControls\UserControlSelectAction.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlSelectAction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlSelectGeneralAction.xaml.cs">
+      <DependentUpon>UserControls\UserControlSelectGeneralAction.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlSelectGeneralAction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlMouseCoordinates.xaml.cs">
+      <DependentUpon>UserControls\UserControlMouseCoordinates.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlMouseCoordinates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlMouseTicks.xaml.cs">
+      <DependentUpon>UserControls\UserControlMouseTicks.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlMouseTicks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlSendKeys.xaml.cs">
+      <DependentUpon>UserControls\UserControlSendKeys.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlSendKeys.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlPressKey.xaml.cs">
+      <DependentUpon>UserControls\UserControlPressKey.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlPressKey.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlKeysCombination.xaml.cs">
+      <DependentUpon>UserControls\UserControlKeysCombination.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlKeysCombination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlCapture.xaml.cs">
+      <DependentUpon>UserControls\UserControlCapture.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlCapture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlSelectDate.xaml.cs">
+      <DependentUpon>UserControls\UserControlSelectDate.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlSelectDate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlCheckBox.xaml.cs">
+      <DependentUpon>UserControls\UserControlCheckBox.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlCheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlSetText.xaml.cs">
+      <DependentUpon>UserControls\UserControlSetText.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlSetText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlSelectByIndex.xaml.cs">
+      <DependentUpon>UserControls\UserControlSelectByIndex.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlSelectByIndex.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlSelectByText.xaml.cs">
+      <DependentUpon>UserControls\UserControlSelectByText.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlSelectByText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlScroll.xaml.cs">
+      <DependentUpon>UserControls\UserControlScroll.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlScroll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlSetValue.xaml.cs">
+      <DependentUpon>UserControls\UserControlSetValue.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlSetValue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlMainScreen.xaml.cs">
+      <DependentUpon>UserControlMainScreen.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlMainScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlVariables.xaml.cs">
+      <DependentUpon>UserControlVariables.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlVariables.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlStartProcess.xaml.cs">
+      <DependentUpon>UserControls\UserControlStartProcess.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlStartProcess.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControls\UserControlSleep.xaml.cs">
+      <DependentUpon>UserControls\UserControlSleep.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControls\UserControlSleep.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlsCondition\UserControlSelectProperty.xaml.cs">
+      <DependentUpon>UserControlsCondition\UserControlSelectProperty.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlsCondition\UserControlSelectProperty.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlsCondition\UserControlItemByIndex.xaml.cs">
+      <DependentUpon>UserControlsCondition\UserControlItemByIndex.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlsCondition\UserControlItemByIndex.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlsCondition\UserControlValueByRowAndColumn.xaml.cs">
+      <DependentUpon>UserControlsCondition\UserControlValueByRowAndColumn.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlsCondition\UserControlValueByRowAndColumn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlsCondition\UserControlCondition.xaml.cs">
+      <DependentUpon>UserControlsCondition\UserControlCondition.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlsCondition\UserControlCondition.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlsCondition\UserControlYesNo.xaml.cs">
+      <DependentUpon>UserControlsCondition\UserControlYesNo.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlsCondition\UserControlYesNo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlsCondition\UserControlNumber.xaml.cs">
+      <DependentUpon>UserControlsCondition\UserControlNumber.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlsCondition\UserControlNumber.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlsCondition\UserControlText.xaml.cs">
+      <DependentUpon>UserControlsCondition\UserControlText.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlsCondition\UserControlText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	<Compile Include="UserControlsCondition\UserControlDate.xaml.cs">
+      <DependentUpon>UserControlsCondition\UserControlDate.xaml</DependentUpon>
+    </Compile>
+	<Page Include="UserControlsCondition\UserControlDate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\New.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\NewAction.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\resume.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="appicon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

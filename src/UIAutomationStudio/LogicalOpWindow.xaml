@@ -1,0 +1,22 @@
+﻿<Window x:Class="UIAutomationStudio.LogicalOpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="" Height="250" Width="350" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="50" />
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap">Choose how you want to combine with the other conditions:</TextBlock>
+		<RadioButton x:Name="radioAND" IsChecked="True" Grid.Row="1" Margin="155,0,0,10" FontWeight="Bold" Foreground="Blue" VerticalAlignment="Bottom">AND</RadioButton>
+		<RadioButton x:Name="radioOR" Grid.Row="2" Margin="155,0,0,0" FontWeight="Bold" Foreground="Blue" VerticalAlignment="Top">OR</RadioButton>
+		<Button Grid.Row="3" HorizontalAlignment="Right" Margin="0,0,120,0" Height="30" Width="100" IsDefault="True" Click="OnOK">OK</Button>
+		<Button Grid.Row="3" HorizontalAlignment="Right" Margin="0,0,10,0" Height="30" Width="100" IsCancel="True">Cancel</Button>
+    </Grid>
+</Window>

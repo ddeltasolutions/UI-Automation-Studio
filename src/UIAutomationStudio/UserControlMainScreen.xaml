@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="UIAutomationStudio.UserControlMainScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UIAutomationStudio"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid x:Name="mainGrid">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="100" />
+			<ColumnDefinition />
+			<ColumnDefinition Width="100" />
+		</Grid.ColumnDefinitions>
+		
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="0" />
+		</Grid.RowDefinitions>
+					
+        <ScrollViewer Grid.Column="1" x:Name="scrollViewer" MouseLeftButtonUp="OnWorkflowClick" VerticalAlignment="Top" HorizontalScrollBarVisibility="Visible">
+			<ScrollViewer.ContextMenu>
+				<ContextMenu>
+					<MenuItem Command="Paste" />
+					<MenuItem Command="local:MyCommands.AddActionCommand" />
+				</ContextMenu>
+			</ScrollViewer.ContextMenu>
+		
+			<!-- <Border BorderThickness="0" BorderBrush="Black"> -->
+				<Grid x:Name="workflowDiagram">
+					<Grid.RowDefinitions>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+					</Grid.ColumnDefinitions>
+				</Grid>
+			<!-- </Border> -->
+		</ScrollViewer>
+		
+		<Grid Grid.Column="2">
+			<GroupBox Header="Actions" HorizontalAlignment="Center" VerticalAlignment="Top" Height="260" Foreground="#444444">
+				<StackPanel>
+					<Button Width="85" Height="30" Margin="0,5,0,0" Command="local:MyCommands.AddActionCommand">New Action</Button>
+					<Button Width="85" Height="30" Margin="0,10,0,0" IsEnabled="False" x:Name="btnEditAction" Command="local:MyCommands.EditActionCommand">Edit Action</Button>
+					<Button Width="85" Height="30" Margin="0,10,0,0" IsEnabled="False" x:Name="btnDeleteAction" Command="local:MyCommands.DeleteActionCommand">Delete Action</Button>
+					<Button Width="85" Height="30" Margin="0,10,0,0" IsEnabled="False" x:Name="btnCopy" Command="Copy" ToolTip="Ctrl+C">Copy Action</Button>
+					<Button Width="85" Height="30" Margin="0,10,0,0" IsEnabled="False" x:Name="btnCut" Command="Cut" ToolTip="Ctrl+X">Cut Action</Button>
+					<Button Width="85" Height="30" Margin="0,10,0,0" IsEnabled="False" x:Name="btnPaste" Command="Paste" ToolTip="Select an arrow and paste an action (Ctrl+V)">Paste Action</Button>
+				</StackPanel>
+			</GroupBox>
+			
+			<GroupBox Header="Run Task" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="310" Margin="0,0,0,0" Foreground="#444444">
+				<StackPanel>
+					<Button Width="85" Height="30" Margin="0,5,0,10" Command="local:MyCommands.RunAllActionsCommand" ToolTip="Run the whole task">Run All</Button>
+					<Button Width="85" Height="30" Margin="0,0,0,10" x:Name="btnRunStarting" Command="local:MyCommands.RunStartingCommand" ToolTip="Run starting with the selected action to the end of the task">Run Starting</Button>
+					<Button Width="85" Height="30" Margin="0,0,0,10" x:Name="btnRunSelected" Command="local:MyCommands.RunSelectedActionCommand" ToolTip="Run the selected action">Run Selected</Button>
+					<Button Width="85" Height="40" Margin="0,0,0,10" x:Name="btnRunSelectedAndMoveNext" Command="local:MyCommands.RunSelectedAndMoveNextCommand" ToolTip="Run the selected action and move to next action (F10)"><TextBlock>Run Selected<LineBreak/>and Move Next</TextBlock></Button>
+					<Button Width="85" Height="30" Margin="0,0,0,10" x:Name="btnStop" Command="local:MyCommands.StopTaskCommand" IsEnabled="False">Stop Task</Button>
+					<Button Width="85" Height="30" Margin="0,0,0,10" x:Name="btnPauseResume" Command="local:MyCommands.PauseResumeTaskCommand" IsEnabled="False">Pause Task</Button>
+					<Button Width="85" Height="30" Margin="0,0,0,0" x:Name="btnSpeed" Command="local:MyCommands.SpeedCommand" ToolTip="Set the speed of the task">Speed</Button>
+				</StackPanel>
+			</GroupBox>
+		</Grid>
+		
+		<Border BorderThickness="0,0,1,0" BorderBrush="LightGray">
+			<Grid>
+				<Button Width="85" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0" x:Name="btnAddConditional" Command="local:MyCommands.AddConditionalCommand" ToolTip="Add a new Conditional Action">New Condition</Button>
+				<Button Width="85" Height="30" Margin="0,60,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Command="local:MyCommands.AddLoopCommand" ToolTip="Add a new Loop Action">New Loop</Button>
+			
+				<GroupBox Header="Undo/Redo" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,130,0,0" Height="100" Foreground="#444444">
+					<StackPanel>
+						<Button Width="85" Height="30" Margin="0,5,0,0" Command="Undo" ToolTip="Ctrl+Z">Undo</Button>
+						<Button Width="85" Height="30" Margin="0,10,0,0" Command="Redo" ToolTip="Ctrl+Y">Redo</Button>
+					</StackPanel>
+				</GroupBox>
+				
+				<GroupBox Header="Arrows" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,270,0,0" Height="110" Foreground="#444444">
+					<StackPanel>
+						<Button Width="85" Height="40" Margin="0,5,0,0" x:Name="btnChangeDestination" Command="local:MyCommands.ChangeDestinationCommand" ToolTip="Change the destination of the selected arrow"><TextBlock>Change Arrow<LineBreak/>Destination</TextBlock></Button>
+						<Button Width="85" Height="30" Margin="0,10,0,0" x:Name="btnDeleteArrow" Command="local:MyCommands.DeleteArrowCommand" ToolTip="Delete the selected arrow">Delete Arrow</Button>
+					</StackPanel>
+				</GroupBox>
+				
+				<Button Width="85" Height="30" Margin="0,410,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Command="local:MyCommands.PropertiesCommand" ToolTip="Action Properties">Properties</Button>
+			</Grid>
+		</Border>
+		
+		<Border BorderThickness="1" BorderBrush="Gray" Grid.ColumnSpan="3" Grid.Row="1" x:Name="actionProperties">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition Width="20" />
+				</Grid.ColumnDefinitions>
+				
+				<TextBlock x:Name="txbTopLevel" VerticalAlignment="Center" Margin="3,0,0,0" />
+				<Button Grid.Column="1" Click="OnHideActionsInfo">X</Button>
+				<TextBlock x:Name="txbElement" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="3,0,0,0" />
+				<TextBlock x:Name="txbParameters" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="3,0,0,0" />
+			</Grid>
+		</Border>
+    </Grid>
+</UserControl>

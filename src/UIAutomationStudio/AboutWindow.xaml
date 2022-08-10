@@ -1,0 +1,24 @@
+﻿<Window x:Class="UIAutomationStudio.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="About UIDeskAutomation Studio" ShowInTaskbar="False" Height="300" Width="400" Loaded="OnLoaded" ResizeMode="CanResizeWithGrip" MinWidth="400" MinHeight="200" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+		<StackPanel Margin="10, 20, 10, 0">
+			<TextBlock Foreground="Blue" FontWeight="Bold" x:Name="txbName">UIDeskAutomation Studio 2021 v2.0</TextBlock>
+			<TextBlock Margin="0, 10, 0 ,0">Contributors:</TextBlock>
+			<TextBlock FontStyle="Italic">Jonathan Dahan</TextBlock>
+			<TextBlock FontStyle="Italic">dDeltaSolutions</TextBlock>
+			<TextBlock Margin="0, 10, 0, 0">Email:</TextBlock>
+			<TextBox IsReadOnly="True">daniel.mocanu072180@gmail.com</TextBox>
+		</StackPanel>
+		<Button Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Height="30" Width="100" IsCancel="True">Close</Button>
+    </Grid>
+</Window>

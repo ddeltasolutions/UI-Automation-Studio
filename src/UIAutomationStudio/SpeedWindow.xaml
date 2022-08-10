@@ -1,0 +1,36 @@
+﻿<Window x:Class="UIAutomationStudio.SpeedWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="Set the Speed of the task" Height="300" Width="400" Loaded="OnLoaded" ResizeMode="CanResizeWithGrip" MinWidth="400" MinHeight="200" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
+	<Window.Resources>
+		<Style TargetType="{x:Type RadioButton}">
+			<Setter Property="FontWeight" Value="Bold" />
+			<EventSetter Event="Checked" Handler="OnChecked"/>
+		</Style>
+	</Window.Resources>
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40" />
+			<RowDefinition />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+		<TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">Speed of the task:</TextBlock>
+        <StackPanel Grid.Row="1" Margin="10,0,10,0">
+			<RadioButton Margin="5" x:Name="radioVeryFast">Very Fast (Default)</RadioButton>
+			<RadioButton Margin="5" x:Name="radioFast">Fast</RadioButton>
+			<RadioButton Margin="5" x:Name="radioSlower">Slower</RadioButton>
+			<RadioButton Margin="5" x:Name="radioSlow">Slow</RadioButton>
+			<RadioButton Margin="5" x:Name="radioCustom">Custom</RadioButton>
+			<StackPanel Orientation="Horizontal" Margin="5,10,0,0" Visibility="Hidden" x:Name="customValue">
+				<TextBox Width="100" x:Name="txtSpeedValue" />
+				<TextBlock Margin="5,0,0,0">milliseconds between actions</TextBlock>
+			</StackPanel>
+		</StackPanel>
+		<Button Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,120,0" Height="30" Width="100" IsDefault="True" Click="OnOK">OK</Button>
+		<Button Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,10,0" Height="30" Width="100" IsCancel="True">Cancel</Button>
+    </Grid>
+</Window>
