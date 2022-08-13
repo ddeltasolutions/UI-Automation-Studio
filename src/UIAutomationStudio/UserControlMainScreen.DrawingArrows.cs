@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -290,7 +291,14 @@ namespace UIAutomationStudio
 					return;
 				}
 			
-				ChangeArrowDestination(arrow);
+				try
+				{
+					ChangeArrowDestination(arrow);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(MainWindow.Instance, "Change destination failed: " + ex.Message);
+				}
 			};
 			contextMenu.Items.Add(changeDestinationMenuItem);
 			
@@ -310,7 +318,14 @@ namespace UIAutomationStudio
 					return;
 				}
 			
-				DeleteArrow(arrow);
+				try
+				{
+					DeleteArrow(arrow);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(MainWindow.Instance, "Delete arrow failed: " + ex.Message);
+				}
 			};
 			contextMenu.Items.Add(deleteArrowMenuItem);
 			

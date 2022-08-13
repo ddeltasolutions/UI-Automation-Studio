@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -366,6 +367,15 @@ namespace UIAutomationStudio
 		
 		private void OnActionDragEnter(object sender, DragEventArgs e)
 		{
+			try
+			{
+				TryOnActionDragEnter(sender, e);
+			}
+			catch { }
+		}
+		
+		private void TryOnActionDragEnter(object sender, DragEventArgs e)
+		{
 			Grid grid = sender as Grid;
 			if (grid == null)
 			{
@@ -402,7 +412,11 @@ namespace UIAutomationStudio
 				return;
 			}
 			
-			DrawActionWithoutBorder(grid);
+			try
+			{
+				DrawActionWithoutBorder(grid);
+			}
+			catch { }
 		}
 		
 		private void DrawActionWithoutBorder(Grid grid)
@@ -418,6 +432,15 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnActionDrop(object sender, DragEventArgs e)
+		{
+			try
+			{
+				TryOnActionDrop(sender, e);
+			}
+			catch { }
+		}
+		
+		private void TryOnActionDrop(object sender, DragEventArgs e)
 		{
 			if (actionDragged == null)
 			//if (actionDragged == null && arrowDragged == null)

@@ -72,7 +72,7 @@ namespace UIAutomationStudio
 					{
 						this.ancestors[1].Name = editFieldWindow.FieldValue;
 						txtWindow.Text = editFieldWindow.FieldValue;
-						MainWindow.Instance.Task.IsModified = true;
+						this.Task.IsModified = true;
 					}
 				}
 				else if (this.element.Name != editFieldWindow.FieldValue)
@@ -80,8 +80,8 @@ namespace UIAutomationStudio
 					this.element.Name = editFieldWindow.FieldValue;
 					txtElement.Text = editFieldWindow.FieldValue;
 					this.HasChanged = true;
-					MainWindow.Instance.Task.IsModified = true;
-					MainWindow.Instance.Task.Changed();
+					this.Task.IsModified = true;
+					this.Task.Changed();
 				}
 			}
 		}

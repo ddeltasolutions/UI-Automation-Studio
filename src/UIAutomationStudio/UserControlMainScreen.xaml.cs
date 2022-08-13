@@ -451,6 +451,15 @@ namespace UIAutomationStudio
 		
 		private void OnGridNodeClick(object sender, MouseButtonEventArgs e)
 		{
+			try
+			{
+				TryOnGridNodeClick(sender, e);
+			}
+			catch { }
+		}
+		
+		private void TryOnGridNodeClick(object sender, MouseButtonEventArgs e)
+		{
 			FrameworkElement frameworkElement = sender as FrameworkElement;
 			if (frameworkElement == null)
 			{
@@ -476,6 +485,15 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnArrowClick(object sender, MouseButtonEventArgs e)
+		{
+			try
+			{
+				TryOnArrowClick(sender);
+			}
+			catch { }
+		}
+		
+		private void TryOnArrowClick(object sender)
 		{
 			FrameworkElement frameworkElement = sender as FrameworkElement;
 			if (frameworkElement == null)
@@ -842,6 +860,15 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnWorkflowClick(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnWorkflowClick();
+			}
+			catch { }
+		}
+		
+		private void TryOnWorkflowClick()
 		{
 			if (scrollViewer.IsMouseDirectlyOver == true)
 			{

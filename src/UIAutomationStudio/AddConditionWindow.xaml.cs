@@ -10,37 +10,36 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class AddConditionWindow : Window
     {
-        public AddConditionWindow(ConditionalAction conditionalAction, bool edit = false, bool isInsideLoop = false)
+        public AddConditionWindow(ConditionalAction conditionalAction, Task task, 
+			bool edit = false, bool isInsideLoop = false)
         {
             InitializeComponent();
 			
+			this.Task = task;
+			
 			CommandBinding cb = new CommandBinding(MyCommands.EvaluatePropertyCommand, (sender, e) => 
 				{
-					ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
-					if (selectedConditionWrapper == null)
+					try
 					{
-						MessageBox.Show(this, "Please select a condition");
-						return;
+						TryEvaluateProperty();
 					}
-					
-					MainWindow.EvaluateProperty(selectedConditionWrapper.Condition);
+					catch (Exception ex)
+					{
+						MessageBox.Show(this, "Evaluate property failed: " + ex.Message);
+					}
 				},
 				(sender, e) => e.CanExecute = listViewAvailable.SelectedItem != null);
 			this.CommandBindings.Add(cb);
 			
 			cb = new CommandBinding(MyCommands.EvaluateConditionCommand, (sender, e) =>
 				{
-					ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
-					if (selectedConditionWrapper == null)
+					try
 					{
-						MessageBox.Show(this, "Please select a condition");
-						return;
+						TryEvaluateCondition();
 					}
-					
-					bool? val = selectedConditionWrapper.Condition.Evaluate();
-					if (val != null)
+					catch (Exception ex)
 					{
-						MessageBox.Show("Condition evaluates to: " + val.ToString());
+						MessageBox.Show(this, "Evaluate condition failed: " + ex.Message);
 					}
 				},
 				(sender, e) => e.CanExecute = listViewAvailable.SelectedItem != null);
@@ -48,61 +47,27 @@ namespace UIAutomationStudio
 			
 			cb = new CommandBinding(MyCommands.DuplicateConditionCommand, (sender, e) =>
 				{
-					ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
-					if (selectedConditionWrapper == null)
+					try
 					{
-						MessageBox.Show(this, "Please select a condition");
-						return;
+						TryDuplicateCondition();
 					}
-					
-					ConditionWrapper newConditionWrapper = new ConditionWrapper();
-					selectedConditionWrapper.DeepCopy(newConditionWrapper);
-					
-					if (newConditionWrapper.LogicalOp == LogicalOp.None)
+					catch (Exception ex)
 					{
-						LogicalOpWindow logicalOpWindow = new LogicalOpWindow();
-						logicalOpWindow.Owner = this;
-						if (logicalOpWindow.ShowDialog() == true)
-						{
-							newConditionWrapper.LogicalOp = logicalOpWindow.LogicalOp;
-						}
-						else
-						{
-							return;
-						}
+						MessageBox.Show(this, "Duplicate condition failed: " + ex.Message);
 					}
-					
-					this.conditionalAction.ConditionWrappers.Add(newConditionWrapper);
-					listViewAvailable.Items.Refresh();
 				}, 
 				(sender, e) => e.CanExecute = listViewAvailable.SelectedItem != null);
 			this.CommandBindings.Add(cb);
 			
 			cb = new CommandBinding(MyCommands.ConditionPropertiesCommand, (sender, e) =>
 				{
-					ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
-					if (selectedConditionWrapper == null)
+					try
 					{
-						MessageBox.Show(this, "Please select a condition");
-						return;
+						TryConditionProperties();
 					}
-					
-					Element element = null;
-					if (selectedConditionWrapper.Condition != null && 
-						selectedConditionWrapper.Condition.Variable != null)
+					catch (Exception ex)
 					{
-						element = selectedConditionWrapper.Condition.Variable.Element;
-					}
-					
-					HelpMessages.Show(MessageId.Properties);
-					
-					PropertiesWindow window = new PropertiesWindow(element) { Task = this.Task };
-					window.Owner = this;
-					window.ShowDialog();
-					
-					if (window.HasChanged == true)
-					{
-						this.listViewAvailable.Items.Refresh();
+						MessageBox.Show(this, "Condition properties failed: " + ex.Message);
 					}
 				},
 				(sender, e) => e.CanExecute = listViewAvailable.SelectedItem != null);
@@ -110,59 +75,41 @@ namespace UIAutomationStudio
 			
 			cb = new CommandBinding(MyCommands.AddConditionCommand, (sender, e) => 
 				{
-					LogicalOp logicalOp = LogicalOp.None;
-					
-					if (this.conditionalAction.ConditionWrappers.Count > 0)
+					try
 					{
-						LogicalOpWindow logicalOpWindow = new LogicalOpWindow();
-						logicalOpWindow.Owner = this;
-						if (logicalOpWindow.ShowDialog() == true)
-						{
-							logicalOp = logicalOpWindow.LogicalOp;
-						}
-						else
-						{
-							return;
-						}
+						TryAddCondition();
 					}
-				
-					Condition condition = new Condition();
-			
-					AddVariableWindow window = new AddVariableWindow(condition);
-					window.Owner = this;
-					if (window.ShowDialog() == true)
+					catch (Exception ex)
 					{
-						ConditionWrapper conditionWrapper = new ConditionWrapper() { LogicalOp = logicalOp, 
-							Condition = condition };
-						
-						this.conditionalAction.ConditionWrappers.Add(conditionWrapper);
-						
-						this.listViewAvailable.Items.Refresh();
+						MessageBox.Show(this, "Add condition failed: " + ex.Message);
 					}
 				}, 
 				(sender, e) => e.CanExecute = true);
 			this.CommandBindings.Add(cb);
 			
-			cb = new CommandBinding(MyCommands.EditConditionCommand, OnEditCondition, 
+			cb = new CommandBinding(MyCommands.EditConditionCommand, (sender, e) => 
+				{
+					try
+					{
+						TryOnEditCondition();
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(this, "Edit condition failed: " + ex.Message);
+					}
+				}, 
 				(sender, e) => e.CanExecute = listViewAvailable.SelectedItem != null);
 			this.CommandBindings.Add(cb);
 			
 			cb = new CommandBinding(MyCommands.DeleteConditionCommand, (sender, e) => 
 				{
-					ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
-					if (selectedConditionWrapper == null)
+					try
 					{
-						MessageBox.Show(this, "Please select a condition");
-						return;
+						TryDeleteCondition();
 					}
-					
-					MessageBoxResult mbResult = MessageBox.Show(this, 
-						"Are you sure you want to delete this Condition?", "", MessageBoxButton.YesNoCancel);
-				
-					if (mbResult == MessageBoxResult.Yes)
+					catch (Exception ex)
 					{
-						this.conditionalAction.ConditionWrappers.Remove(selectedConditionWrapper);
-						this.listViewAvailable.Items.Refresh();
+						MessageBox.Show(this, "Delete condition failed: " + ex.Message);
 					}
 				}, 
 				(sender, e) => e.CanExecute = listViewAvailable.SelectedItem != null);
@@ -209,6 +156,144 @@ namespace UIAutomationStudio
 			}
 		}
 		
+		private void TryEvaluateProperty()
+		{
+			ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
+			if (selectedConditionWrapper == null)
+			{
+				MessageBox.Show(this, "Please select a condition");
+				return;
+			}
+			
+			MainWindow.EvaluateProperty(selectedConditionWrapper.Condition);
+		}
+		
+		private void TryEvaluateCondition()
+		{
+			ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
+			if (selectedConditionWrapper == null)
+			{
+				MessageBox.Show(this, "Please select a condition");
+				return;
+			}
+			
+			bool? val = selectedConditionWrapper.Condition.Evaluate();
+			if (val != null)
+			{
+				MessageBox.Show("Condition evaluates to: " + val.ToString());
+			}
+		}
+		
+		private void TryDuplicateCondition()
+		{
+			ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
+			if (selectedConditionWrapper == null)
+			{
+				MessageBox.Show(this, "Please select a condition");
+				return;
+			}
+			
+			ConditionWrapper newConditionWrapper = new ConditionWrapper();
+			selectedConditionWrapper.DeepCopy(newConditionWrapper);
+			
+			if (newConditionWrapper.LogicalOp == LogicalOp.None)
+			{
+				LogicalOpWindow logicalOpWindow = new LogicalOpWindow();
+				logicalOpWindow.Owner = this;
+				if (logicalOpWindow.ShowDialog() == true)
+				{
+					newConditionWrapper.LogicalOp = logicalOpWindow.LogicalOp;
+				}
+				else
+				{
+					return;
+				}
+			}
+			
+			this.conditionalAction.ConditionWrappers.Add(newConditionWrapper);
+			listViewAvailable.Items.Refresh();
+		}
+		
+		private void TryConditionProperties()
+		{
+			ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
+			if (selectedConditionWrapper == null)
+			{
+				MessageBox.Show(this, "Please select a condition");
+				return;
+			}
+			
+			Element element = null;
+			if (selectedConditionWrapper.Condition != null && 
+				selectedConditionWrapper.Condition.Variable != null)
+			{
+				element = selectedConditionWrapper.Condition.Variable.Element;
+			}
+			
+			HelpMessages.Show(MessageId.Properties);
+			
+			PropertiesWindow window = new PropertiesWindow(element) { Task = this.Task };
+			window.Owner = this;
+			window.ShowDialog();
+			
+			if (window.HasChanged == true)
+			{
+				this.listViewAvailable.Items.Refresh();
+			}
+		}
+		
+		private void TryAddCondition()
+		{
+			LogicalOp logicalOp = LogicalOp.None;
+					
+			if (this.conditionalAction.ConditionWrappers.Count > 0)
+			{
+				LogicalOpWindow logicalOpWindow = new LogicalOpWindow();
+				logicalOpWindow.Owner = this;
+				if (logicalOpWindow.ShowDialog() == true)
+				{
+					logicalOp = logicalOpWindow.LogicalOp;
+				}
+				else
+				{
+					return;
+				}
+			}
+				
+			Condition condition = new Condition();
+			
+			AddVariableWindow window = new AddVariableWindow(condition);
+			window.Owner = this;
+			if (window.ShowDialog() == true)
+			{
+				ConditionWrapper conditionWrapper = new ConditionWrapper() { LogicalOp = logicalOp, 
+					Condition = condition };
+				
+				this.conditionalAction.ConditionWrappers.Add(conditionWrapper);
+				
+				this.listViewAvailable.Items.Refresh();
+			}
+		}
+		
+		private void TryDeleteCondition()
+		{
+			ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
+			if (selectedConditionWrapper == null)
+			{
+				MessageBox.Show(this, "Please select a condition");
+				return;
+			}
+					
+			MessageBoxResult mbResult = MessageBox.Show(this, 
+				"Are you sure you want to delete this Condition?", "", MessageBoxButton.YesNoCancel);
+				
+			if (mbResult == MessageBoxResult.Yes)
+			{
+				this.conditionalAction.ConditionWrappers.Remove(selectedConditionWrapper);
+				this.listViewAvailable.Items.Refresh();
+			}
+		}
+		
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			if (isInsideLoop == false)
@@ -217,7 +302,7 @@ namespace UIAutomationStudio
 			}
 		}
 		
-		private void OnEditCondition(object sender, RoutedEventArgs e)
+		private void TryOnEditCondition()
 		{
 			ConditionWrapper selectedConditionWrapper = listViewAvailable.SelectedItem as ConditionWrapper;
 			if (selectedConditionWrapper == null)
@@ -249,7 +334,14 @@ namespace UIAutomationStudio
 		
 		private void OnDoubleClick(object sender, RoutedEventArgs e)
 		{
-			OnEditCondition(null, null);
+			try
+			{
+				TryOnEditCondition();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Edit condition failed: " + ex.Message);
+			}
 		}
 		
 		private void OnOK(object sender, RoutedEventArgs e)

@@ -77,7 +77,7 @@ namespace UIAutomationStudio
 				MyCommands.DeleteArrowCommand.Execute(null, this);
 			}
 		}
-			
+		
 		public static void EvaluateProperty(Condition condition)
 		{
 			object val = condition.Variable.Evaluate();
@@ -101,6 +101,18 @@ namespace UIAutomationStudio
 		}
 		
 		public void OnAddConditional(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnAddConditional();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Add conditional failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnAddConditional()
 		{
 			if (this.Task == null)
 			{
@@ -129,7 +141,7 @@ namespace UIAutomationStudio
 			
 			ConditionalAction conditionalAction = new ConditionalAction();
 			
-			AddConditionWindow window = new AddConditionWindow(conditionalAction) { Task = this.Task };
+			AddConditionWindow window = new AddConditionWindow(conditionalAction, this.Task);
 			window.Owner = this;
 			if (window.ShowDialog() == true)
 			{
@@ -193,7 +205,7 @@ namespace UIAutomationStudio
 			ConditionalAction tempConditionalAction = new ConditionalAction();
 			conditionalAction.DeepCopy(tempConditionalAction);
 			
-			AddConditionWindow window = new AddConditionWindow(tempConditionalAction, true) { Task = this.Task };
+			AddConditionWindow window = new AddConditionWindow(tempConditionalAction, this.Task, true);
 			window.Owner = this;
 			if (window.ShowDialog() == true)
 			{

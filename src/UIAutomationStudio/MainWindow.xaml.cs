@@ -47,6 +47,18 @@ namespace UIAutomationStudio
 		
 		private void OnNewTask(object sender, ExecutedRoutedEventArgs e)
 		{
+			try
+			{
+				TryOnNewTask();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Add new task failed: " + ex.Message);
+			}
+		}
+		
+		public void TryOnNewTask()
+		{
 			if (this.Task != null && this.Task.IsModified)
 			{
 				MessageBoxResult mbResult = MessageBox.Show(this, "Do you want to save the task before closing?", "", 
@@ -92,6 +104,18 @@ namespace UIAutomationStudio
 		
 		private void OnOpenTask(object sender, ExecutedRoutedEventArgs e)
 		{
+			try
+			{
+				TryOnOpenTask();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Open task failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnOpenTask()
+		{
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.Filter = "Cmd files (*.cmd)|*.cmd";
 			if (ofd.ShowDialog() == true)
@@ -102,7 +126,7 @@ namespace UIAutomationStudio
 			}
 		}
 		
-		private void OpenTask(string xmlFile)
+		public void OpenTask(string xmlFile)
 		{
 			Task newtask = new Task();
 			if (newtask.LoadFromXmlFile(xmlFile) == false)
@@ -139,7 +163,14 @@ namespace UIAutomationStudio
 		
 		private void OnSaveTask(object sender, ExecutedRoutedEventArgs e)
 		{
-			OnSaveTask();
+			try
+			{
+				OnSaveTask();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Save task failed: " + ex.Message);
+			}
 		}
 		
 		private bool OnSaveTask(bool prompt = true)
@@ -211,6 +242,18 @@ namespace UIAutomationStudio
 		
 		private void OnSaveAsTask(object sender, ExecutedRoutedEventArgs e)
 		{
+			try
+			{
+				TryOnSaveAsTask();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Save as task failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnSaveAsTask()
+		{
 			if (this.Task == null)
 			{
 				return;
@@ -244,6 +287,18 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnCloseTask(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				TryOnCloseTask();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Close task failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnCloseTask()
 		{
 			if (CloseTask() == false)
 			{
@@ -310,6 +365,18 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnAddAction(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnAddAction();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Add action failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnAddAction()
 		{
 			if (this.Task == null)
 			{
@@ -427,14 +494,21 @@ namespace UIAutomationStudio
 		
 		private void OnEditAction(object sender, RoutedEventArgs e)
 		{
-			ActionBase selectedAction = this.mainScreen.SelectedAction;
-			if (selectedAction == null)
+			try
 			{
-				MessageBox.Show(this, "Please select an action to edit");
-				return;
+				ActionBase selectedAction = this.mainScreen.SelectedAction;
+				if (selectedAction == null)
+				{
+					MessageBox.Show(this, "Please select an action to edit");
+					return;
+				}
+				
+				OnEditAction(selectedAction);
 			}
-			
-			OnEditAction(selectedAction);
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Edit action failed: " + ex.Message);
+			}
 		}
 		
 		private void OnEditAction(ActionBase action)
@@ -562,7 +636,7 @@ namespace UIAutomationStudio
 						loopConditional.ConditionalAction.DeepCopy(tempConditionalAction);
 						
 						AddConditionWindow addConditionWindow = 
-							new AddConditionWindow(tempConditionalAction, true, true) { Task = this.Task };
+							new AddConditionWindow(tempConditionalAction, this.Task, true, true);
 						addConditionWindow.Owner = this;
 						
 						if (addConditionWindow.ShowDialog() == true)
@@ -611,7 +685,7 @@ namespace UIAutomationStudio
 						ConditionalAction conditionalAction = new ConditionalAction();
 						
 						AddConditionWindow addConditionWindow = 
-							new AddConditionWindow(conditionalAction, false, true) { Task = this.Task };
+							new AddConditionWindow(conditionalAction, this.Task, false, true);
 						addConditionWindow.Owner = this;
 						
 						if (addConditionWindow.ShowDialog() == true)
@@ -639,6 +713,18 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnDeleteAction(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnDeleteAction();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Delete action failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnDeleteAction()
 		{
 			ActionBase selectedAction = mainScreen.SelectedAction;
 			
@@ -701,6 +787,18 @@ namespace UIAutomationStudio
 		private bool cutAction = false;
 		private void OnCopyAction(object sender, RoutedEventArgs e)
 		{
+			try
+			{
+				TryOnCopyAction();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Copy action failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnCopyAction()
+		{
 			if (mainScreen.SelectedAction == null)
 			{
 				return;
@@ -728,6 +826,18 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnCutAction(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnCutAction();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Cut action failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnCutAction()
 		{
 			if (mainScreen.SelectedAction == null)
 			{
@@ -969,6 +1079,18 @@ namespace UIAutomationStudio
 				return;
 			}
 			
+			try
+			{
+				TryOnClickMruTask(link);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Click MRU task failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnClickMruTask(Hyperlink link)
+		{
 			if (link.Inlines.Count == 0)
 			{
 				return;
@@ -982,6 +1104,18 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnMRUOpened(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnMRUOpened();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "MRU menu failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnMRUOpened()
 		{
 			if (MruTasks.Count == 0)
 			{
@@ -1006,6 +1140,18 @@ namespace UIAutomationStudio
 				return;
 			}
 			
+			try
+			{
+				TryOnClickMruMenuItem(menuItem);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Load MRU task failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnClickMruMenuItem(MenuItem menuItem)
+		{
 			string exeFile = menuItem.Header.ToString();
 			string xmlFile = Path.GetDirectoryName(exeFile) + "\\" + Path.GetFileNameWithoutExtension(exeFile) + ".xml";
 			OpenTask(xmlFile);
@@ -1053,6 +1199,18 @@ namespace UIAutomationStudio
 		
 		private void OnWindowClosing(object sender, CancelEventArgs e)
 		{
+			try
+			{
+				TryOnWindowClosing(ref e);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Closing failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnWindowClosing(ref CancelEventArgs e)
+		{
 			if (this.Task != null && this.Task.IsModified)
 			{
 				MessageBoxResult mbResult = MessageBox.Show(this, "Do you want to save the task before closing?", "",
@@ -1084,6 +1242,18 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnRunSelectedAction(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnRunSelectedAction();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Run selected action failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnRunSelectedAction()
 		{
 			if (this.mainScreen == null || this.mainScreen.SelectedAction == null)
 			{
@@ -1123,7 +1293,14 @@ namespace UIAutomationStudio
 				return;
 			}
 			
-			this.Task.Run();
+			try
+			{
+				this.Task.Run();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Run task failed: " + ex.Message);
+			}
 		}
 		
 		private void OnRunStarting(object sender, RoutedEventArgs e)
@@ -1138,10 +1315,29 @@ namespace UIAutomationStudio
 				return;
 			}
 			
-			this.Task.RunStartingWith(this.mainScreen.SelectedAction);
+			try
+			{
+				this.Task.RunStartingWith(this.mainScreen.SelectedAction);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Run task failed: " + ex.Message);
+			}
 		}
 		
 		private void OnHighlightItem(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnHighlightItem();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Highlight failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnHighlightItem()
 		{
 			if (this.mainScreen.SelectedAction == null)
 			{
@@ -1185,6 +1381,18 @@ namespace UIAutomationStudio
 		
 		private void OnShowActionInfo(object sender, RoutedEventArgs e)
 		{
+			try
+			{
+				TryOnShowActionInfo();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Show info failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnShowActionInfo()
+		{
 			menuItemActionInfo.IsChecked = !menuItemActionInfo.IsChecked;
 			this.mainScreen.ShowActionProperties(menuItemActionInfo.IsChecked);
 			
@@ -1195,6 +1403,18 @@ namespace UIAutomationStudio
 		}
 		
 		private void OnShowActionProperties(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnShowActionProperties();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Show properties failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnShowActionProperties()
 		{
 			if (menuItemActionInfo.IsChecked == true)
 			{
@@ -1208,6 +1428,18 @@ namespace UIAutomationStudio
 		
 		private void OnAbout(object sender, RoutedEventArgs e)
 		{
+			try
+			{
+				TryOnAbout();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "About failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnAbout()
+		{
 			AboutWindow aboutWindow = new AboutWindow();
 			aboutWindow.Owner = this;
 			aboutWindow.ShowDialog();
@@ -1215,10 +1447,29 @@ namespace UIAutomationStudio
 		
 		private void OnHelp(object sender, RoutedEventArgs e)
 		{
-			Process.Start("help.html");
+			try
+			{
+				Process.Start("help.html");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Help failed: " + ex.Message);
+			}
 		}
 		
 		private void OnSetSpeed(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				TryOnSetSpeed();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, "Set speed failed: " + ex.Message);
+			}
+		}
+		
+		private void TryOnSetSpeed()
 		{
 			if (this.Task == null)
 			{
@@ -1306,7 +1557,7 @@ namespace UIAutomationStudio
 		private UserControlVariables variablesScreen = null;
 		private AppScreen currentScreen = AppScreen.Intro;
 		public static string TITLE = "UI Automation Studio";
-		public static string VERSION = "v3.2";
+		public static string VERSION = "v3.3";
 		
 		private bool isTaskRunning = false;
 		public bool IsTaskRunning
@@ -1320,14 +1571,7 @@ namespace UIAutomationStudio
 				this.isTaskRunning = value;
 				if (this.mainScreen != null)
 				{
-					if (value == true)
-					{
-						this.mainScreen.SetTaskRunningButtons(true);
-					}
-					else
-					{
-						this.mainScreen.SetTaskRunningButtons(false);
-					}
+					this.mainScreen.SetTaskRunningButtons(value);
 				}
 			}
 		}
@@ -1341,31 +1585,43 @@ namespace UIAutomationStudio
 			}
 			set
 			{
-				this.task = value;
-				
-				if (this.task == null)
+				try
 				{
-					return;
+					TrySetTask(value);
 				}
-				
-				this.task.IsCurrent = true;
-				
-				if (this.mainScreen != null)
+				catch (Exception ex)
 				{
-					this.mainScreen.SelectedAction = null;
-					this.mainScreen.SelectedArrow = null;
-					
-					this.mainScreen.Task = value;
-					this.ActionInClipboard = null;
+					MessageBox.Show(this, "Set task failed: " + ex.Message);
 				}
-				
-				if (this.variablesScreen != null)
-				{
-					this.variablesScreen.ChangeTask(this.task);
-				}
-				
-				UpdateTitle();
 			}
+		}
+		
+		private void TrySetTask(Task value)
+		{
+			this.task = value;
+				
+			if (this.task == null)
+			{
+				return;
+			}
+			
+			this.task.IsCurrent = true;
+			
+			if (this.mainScreen != null)
+			{
+				this.mainScreen.SelectedAction = null;
+				this.mainScreen.SelectedArrow = null;
+				
+				this.mainScreen.Task = value;
+				this.ActionInClipboard = null;
+			}
+			
+			if (this.variablesScreen != null)
+			{
+				this.variablesScreen.ChangeTask(this.task);
+			}
+			
+			UpdateTitle();
 		}
 		
 		private void UpdateTitle()

@@ -86,7 +86,17 @@ namespace UIAutomationStudio
 			this.CommandBindings.Add(cb);
 			
 			cb = new CommandBinding( MyCommands.ChangeDestinationCommand, 
-				(sender, e) => this.mainScreen.ChangeArrowDestination(this.mainScreen.SelectedArrow), 
+				(sender, e) => 
+				{
+					try
+					{
+						this.mainScreen.ChangeArrowDestination(this.mainScreen.SelectedArrow);
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(this, "Change arrow destination failed: " + ex.Message);
+					}
+				}, 
 				(sender, e) => 
 				{
 					if (this.IsTaskRunning == true)
@@ -100,7 +110,17 @@ namespace UIAutomationStudio
 			this.CommandBindings.Add(cb);
 			
 			cb = new CommandBinding( MyCommands.DeleteArrowCommand, 
-				(sender, e) => this.mainScreen.DeleteArrow(this.mainScreen.SelectedArrow),
+				(sender, e) => 
+				{
+					try
+					{
+						this.mainScreen.DeleteArrow(this.mainScreen.SelectedArrow);
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(this, "Delete arrow failed: " + ex.Message);
+					}
+				},
 				(sender, e) => 
 				{
 					if (this.IsTaskRunning == true)
@@ -116,68 +136,13 @@ namespace UIAutomationStudio
 			cb = new CommandBinding(MyCommands.RunSelectedAndMoveNextCommand, 
 				(sender, e) => 
 				{
-					ActionBase selectedAction = this.mainScreen.SelectedAction;
-					if (selectedAction is Action)
+					try
 					{
-						Action selectedActionNormal = (Action)selectedAction;
-						RunAction runAction = new RunAction(selectedActionNormal);
-						runAction.Run();
-						
-						ActionBase nextAction = null;
-						if (selectedActionNormal.LoopAction != null)
-						{
-							nextAction = selectedActionNormal.LoopAction.GetNextAction();
-						}
-						
-						if (nextAction != null)
-						{
-							this.mainScreen.SelectedAction = nextAction;
-						}
-						else
-						{
-							if (selectedActionNormal.Next == null)
-							{
-								this.mainScreen.SelectedAction = null;
-								this.Task.ResetAllCountLoops();
-							}
-							else
-							{
-								this.mainScreen.SelectedAction = selectedActionNormal.Next;
-							}
-						}
+						TryRunSelectedAndMoveNext();
 					}
-					else if (selectedAction is ConditionalAction)
+					catch (Exception ex)
 					{
-						ConditionalAction selectedActionConditional = (ConditionalAction)selectedAction;
-						bool? result = selectedActionConditional.Evaluate(true, true);
-						
-						if (result == null)
-						{
-							MessageBox.Show(this, "This Conditional Action could not be evaluated");
-							return;
-						}
-						else if (result == true)
-						{
-							if (selectedActionConditional.NextOnTrue is EndAction)
-							{
-								this.mainScreen.SelectedAction = null;
-							}
-							else
-							{
-								this.mainScreen.SelectedAction = selectedActionConditional.NextOnTrue;
-							}
-						}
-						else // false
-						{
-							if (selectedActionConditional.NextOnFalse is EndAction)
-							{
-								this.mainScreen.SelectedAction = null;
-							}
-							else
-							{
-								this.mainScreen.SelectedAction = selectedActionConditional.NextOnFalse;
-							}
-						}
+						MessageBox.Show(this, "Run and move next failed: " + ex.Message);
 					}
 				}, CanExecuteMoveNext);
 			this.CommandBindings.Add(cb);
@@ -189,7 +154,14 @@ namespace UIAutomationStudio
 						return;
 					}
 					
-					this.Task.Stop();
+					try
+					{
+						this.Task.Stop();
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(this, "Stop task failed: " + ex.Message);
+					}
 				},
 				(sender, e) => e.CanExecute = this.IsTaskRunning);
 			this.CommandBindings.Add(cb);
@@ -203,7 +175,14 @@ namespace UIAutomationStudio
 					
 					if (this.mainScreen != null)
 					{
-						this.mainScreen.PauseResume(this.Task);
+						try
+						{
+							this.mainScreen.PauseResume(this.Task);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(this, "Pause/resume task failed: " + ex.Message);
+						}
 					}
 				},
 				(sender, e) => e.CanExecute = this.IsTaskRunning);
@@ -211,10 +190,17 @@ namespace UIAutomationStudio
 			
 			cb = new CommandBinding(ApplicationCommands.Undo, (sender, e) => 
 				{
-					Task previousTask = UndoRedo.Undo();
-					if (previousTask != null)
+					try
 					{
-						this.Task = previousTask;
+						Task previousTask = UndoRedo.Undo();
+						if (previousTask != null)
+						{
+							this.Task = previousTask;
+						}
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(this, "Undo failed: " + ex.Message);
 					}
 				},
 				(sender, e) => e.CanExecute = this.IsTaskRunning == false && 
@@ -223,10 +209,17 @@ namespace UIAutomationStudio
 			
 			cb = new CommandBinding(ApplicationCommands.Redo, (sender, e) => 
 				{
-					Task nextTask = UndoRedo.Redo();
-					if (nextTask != null)
+					try
 					{
-						this.Task = nextTask;
+						Task nextTask = UndoRedo.Redo();
+						if (nextTask != null)
+						{
+							this.Task = nextTask;
+						}
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show(this, "Redo failed: " + ex.Message);
 					}
 				},
 				(sender, e) => e.CanExecute = this.IsTaskRunning == false && 
@@ -235,37 +228,13 @@ namespace UIAutomationStudio
 			
 			cb = new CommandBinding(MyCommands.PropertiesCommand, (sender, e) => 
 				{
-					Element element = null;
-					if (this.currentScreen == AppScreen.Workflow)
+					try
 					{
-						Action selectedAction = (Action)this.mainScreen.SelectedAction;
-						element = selectedAction.Element;
+						TryProperties();
 					}
-					else // Conditions screen
+					catch (Exception ex)
 					{
-						Condition selectedCondition = this.variablesScreen.SelectedCondition;
-						if (selectedCondition.Variable != null)
-						{
-							element = selectedCondition.Variable.Element;
-						}
-					}
-					
-					HelpMessages.Show(MessageId.Properties);
-					
-					PropertiesWindow window = new PropertiesWindow(element) { Task = this.Task };
-					window.Owner = this;
-					window.ShowDialog();
-					
-					if (window.HasChanged == true)
-					{
-						if (this.currentScreen == AppScreen.Workflow)
-						{
-							//this.Task.Changed();
-						}
-						else // Conditions screen
-						{
-							this.variablesScreen.Refresh();
-						}
+						MessageBox.Show(this, "Show properties failed: " + ex.Message);
 					}
 				},
 				(sender, e) => e.CanExecute = this.IsTaskRunning == false && 
@@ -276,107 +245,222 @@ namespace UIAutomationStudio
 			
 			cb = new CommandBinding(MyCommands.AddLoopCommand, (sender, e) => 
 			{
-				HelpMessages.Show(MessageId.AddLoop);
-			
-				this.mainScreen.SelectedAction = null;
-				
-				var selectActionWindow = new SelectActionWindow(this.mainScreen);
-				selectActionWindow.Owner = this;
-				selectActionWindow.Closed += (sender2, e2) => 
+				try
 				{
-					if (selectActionWindow.OkWasPressed == false)
-					{
-						return;
-					}
-					
-					Action startAction = selectActionWindow.SelectedAction;
-					
-					this.mainScreen.SelectedAction = null;
-					var selectEndActionWindow = new SelectActionWindow(this.mainScreen, true);
-					selectEndActionWindow.Owner = this;
-					selectEndActionWindow.Closed += (sender3, e3) => 
-					{
-						if (selectEndActionWindow.OkWasPressed == false)
-						{
-							return;
-						}
-						
-						Action endAction = selectEndActionWindow.SelectedAction;
-						
-						if (!endAction.IsDescendentOf(startAction))
-						{
-							if (startAction.IsDescendentOf(endAction))
-							{
-								// swap between start and end
-								Action temp = startAction;
-								startAction = endAction;
-								endAction = temp;
-							}
-							else
-							{
-								MessageBox.Show(this, "The End Action must be a descendent of the Start Action. " + 
-									"This means there should be a path from Start Action to reach End Action.");
-								return;
-							}
-						}
-						
-						LoopTypeWindow loopTypeWindow = new LoopTypeWindow();
-						loopTypeWindow.Owner = this;
-						if (loopTypeWindow.ShowDialog() != true)
-						{
-							return;
-						}
-						
-						LoopAction loopAdded = null;
-						if (loopTypeWindow.IsConditional == false)
-						{
-							UndoRedo.AddSnapshot(this.Task);
-						
-							// is count loop
-							LoopCount loopCount = new LoopCount(loopTypeWindow.Count) 
-								{ StartAction = startAction, EndAction = endAction };
-							endAction.LoopAction = loopCount;
-							Task.LoopActions.Add(loopCount);
-							
-							loopAdded = loopCount;
-						}
-						else
-						{
-							// is conditional loop
-							ConditionalAction conditionalAction = new ConditionalAction();
-							
-							AddConditionWindow addConditionWindow = 
-								new AddConditionWindow(conditionalAction, false, true) { Task = this.Task };
-							addConditionWindow.Owner = this;
-							if (addConditionWindow.ShowDialog() == true)
-							{
-								UndoRedo.AddSnapshot(this.Task);
-							
-								LoopConditional loopConditional = new LoopConditional() { StartAction = startAction, 
-									EndAction = endAction, ConditionalAction = conditionalAction };
-								endAction.LoopAction = loopConditional;
-								Task.LoopActions.Add(loopConditional);
-								
-								loopAdded = loopConditional;
-							}
-							else
-							{
-								return;
-							}
-						}
-						
-						this.Task.IsModified = true;
-						this.Task.Changed();
-						
-						this.mainScreen.SelectedAction = loopAdded;
-					};
-					selectEndActionWindow.Show();
-				};
-				selectActionWindow.Show();
+					TryAddLoop();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(this, "Add loop failed: " + ex.Message);
+				}
 			},
 			(sender, e) => e.CanExecute = this.IsTaskRunning == false && this.Task != null && 
 					this.currentScreen == AppScreen.Workflow && this.Task.StartAction != null);
 			this.CommandBindings.Add(cb);
+		}
+		
+		private void TryRunSelectedAndMoveNext()
+		{
+			ActionBase selectedAction = this.mainScreen.SelectedAction;
+			if (selectedAction is Action)
+			{
+				Action selectedActionNormal = (Action)selectedAction;
+				RunAction runAction = new RunAction(selectedActionNormal);
+				runAction.Run();
+				
+				ActionBase nextAction = null;
+				if (selectedActionNormal.LoopAction != null)
+				{
+					nextAction = selectedActionNormal.LoopAction.GetNextAction();
+				}
+				
+				if (nextAction != null)
+				{
+					this.mainScreen.SelectedAction = nextAction;
+				}
+				else
+				{
+					if (selectedActionNormal.Next == null)
+					{
+						this.mainScreen.SelectedAction = null;
+						this.Task.ResetAllCountLoops();
+					}
+					else
+					{
+						this.mainScreen.SelectedAction = selectedActionNormal.Next;
+					}
+				}
+			}
+			else if (selectedAction is ConditionalAction)
+			{
+				ConditionalAction selectedActionConditional = (ConditionalAction)selectedAction;
+				bool? result = selectedActionConditional.Evaluate(true, true);
+				
+				if (result == null)
+				{
+					MessageBox.Show(this, "This Conditional Action could not be evaluated");
+					return;
+				}
+				else if (result == true)
+				{
+					if (selectedActionConditional.NextOnTrue is EndAction)
+					{
+						this.mainScreen.SelectedAction = null;
+					}
+					else
+					{
+						this.mainScreen.SelectedAction = selectedActionConditional.NextOnTrue;
+					}
+				}
+				else // false
+				{
+					if (selectedActionConditional.NextOnFalse is EndAction)
+					{
+						this.mainScreen.SelectedAction = null;
+					}
+					else
+					{
+						this.mainScreen.SelectedAction = selectedActionConditional.NextOnFalse;
+					}
+				}
+			}
+		}
+		
+		private void TryProperties()
+		{
+			Element element = null;
+			if (this.currentScreen == AppScreen.Workflow)
+			{
+				Action selectedAction = (Action)this.mainScreen.SelectedAction;
+				element = selectedAction.Element;
+			}
+			else // Conditions screen
+			{
+				Condition selectedCondition = this.variablesScreen.SelectedCondition;
+				if (selectedCondition.Variable != null)
+				{
+					element = selectedCondition.Variable.Element;
+				}
+			}
+			
+			HelpMessages.Show(MessageId.Properties);
+			
+			PropertiesWindow window = new PropertiesWindow(element) { Task = this.Task };
+			window.Owner = this;
+			window.ShowDialog();
+			
+			if (window.HasChanged == true)
+			{
+				if (this.currentScreen == AppScreen.Workflow)
+				{
+					//this.Task.Changed();
+				}
+				else // Conditions screen
+				{
+					this.variablesScreen.Refresh();
+				}
+			}
+		}
+		
+		private void TryAddLoop()
+		{
+			HelpMessages.Show(MessageId.AddLoop);
+			
+			this.mainScreen.SelectedAction = null;
+			
+			var selectActionWindow = new SelectActionWindow(this.mainScreen);
+			selectActionWindow.Owner = this;
+			selectActionWindow.Closed += (sender2, e2) => 
+			{
+				if (selectActionWindow.OkWasPressed == false)
+				{
+					return;
+				}
+				
+				Action startAction = selectActionWindow.SelectedAction;
+				
+				this.mainScreen.SelectedAction = null;
+				var selectEndActionWindow = new SelectActionWindow(this.mainScreen, true);
+				selectEndActionWindow.Owner = this;
+				selectEndActionWindow.Closed += (sender3, e3) => 
+				{
+					if (selectEndActionWindow.OkWasPressed == false)
+					{
+						return;
+					}
+					
+					Action endAction = selectEndActionWindow.SelectedAction;
+					
+					if (!endAction.IsDescendentOf(startAction))
+					{
+						if (startAction.IsDescendentOf(endAction))
+						{
+							// swap between start and end
+							Action temp = startAction;
+							startAction = endAction;
+							endAction = temp;
+						}
+						else
+						{
+							MessageBox.Show(this, "The End Action must be a descendent of the Start Action. " + 
+								"This means there should be a path from Start Action to reach End Action.");
+							return;
+						}
+					}
+					
+					LoopTypeWindow loopTypeWindow = new LoopTypeWindow();
+					loopTypeWindow.Owner = this;
+					if (loopTypeWindow.ShowDialog() != true)
+					{
+						return;
+					}
+					
+					LoopAction loopAdded = null;
+					if (loopTypeWindow.IsConditional == false)
+					{
+						UndoRedo.AddSnapshot(this.Task);
+					
+						// is count loop
+						LoopCount loopCount = new LoopCount(loopTypeWindow.Count) 
+							{ StartAction = startAction, EndAction = endAction };
+						endAction.LoopAction = loopCount;
+						Task.LoopActions.Add(loopCount);
+						
+						loopAdded = loopCount;
+					}
+					else
+					{
+						// is conditional loop
+						ConditionalAction conditionalAction = new ConditionalAction();
+						
+						AddConditionWindow addConditionWindow = 
+							new AddConditionWindow(conditionalAction, this.Task, false, true);
+						addConditionWindow.Owner = this;
+						if (addConditionWindow.ShowDialog() == true)
+						{
+							UndoRedo.AddSnapshot(this.Task);
+						
+							LoopConditional loopConditional = new LoopConditional() { StartAction = startAction, 
+								EndAction = endAction, ConditionalAction = conditionalAction };
+							endAction.LoopAction = loopConditional;
+							Task.LoopActions.Add(loopConditional);
+							
+							loopAdded = loopConditional;
+						}
+						else
+						{
+							return;
+						}
+					}
+					
+					this.Task.IsModified = true;
+					this.Task.Changed();
+					
+					this.mainScreen.SelectedAction = loopAdded;
+				};
+				selectEndActionWindow.Show();
+			};
+			selectActionWindow.Show();
 		}
 		
 		private void CanExecuteSaveAs(object sender, CanExecuteRoutedEventArgs e)
