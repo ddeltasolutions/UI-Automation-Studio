@@ -167,7 +167,21 @@ namespace UIAutomationStudio
 					}
 					else
 					{
-						automationElementCollection = parent.FindAll(TreeScope.TreeScope_Descendants, condition);
+						IUIAutomationElement topLevelEl = null;
+						try
+						{
+							topLevelEl = ElementHelper.GetTopLevelElement(element);
+						}
+						catch { }
+						
+						if (topLevelEl != null)
+						{
+							automationElementCollection = topLevelEl.FindAll(TreeScope.TreeScope_Descendants, condition);
+						}
+						else
+						{
+							automationElementCollection = parent.FindAll(TreeScope.TreeScope_Descendants, condition);
+						}
 					}
 				}
 			}
