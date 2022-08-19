@@ -1,11 +1,33 @@
 using System;
 using System.Windows;
 using UIDeskAutomationLib;
+using UIAutomationClient;
 
 namespace UIAutomationStudio
 {
 	public class ElementHelper
 	{
+		public static IUIAutomationElement GetTopLevelElement(IUIAutomationElement element)
+		{
+			IUIAutomationElement parent = MainWindow.uiAutomation.ControlViewWalker.GetParentElement(element);
+			if (parent == null)
+			{
+				return null;
+			}
+			
+			IUIAutomationElement grandParent = MainWindow.uiAutomation.ControlViewWalker.GetParentElement(parent);
+			IUIAutomationElement crtElement = element;
+			
+			while (grandParent != null)
+			{
+				crtElement = parent;
+				parent = grandParent;
+				grandParent = MainWindow.uiAutomation.ControlViewWalker.GetParentElement(grandParent);
+			}
+			
+			return crtElement;
+		}
+	
 		public static ElementBase GetTopLevelElement(Engine engine, Element element)
 		{
 			ElementBase libraryElement = null;
