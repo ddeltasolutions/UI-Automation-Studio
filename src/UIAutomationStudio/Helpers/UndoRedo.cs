@@ -37,6 +37,12 @@ namespace UIAutomationStudio
 		
 		public static void AddSnapshot(Task task)
 		{
+			if (position < 0)
+			{
+				throw new Exception("UndoRedo has not been initialized. Use Reset() to initialize it.");
+				return;
+			}
+		
 			Task cloneTask = new Task();
 			task.DeepCopy(cloneTask);
 			

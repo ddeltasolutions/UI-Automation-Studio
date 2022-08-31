@@ -7,6 +7,8 @@ namespace UIAutomationStudio
 {
 	public class RunAction
 	{
+		private Action action = null;
+	
 		public RunAction(Action action)
 		{
 			this.action = action;
@@ -1008,7 +1010,5 @@ namespace UIAutomationStudio
 			
 			return false;
 		}
-		
-		private Action action = null;
 	}
 }
