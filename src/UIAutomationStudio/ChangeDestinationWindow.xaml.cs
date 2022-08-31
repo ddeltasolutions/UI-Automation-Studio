@@ -13,6 +13,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class ChangeDestinationWindow : Window
     {
+		public bool OkWasPressed { get; set; }
+	
         public ChangeDestinationWindow(UserControlMainScreen mainScreen)
         {
             InitializeComponent();
@@ -39,7 +41,5 @@ namespace UIAutomationStudio
 		{
 			this.Close();
 		}
-		
-		public bool OkWasPressed { get; set; }
 	}
 }

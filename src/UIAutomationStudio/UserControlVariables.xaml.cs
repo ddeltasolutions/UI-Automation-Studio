@@ -6,11 +6,13 @@ using System.Windows.Input;
 
 namespace UIAutomationStudio
 {
-    /// <summary>
-    /// Interaction logic for UserControlVariables.xaml
-    /// </summary>
-    public partial class UserControlVariables : UserControl
-    {
+	/// <summary>
+	/// Interaction logic for UserControlVariables.xaml
+	/// </summary>
+	public partial class UserControlVariables : UserControl
+	{
+		private Task task = null;
+	
         public UserControlVariables(Task task)
         {
             InitializeComponent();
@@ -86,7 +88,5 @@ namespace UIAutomationStudio
 				return;
 			}
 		}
-		
-		private Task task = null;
     }
 }

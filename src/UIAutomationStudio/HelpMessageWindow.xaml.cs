@@ -13,6 +13,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class HelpMessageWindow : Window
     {
+		public bool ShowAgain { get; set; }
+	
         public HelpMessageWindow(string message)
         {
             InitializeComponent();
@@ -31,7 +33,5 @@ namespace UIAutomationStudio
 			this.DialogResult = true;
 			this.Close();
 		}
-		
-		public bool ShowAgain { get; set; }
 	}
 }

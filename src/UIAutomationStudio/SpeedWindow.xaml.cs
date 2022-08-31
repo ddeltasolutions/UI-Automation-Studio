@@ -13,6 +13,9 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class SpeedWindow : Window
     {
+		public Speed SelectedSpeed { get; set; }
+		public int SpeedValue { get; set; }
+	
         public SpeedWindow(Speed speed, int speedValue)
         {
             InitializeComponent();
@@ -105,8 +108,5 @@ namespace UIAutomationStudio
 			this.DialogResult = true;
 			this.Close();
 		}
-		
-		public Speed SelectedSpeed { get; set; }
-		public int SpeedValue { get; set; }
 	}
 }

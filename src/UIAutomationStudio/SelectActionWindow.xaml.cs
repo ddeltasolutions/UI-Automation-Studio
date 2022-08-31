@@ -13,6 +13,9 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class SelectActionWindow : Window
     {
+		public bool OkWasPressed { get; set; }
+		private UserControlMainScreen mainScreen = null;
+	
         public SelectActionWindow(UserControlMainScreen mainScreen, bool selectEndAction = false, 
 			Action actionToSelect = null)
         {
@@ -86,9 +89,6 @@ namespace UIAutomationStudio
 		{
 			this.mainScreen.SelectedActionChangedEvent -= setOKButton;
 		}
-		
-		public bool OkWasPressed { get; set; }
-		private UserControlMainScreen mainScreen = null;
 		
 		private Action selectedAction = null;
 		public Action SelectedAction 

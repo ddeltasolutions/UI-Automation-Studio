@@ -8,6 +8,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class StopPauseResumeWindow : Window
     {
+		private Task task = null;
+	
         public StopPauseResumeWindow(Task task)
         {
             InitializeComponent();
@@ -37,7 +39,5 @@ namespace UIAutomationStudio
         {
 
         }
-		
-		private Task task = null;
 	}
 }

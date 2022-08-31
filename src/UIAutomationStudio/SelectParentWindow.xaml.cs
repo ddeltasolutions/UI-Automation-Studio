@@ -13,6 +13,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class SelectParentWindow : Window
     {
+		public Element SelectedElement { get; set; }
+	
         public SelectParentWindow(Element element)
         {
             InitializeComponent();
@@ -60,7 +62,5 @@ namespace UIAutomationStudio
 			this.DialogResult = true;
 			this.Close();
 		}
-		
-		public Element SelectedElement { get; set; }
 	}
 }

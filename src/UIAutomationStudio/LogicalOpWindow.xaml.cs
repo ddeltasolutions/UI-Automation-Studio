@@ -8,6 +8,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class LogicalOpWindow : Window
     {
+		public LogicalOp LogicalOp { get; set; }
+	
         public LogicalOpWindow(LogicalOp logicalOp = LogicalOp.None)
         {
             InitializeComponent();
@@ -42,7 +44,5 @@ namespace UIAutomationStudio
 			this.DialogResult = true;
 			this.Close();
 		}
-		
-		public LogicalOp LogicalOp { get; set; }
 	}
 }

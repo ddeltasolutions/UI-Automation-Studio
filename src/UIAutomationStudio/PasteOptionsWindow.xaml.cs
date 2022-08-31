@@ -13,6 +13,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class PasteOptionsWindow : Window
     {
+		public bool IsInsertFirstChecked { get; set; }
+	
         public PasteOptionsWindow(bool hasAtLeastOneConditional = false)
         {
             InitializeComponent();
@@ -36,7 +38,5 @@ namespace UIAutomationStudio
 			this.DialogResult = true;
 			this.Close();
 		}
-		
-		public bool IsInsertFirstChecked { get; set; }
 	}
 }

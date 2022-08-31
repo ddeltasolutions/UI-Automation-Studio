@@ -12,6 +12,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class App : Application
     {
+		public StopPauseResumeWindow window = null;
+	
 		private void Application_Startup(object sender, StartupEventArgs e)
 		{
 			if (e.Args.Length > 0)
@@ -45,7 +47,5 @@ namespace UIAutomationStudio
 				Shutdown();
 			}
 		}
-		
-		public StopPauseResumeWindow window = null;
     }
 }

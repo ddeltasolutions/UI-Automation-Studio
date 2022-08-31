@@ -13,6 +13,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class PickKeyWindow : Window
     {
+		public VirtualKeys SelectedKey { get; set; }
+	
         public PickKeyWindow()
         {
             InitializeComponent();
@@ -152,7 +154,5 @@ namespace UIAutomationStudio
 			this.DialogResult = true;
 			this.Close();
 		}
-		
-		public VirtualKeys SelectedKey { get; set; }
 	}
 }

@@ -13,6 +13,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class EditFieldWindow : Window
     {
+		public string FieldValue { get; set; }
+	
         public EditFieldWindow()
         {
             InitializeComponent();
@@ -32,7 +34,5 @@ namespace UIAutomationStudio
 			this.DialogResult = true;
 			this.Close();
 		}
-		
-		public string FieldValue { get; set; }
 	}
 }

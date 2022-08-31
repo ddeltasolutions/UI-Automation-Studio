@@ -13,6 +13,12 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class PropertiesWindow : Window
     {
+		public bool HasChanged { get; set; }
+		public Task Task { get; set; }
+		
+		private Element element = null;
+		private List<Element> ancestors = null;
+	
         public PropertiesWindow(Element element)
         {
             InitializeComponent();
@@ -85,11 +91,5 @@ namespace UIAutomationStudio
 				}
 			}
 		}
-		
-		public bool HasChanged { get; set; }
-		public Task Task { get; set; }
-		
-		private Element element = null;
-		private List<Element> ancestors = null;
 	}
 }

@@ -13,6 +13,9 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class LoopTypeWindow : Window
     {
+		public bool? IsConditional { get; set; }
+		public int Count { get; set; }
+	
         public LoopTypeWindow()
         {
             InitializeComponent();
@@ -84,8 +87,5 @@ namespace UIAutomationStudio
 		{
 			this.Close();
 		}
-		
-		public bool? IsConditional { get; set; }
-		public int Count { get; set; }
 	}
 }
