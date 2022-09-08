@@ -93,6 +93,9 @@
 	<Compile Include="Helpers\RunAction.cs">
       <SubType>Code</SubType>
     </Compile>
+	<Compile Include="Helpers\RunAction.Elements.cs">
+      <SubType>Code</SubType>
+    </Compile>
 	<Compile Include="MyCommands.cs">
       <SubType>Code</SubType>
     </Compile>
