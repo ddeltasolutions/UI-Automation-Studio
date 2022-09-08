@@ -283,76 +283,9 @@ namespace UIAutomationStudio
 				libraryElement.KeyUp((VirtualKeys)this.action.Parameters[0]);
 				return true;
 			}
-			else if (this.action.ActionId == ActionIds.PredefinedKeysCombination && this.action.Parameters.Count >= 1)
+			else if (this.action.ActionId == ActionIds.PredefinedKeysCombination)
 			{
-				string keysCombination = this.action.Parameters[0].ToString();
-				if (keysCombination.StartsWith("Ctrl"))
-				{
-					libraryElement.KeyDown(VirtualKeys.Control);
-				}
-				else if (keysCombination.StartsWith("Alt"))
-				{
-					libraryElement.KeyDown(VirtualKeys.Alt);
-				}
-				
-				if (keysCombination == "Ctrl+C")
-				{
-					libraryElement.KeyPress(VirtualKeys.C);
-				}
-				else if (keysCombination == "Ctrl+V")
-				{
-					libraryElement.KeyPress(VirtualKeys.V);
-				}
-				else if (keysCombination == "Ctrl+X")
-				{
-					libraryElement.KeyPress(VirtualKeys.X);
-				}
-				else if (keysCombination == "Ctrl+Z")
-				{
-					libraryElement.KeyPress(VirtualKeys.Z);
-				}
-				else if (keysCombination == "Ctrl+Y")
-				{
-					libraryElement.KeyPress(VirtualKeys.Y);
-				}
-				else if (keysCombination == "Ctrl+A")
-				{
-					libraryElement.KeyPress(VirtualKeys.A);
-				}
-				else if (keysCombination == "Ctrl+S")
-				{
-					libraryElement.KeyPress(VirtualKeys.S);
-				}
-				else if (keysCombination == "Ctrl+F")
-				{
-					libraryElement.KeyPress(VirtualKeys.F);
-				}
-				else if (keysCombination == "Ctrl+N")
-				{
-					libraryElement.KeyPress(VirtualKeys.N);
-				}
-				else if (keysCombination == "Ctrl+O")
-				{
-					libraryElement.KeyPress(VirtualKeys.O);
-				}
-				else if (keysCombination == "Ctrl+P")
-				{
-					libraryElement.KeyPress(VirtualKeys.P);
-				}
-				else if (keysCombination == "Alt+F4")
-				{
-					libraryElement.KeyPress(VirtualKeys.F4);
-				}
-				
-				if (keysCombination.StartsWith("Ctrl"))
-				{
-					libraryElement.KeyUp(VirtualKeys.Control);
-				}
-				else if (keysCombination.StartsWith("Alt"))
-				{
-					libraryElement.KeyUp(VirtualKeys.Alt);
-				}
-				return true;
+				return PredefinedKeysCombination(libraryElement);
 			}
 			else if (this.action.ActionId == ActionIds.SimulateSendKeys && this.action.Parameters.Count >= 1)
 			{
@@ -513,6 +446,83 @@ namespace UIAutomationStudio
 			}
 			
 			return null;
+		}
+		
+		private bool PredefinedKeysCombination(ElementBase libraryElement)
+		{
+			if (this.action.Parameters.Count <= 0)
+			{
+				return false;
+			}
+			
+			string keysCombination = this.action.Parameters[0].ToString();
+			if (keysCombination.StartsWith("Ctrl"))
+			{
+				libraryElement.KeyDown(VirtualKeys.Control);
+			}
+			else if (keysCombination.StartsWith("Alt"))
+			{
+				libraryElement.KeyDown(VirtualKeys.Alt);
+			}
+				
+			if (keysCombination == "Ctrl+C")
+			{
+				libraryElement.KeyPress(VirtualKeys.C);
+			}
+			else if (keysCombination == "Ctrl+V")
+			{
+				libraryElement.KeyPress(VirtualKeys.V);
+			}
+			else if (keysCombination == "Ctrl+X")
+			{
+				libraryElement.KeyPress(VirtualKeys.X);
+			}
+			else if (keysCombination == "Ctrl+Z")
+			{
+				libraryElement.KeyPress(VirtualKeys.Z);
+			}
+			else if (keysCombination == "Ctrl+Y")
+			{
+				libraryElement.KeyPress(VirtualKeys.Y);
+			}
+			else if (keysCombination == "Ctrl+A")
+			{
+				libraryElement.KeyPress(VirtualKeys.A);
+			}
+			else if (keysCombination == "Ctrl+S")
+			{
+				libraryElement.KeyPress(VirtualKeys.S);
+			}
+			else if (keysCombination == "Ctrl+F")
+			{
+				libraryElement.KeyPress(VirtualKeys.F);
+			}
+			else if (keysCombination == "Ctrl+N")
+			{
+				libraryElement.KeyPress(VirtualKeys.N);
+			}
+			else if (keysCombination == "Ctrl+O")
+			{
+				libraryElement.KeyPress(VirtualKeys.O);
+			}
+			else if (keysCombination == "Ctrl+P")
+			{
+				libraryElement.KeyPress(VirtualKeys.P);
+			}
+			else if (keysCombination == "Alt+F4")
+			{
+				libraryElement.KeyPress(VirtualKeys.F4);
+			}
+				
+			if (keysCombination.StartsWith("Ctrl"))
+			{
+				libraryElement.KeyUp(VirtualKeys.Control);
+			}
+			else if (keysCombination.StartsWith("Alt"))
+			{
+				libraryElement.KeyUp(VirtualKeys.Alt);
+			}
+			return true;
 		}
 	}
 }
