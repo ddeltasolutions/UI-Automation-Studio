@@ -5,7 +5,7 @@ using UIDeskAutomationLib;
 
 namespace UIAutomationStudio
 {
-	public class RunAction
+	public partial class RunAction
 	{
 		private Action action = null;
 	
@@ -176,608 +176,10 @@ namespace UIAutomationStudio
 		
 		private bool CallAction(ElementBase libraryElement)
 		{
-			if (this.action.Element.ControlType == ControlType.Button)
+			IElement element = ElementFactoryMethod(libraryElement);
+			if (element != null && element.Run(this.action) == true)
 			{
-				if (this.action.ActionId == ActionIds.Press)
-				{
-					UIDA_Button button = libraryElement as UIDA_Button;
-					if (button != null)
-					{
-						button.Press();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Calendar)
-			{
-				UIDA_Calendar calendar = libraryElement as UIDA_Calendar;
-				if (calendar != null && this.action.Parameters.Count > 0)
-				{
-					if (this.action.ActionId == ActionIds.SelectDate)
-					{
-						calendar.SelectDate((DateTime)this.action.Parameters[0]);
-						return true;
-					}
-					else if (this.action.ActionId == ActionIds.AddDateToSelection)
-					{
-						calendar.AddToSelection((DateTime)this.action.Parameters[0]);
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.CheckBox)
-			{
-				UIDA_CheckBox checkBox = libraryElement as UIDA_CheckBox;
-				if (checkBox != null)
-				{
-					if (this.action.ActionId == ActionIds.Toggle)
-					{
-						checkBox.Toggle();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.IsChecked && this.action.Parameters.Count > 0)
-					{
-						checkBox.IsChecked = (bool)this.action.Parameters[0];
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.ComboBox)
-			{
-				UIDA_ComboBox comboBox = libraryElement as UIDA_ComboBox;
-				if (comboBox != null)
-				{
-					if (this.action.ActionId == ActionIds.SetText && this.action.Parameters.Count > 0)
-					{
-						comboBox.SetText((string)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Expand)
-					{
-						comboBox.Expand();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Collapse)
-					{
-						comboBox.Collapse();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectByIndex && this.action.Parameters.Count > 0)
-					{
-						comboBox.Select((int)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectByText && this.action.Parameters.Count > 0)
-					{
-						comboBox.Select((string)this.action.Parameters[0]);
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.DataGrid)
-			{
-				UIDA_DataGrid dataGrid = libraryElement as UIDA_DataGrid;
-				if (dataGrid != null)
-				{
-					if (this.action.ActionId == ActionIds.SelectAll)
-					{
-						dataGrid.SelectAll();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.ClearAllSelection)
-					{
-						dataGrid.ClearAllSelection();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Scroll && this.action.Parameters.Count >= 2)
-					{
-						dataGrid.Scroll((double)this.action.Parameters[0], (double)this.action.Parameters[1]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectByIndex && this.action.Parameters.Count > 0)
-					{
-						dataGrid.Select((int)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.AddToSelection && this.action.Parameters.Count > 0)
-					{
-						dataGrid.AddToSelection((int)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.RemoveFromSelection && this.action.Parameters.Count > 0)
-					{
-						dataGrid.RemoveFromSelection((int)this.action.Parameters[0]);
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Group)
-			{
-				UIDA_Group dataGridGroup = libraryElement as UIDA_Group;
-				if (dataGridGroup != null)
-				{
-					if (this.action.ActionId == ActionIds.Expand)
-					{
-						dataGridGroup.Expand();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Collapse)
-					{
-						dataGridGroup.Collapse();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.DataItem)
-			{
-				UIDA_DataItem dataItem = libraryElement as UIDA_DataItem;
-				if (dataItem != null)
-				{
-					if (this.action.ActionId == ActionIds.Select)
-					{
-						dataItem.Select();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.AddToSelection)
-					{
-						dataItem.AddToSelection();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.RemoveFromSelection)
-					{
-						dataItem.RemoveFromSelection();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.DatePicker)
-			{
-				UIDA_DatePicker datePicker = libraryElement as UIDA_DatePicker;
-				if (datePicker != null)
-				{
-					if (this.action.ActionId == ActionIds.SelectDate && this.action.Parameters.Count > 0)
-					{
-						datePicker.SelectedDate = (DateTime)this.action.Parameters[0];
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Document)
-			{
-				UIDA_Document document = libraryElement as UIDA_Document;
-				if (document != null)
-				{
-					if (this.action.ActionId == ActionIds.SetText && this.action.Parameters.Count > 0)
-					{
-						document.SetText((string)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.ClearText)
-					{
-						document.ClearText();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectText && this.action.Parameters.Count > 0)
-					{
-						document.SelectText((string)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectAll)
-					{
-						document.SelectAll();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.ClearSelection)
-					{
-						document.ClearSelection();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Edit)
-			{
-				UIDA_Edit edit = libraryElement as UIDA_Edit;
-				if (edit != null)
-				{
-					if (this.action.ActionId == ActionIds.SetText && this.action.Parameters.Count > 0)
-					{
-						edit.SetText((string)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.ClearText)
-					{
-						edit.ClearText();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectText && this.action.Parameters.Count > 0)
-					{
-						edit.SelectText((string)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectAll)
-					{
-						edit.SelectAll();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.ClearSelection)
-					{
-						edit.ClearSelection();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Hyperlink)
-			{
-				UIDA_HyperLink hyperlink = libraryElement as UIDA_HyperLink;
-				if (hyperlink != null)
-				{
-					if (this.action.ActionId == ActionIds.AccessLink)
-					{
-						hyperlink.AccessLink();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.List)
-			{
-				UIDA_List list = libraryElement as UIDA_List;
-				if (list != null)
-				{
-					if (this.action.ActionId == ActionIds.SelectByIndex && this.action.Parameters.Count > 0)
-					{
-						list.Select((int)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectByText && this.action.Parameters.Count > 0)
-					{
-						list.Select((string)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.AddToSelection && this.action.Parameters.Count > 0)
-					{
-						list.AddToSelection((int)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.AddToSelectionByText && this.action.Parameters.Count > 0)
-					{
-						list.AddToSelection((string)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.RemoveFromSelection && this.action.Parameters.Count > 0)
-					{
-						list.RemoveFromSelection((int)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.RemoveFromSelectionByText && this.action.Parameters.Count > 0)
-					{
-						list.RemoveFromSelection((string)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectAll)
-					{
-						list.SelectAll();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.ClearAllSelection)
-					{
-						list.ClearAllSelection();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.ListItem)
-			{
-				UIDA_ListItem listItem = libraryElement as UIDA_ListItem;
-				if (listItem != null)
-				{
-					if (this.action.ActionId == ActionIds.Select)
-					{
-						listItem.Select();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.RemoveFromSelection)
-					{
-						listItem.RemoveFromSelection();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.AddToSelection)
-					{
-						listItem.AddToSelection();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.BringIntoView)
-					{
-						listItem.BringIntoView();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.IsChecked && this.action.Parameters.Count > 0)
-					{
-						listItem.IsChecked = (bool)this.action.Parameters[0];
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.MenuItem)
-			{
-				UIDA_MenuItem menuItem = libraryElement as UIDA_MenuItem;
-				if (menuItem != null)
-				{
-					if (this.action.ActionId == ActionIds.AccessMenu)
-					{
-						menuItem.AccessMenu();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Expand)
-					{
-						menuItem.Expand();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Collapse)
-					{
-						menuItem.Collapse();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Toggle)
-					{
-						menuItem.Toggle();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.IsChecked && this.action.Parameters.Count > 0)
-					{
-						menuItem.IsChecked = (bool)this.action.Parameters[0];
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.RadioButton)
-			{
-				UIDA_RadioButton radioButton = libraryElement as UIDA_RadioButton;
-				if (radioButton != null)
-				{
-					if (this.action.ActionId == ActionIds.Select)
-					{
-						radioButton.Select();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.ScrollBar)
-			{
-				UIDA_ScrollBar scrollBar = libraryElement as UIDA_ScrollBar;
-				if (scrollBar != null)
-				{
-					if (this.action.ActionId == ActionIds.SmallIncrement)
-					{
-						scrollBar.SmallIncrement();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.LargeIncrement)
-					{
-						scrollBar.LargeIncrement();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SmallDecrement)
-					{
-						scrollBar.SmallDecrement();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.LargeDecrement)
-					{
-						scrollBar.LargeDecrement();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Value && this.action.Parameters.Count > 0)
-					{
-						scrollBar.Value = (double)this.action.Parameters[0];
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Slider)
-			{
-				UIDA_Slider slider = libraryElement as UIDA_Slider;
-				if (slider != null)
-				{
-					if (this.action.ActionId == ActionIds.SmallIncrement)
-					{
-						slider.SmallIncrement();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.LargeIncrement)
-					{
-						slider.LargeIncrement();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SmallDecrement)
-					{
-						slider.SmallDecrement();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.LargeDecrement)
-					{
-						slider.LargeDecrement();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Value && this.action.Parameters.Count > 0)
-					{
-						slider.Value = (double)this.action.Parameters[0];
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Spinner)
-			{
-				UIDA_Spinner spinner = libraryElement as UIDA_Spinner;
-				if (spinner != null)
-				{
-					if (this.action.ActionId == ActionIds.Increment)
-					{
-						spinner.Increment();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Decrement)
-					{
-						spinner.Decrement();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Value && this.action.Parameters.Count > 0)
-					{
-						spinner.Value = (double)this.action.Parameters[0];
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.SplitButton)
-			{
-				UIDA_SplitButton splitButton = libraryElement as UIDA_SplitButton;
-				if (splitButton != null)
-				{
-					if (this.action.ActionId == ActionIds.Press)
-					{
-						splitButton.Press();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Tab)
-			{
-				UIDA_TabCtrl tabCtrl = libraryElement as UIDA_TabCtrl;
-				if (tabCtrl != null)
-				{
-					if (this.action.ActionId == ActionIds.SelectByIndex && this.action.Parameters.Count > 0)
-					{
-						tabCtrl.Select((int)this.action.Parameters[0]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.SelectByText && this.action.Parameters.Count > 0)
-					{
-						tabCtrl.Select((string)this.action.Parameters[0]);
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.TabItem)
-			{
-				UIDA_TabItem tabItem = libraryElement as UIDA_TabItem;
-				if (tabItem != null)
-				{
-					if (this.action.ActionId == ActionIds.Select)
-					{
-						tabItem.Select();
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.TreeItem)
-			{
-				UIDA_TreeItem treeItem = libraryElement as UIDA_TreeItem;
-				if (treeItem != null)
-				{
-					if (this.action.ActionId == ActionIds.Select)
-					{
-						treeItem.Select();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Expand)
-					{
-						treeItem.Expand();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Collapse)
-					{
-						treeItem.Collapse();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Toggle)
-					{
-						treeItem.Toggle();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.BringIntoView)
-					{
-						treeItem.BringIntoView();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.IsChecked && this.action.Parameters.Count > 0)
-					{
-						treeItem.IsChecked = (bool)this.action.Parameters[0];
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Custom)
-			{
-				UIDA_Table.Cell cell = libraryElement as UIDA_Table.Cell;
-				if (cell != null)
-				{
-					if (this.action.ActionId == ActionIds.Value && this.action.Parameters.Count > 0)
-					{
-						cell.Value = (string)this.action.Parameters[0];
-						return true;
-					}
-				}
-			}
-			else if (this.action.Element.ControlType == ControlType.Window)
-			{
-				UIDA_Window window = libraryElement as UIDA_Window;
-				if (window != null)
-				{
-					if (this.action.ActionId == ActionIds.Show)
-					{
-						window.Show();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Minimize)
-					{
-						window.Minimize();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Maximize)
-					{
-						window.Maximize();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Restore)
-					{
-						window.Restore();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Close)
-					{
-						window.Close();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.BringToForeground)
-					{
-						window.BringToForeground();
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Move && this.action.Parameters.Count >= 2)
-					{
-						window.Move((int)this.action.Parameters[0], (int)this.action.Parameters[1]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.MoveOffset && this.action.Parameters.Count >= 2)
-					{
-						window.MoveOffset((int)this.action.Parameters[0], (int)this.action.Parameters[1]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.Resize && this.action.Parameters.Count >= 2)
-					{
-						window.Resize((int)this.action.Parameters[0], (int)this.action.Parameters[1]);
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.WindowWidth && this.action.Parameters.Count >= 1)
-					{
-						window.WindowWidth = (int)this.action.Parameters[0];
-						return true;
-					}
-					if (this.action.ActionId == ActionIds.WindowHeight && this.action.Parameters.Count >= 1)
-					{
-						window.WindowHeight = (int)this.action.Parameters[0];
-						return true;
-					}
-				}
+				return true;
 			}
 			
 			if (this.action.ActionId == ActionIds.Click)
@@ -1009,6 +411,108 @@ namespace UIAutomationStudio
 			}
 			
 			return false;
+		}
+		
+		private IElement ElementFactoryMethod(ElementBase libraryElement)
+		{
+			if (this.action.Element.ControlType == ControlType.Button)
+			{
+				return new Button(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Calendar)
+			{
+				return new Calendar(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.CheckBox)
+			{
+				return new CheckBox(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.ComboBox)
+			{
+				return new ComboBox(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.DataGrid)
+			{
+				return new DataGrid(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Group)
+			{
+				return new Group(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.DataItem)
+			{
+				return new DataItem(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.DatePicker)
+			{
+				return new DatePicker(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Document)
+			{
+				return new Document(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Edit)
+			{
+				return new Edit(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Hyperlink)
+			{
+				return new Hyperlink(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.List)
+			{
+				return new List(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.ListItem)
+			{
+				return new ListItem(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.MenuItem)
+			{
+				return new MenuItem(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.RadioButton)
+			{
+				return new RadioButton(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.ScrollBar)
+			{
+				return new ScrollBar(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Slider)
+			{
+				return new Slider(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Spinner)
+			{
+				return new Spinner(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.SplitButton)
+			{
+				return new SplitButton(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Tab)
+			{
+				return new Tab(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.TabItem)
+			{
+				return new TabItem(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.TreeItem)
+			{
+				return new TreeItem(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Custom)
+			{
+				return new Custom(libraryElement);
+			}
+			else if (this.action.Element.ControlType == ControlType.Window)
+			{
+				return new Window(libraryElement);
+			}
+			
+			return null;
 		}
 	}
 }
