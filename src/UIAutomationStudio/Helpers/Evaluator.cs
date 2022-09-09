@@ -43,9 +43,154 @@ namespace UIAutomationStudio
 				return libraryElement.IsAlive;
 			}
 			
-			ControlType controlType = variable.Element.ControlType;
-			if (variable.PropertyId == PropertyId.IsPressed)
+			IEvaluator evaluator = EvaluatorFactory(variable.PropertyId, libraryElement);
+			if (evaluator != null)
 			{
+				return evaluator.Evaluate(variable);
+			}
+			
+			return null;
+		}
+		
+		private static IEvaluator EvaluatorFactory(PropertyId propertyId, ElementBase libraryElement)
+		{
+			if (propertyId == PropertyId.IsPressed)
+			{
+				return new IsPressedEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.SelectedDate)
+			{
+				return new SelectedDateEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.IsChecked)
+			{
+				return new IsCheckedEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.SelectedItem)
+			{
+				return new SelectedItemEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.SelectedItemIndex)
+			{
+				return new SelectedItemIndexEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.ItemByIndex)
+			{
+				return new ItemByIndexEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.ItemsCount)
+			{
+				return new ItemsCountEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.ColumnCount)
+			{
+				return new ColumnCountEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.RowCount)
+			{
+				return new RowCountEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.CanSelectMultiple)
+			{
+				return new CanSelectMultipleEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.ValueByRowAndColumn)
+			{
+				return new ValueByRowAndColumnEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.SelectedRowsCount)
+			{
+				return new SelectedRowsCountEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.SelectedValueByColumn)
+			{
+				return new SelectedValueByColumnEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.IsSelected)
+			{
+				return new IsSelectedEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.ValueByColumnIndex)
+			{
+				return new ValueByColumnIndexEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.ValueByColumnName)
+			{
+				return new ValueByColumnNameEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.SelectedItemsCount)
+			{
+				return new SelectedItemsCountEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.SelectedItemByIndex)
+			{
+				return new SelectedItemByIndexEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.Index)
+			{
+				return new IndexEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.Value)
+			{
+				return new ValueEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.Minimum)
+			{
+				return new MinimumEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.Maximum)
+			{
+				return new MaximumEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.Root)
+			{
+				return new RootEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.SubItemsCount)
+			{
+				return new SubItemsCountEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.SubItemByIndex)
+			{
+				return new SubItemByIndexEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.IsExpanded)
+			{
+				return new IsExpandedEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.IsCollapsed)
+			{
+				return new IsCollapsedEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.IsMinimized)
+			{
+				return new IsMinimizedEvaluator(libraryElement);
+			}
+			else if (propertyId == PropertyId.IsMaximized)
+			{
+				return new IsMaximizedEvaluator(libraryElement);
+			}
+			
+			return null;
+		}
+		
+		public interface IEvaluator
+		{
+			object Evaluate(Variable variable);
+		}
+		
+		private class IsPressedEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public IsPressedEvaluator(ElementBase libraryElement)
+			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.Button)
 				{
 					UIDA_Button button = libraryElement as UIDA_Button;
@@ -54,9 +199,22 @@ namespace UIAutomationStudio
 						return button.IsPressed;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.SelectedDate)
+		}
+		
+		private class SelectedDateEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public SelectedDateEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.Calendar)
 				{
 					UIDA_Calendar calendar = libraryElement as UIDA_Calendar;
@@ -81,9 +239,22 @@ namespace UIAutomationStudio
 						return datePicker.SelectedDate;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.IsChecked)
+		}
+		
+		private class IsCheckedEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public IsCheckedEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.CheckBox)
 				{
 					UIDA_CheckBox checkBox = libraryElement as UIDA_CheckBox;
@@ -116,9 +287,22 @@ namespace UIAutomationStudio
 						return menuItem.IsChecked;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.SelectedItem)
+		}
+		
+		private class SelectedItemEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public SelectedItemEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.ComboBox)
 				{
 					UIDA_ComboBox comboBox = libraryElement as UIDA_ComboBox;
@@ -167,9 +351,22 @@ namespace UIAutomationStudio
 						}
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.SelectedItemIndex)
+		}
+		
+		private class SelectedItemIndexEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public SelectedItemIndexEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.ComboBox)
 				{
 					UIDA_ComboBox comboBox = libraryElement as UIDA_ComboBox;
@@ -218,9 +415,22 @@ namespace UIAutomationStudio
 						}
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.ItemByIndex)
+		}
+		
+		private class ItemByIndexEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public ItemByIndexEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.ComboBox)
 				{
 					UIDA_ComboBox comboBox = libraryElement as UIDA_ComboBox;
@@ -284,9 +494,22 @@ namespace UIAutomationStudio
 						}
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.ItemsCount)
+		}
+		
+		private class ItemsCountEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public ItemsCountEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.ComboBox)
 				{
 					UIDA_ComboBox comboBox = libraryElement as UIDA_ComboBox;
@@ -311,9 +534,22 @@ namespace UIAutomationStudio
 						return tabCtrl.Items.Length;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.ColumnCount)
+		}
+		
+		private class ColumnCountEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public ColumnCountEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.DataGrid)
 				{
 					UIDA_DataGrid dataGrid = libraryElement as UIDA_DataGrid;
@@ -330,9 +566,22 @@ namespace UIAutomationStudio
 						return table.ColumnsCount;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.RowCount)
+		}
+		
+		private class RowCountEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public RowCountEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.DataGrid)
 				{
 					UIDA_DataGrid dataGrid = libraryElement as UIDA_DataGrid;
@@ -349,9 +598,22 @@ namespace UIAutomationStudio
 						return table.Rows.Length;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.CanSelectMultiple)
+		}
+		
+		private class CanSelectMultipleEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public CanSelectMultipleEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.DataGrid)
 				{
 					UIDA_DataGrid dataGrid = libraryElement as UIDA_DataGrid;
@@ -360,9 +622,22 @@ namespace UIAutomationStudio
 						return dataGrid.CanSelectMultiple;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.ValueByRowAndColumn)
+		}
+		
+		private class ValueByRowAndColumnEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public ValueByRowAndColumnEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.DataGrid)
 				{
 					UIDA_DataGrid dataGrid = libraryElement as UIDA_DataGrid;
@@ -389,9 +664,22 @@ namespace UIAutomationStudio
 						}
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.SelectedRowsCount)
+		}
+		
+		private class SelectedRowsCountEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public SelectedRowsCountEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.DataGrid)
 				{
 					UIDA_DataGrid dataGrid = libraryElement as UIDA_DataGrid;
@@ -400,9 +688,22 @@ namespace UIAutomationStudio
 						return dataGrid.SelectedRows.Length;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.SelectedValueByColumn)
+		}
+		
+		private class SelectedValueByColumnEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public SelectedValueByColumnEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.DataGrid)
 				{
 					UIDA_DataGrid dataGrid = libraryElement as UIDA_DataGrid;
@@ -423,9 +724,22 @@ namespace UIAutomationStudio
 						}
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.IsSelected)
+		}
+		
+		private class IsSelectedEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public IsSelectedEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.DataItem)
 				{
 					UIDA_DataItem dataItem = libraryElement as UIDA_DataItem;
@@ -458,9 +772,22 @@ namespace UIAutomationStudio
 						return radioButton.IsSelected;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.ValueByColumnIndex)
+		}
+		
+		private class ValueByColumnIndexEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public ValueByColumnIndexEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.DataItem)
 				{
 					UIDA_DataItem dataItem = libraryElement as UIDA_DataItem;
@@ -473,9 +800,22 @@ namespace UIAutomationStudio
 						}
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.ValueByColumnName)
+		}
+		
+		private class ValueByColumnNameEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public ValueByColumnNameEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.DataItem)
 				{
 					UIDA_DataItem dataItem = libraryElement as UIDA_DataItem;
@@ -488,9 +828,22 @@ namespace UIAutomationStudio
 						}
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.SelectedItemsCount)
+		}
+		
+		private class SelectedItemsCountEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public SelectedItemsCountEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.List)
 				{
 					UIDA_List list = libraryElement as UIDA_List;
@@ -499,9 +852,22 @@ namespace UIAutomationStudio
 						return list.SelectedItems.Length;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.SelectedItemByIndex)
+		}
+		
+		private class SelectedItemByIndexEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public SelectedItemByIndexEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.List)
 				{
 					UIDA_List list = libraryElement as UIDA_List;
@@ -519,9 +885,22 @@ namespace UIAutomationStudio
 						}
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.Index)
+		}
+		
+		private class IndexEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public IndexEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.ListItem)
 				{
 					UIDA_ListItem listItem = libraryElement as UIDA_ListItem;
@@ -538,9 +917,22 @@ namespace UIAutomationStudio
 						return tabItem.Index;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.Value)
+		}
+		
+		private class ValueEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public ValueEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.ProgressBar)
 				{
 					UIDA_ProgressBar progressBar = libraryElement as UIDA_ProgressBar;
@@ -573,9 +965,22 @@ namespace UIAutomationStudio
 						return spinner.Value;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.Minimum)
+		}
+		
+		private class MinimumEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public MinimumEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.ProgressBar)
 				{
 					UIDA_ProgressBar progressBar = libraryElement as UIDA_ProgressBar;
@@ -608,9 +1013,22 @@ namespace UIAutomationStudio
 						return spinner.GetMinimum();
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.Maximum)
+		}
+		
+		private class MaximumEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public MaximumEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.ProgressBar)
 				{
 					UIDA_ProgressBar progressBar = libraryElement as UIDA_ProgressBar;
@@ -643,9 +1061,22 @@ namespace UIAutomationStudio
 						return spinner.GetMaximum();
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.Root)
+		}
+		
+		private class RootEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public RootEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.Tree)
 				{
 					UIDA_Tree tree = libraryElement as UIDA_Tree;
@@ -654,9 +1085,22 @@ namespace UIAutomationStudio
 						return tree.GetRoot().GetText();
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.SubItemsCount)
+		}
+		
+		private class SubItemsCountEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public SubItemsCountEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.TreeItem)
 				{
 					UIDA_TreeItem treeItem = libraryElement as UIDA_TreeItem;
@@ -665,9 +1109,22 @@ namespace UIAutomationStudio
 						return treeItem.SubItems.Length;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.SubItemByIndex)
+		}
+		
+		private class SubItemByIndexEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public SubItemByIndexEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.TreeItem)
 				{
 					UIDA_TreeItem treeItem = libraryElement as UIDA_TreeItem;
@@ -685,9 +1142,22 @@ namespace UIAutomationStudio
 						}
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.IsExpanded)
+		}
+		
+		private class IsExpandedEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public IsExpandedEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.TreeItem)
 				{
 					UIDA_TreeItem treeItem = libraryElement as UIDA_TreeItem;
@@ -696,9 +1166,22 @@ namespace UIAutomationStudio
 						return treeItem.ExpandCollapseState == UIAutomationClient.ExpandCollapseState.ExpandCollapseState_Expanded;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.IsCollapsed)
+		}
+		
+		private class IsCollapsedEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public IsCollapsedEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.TreeItem)
 				{
 					UIDA_TreeItem treeItem = libraryElement as UIDA_TreeItem;
@@ -707,9 +1190,22 @@ namespace UIAutomationStudio
 						return treeItem.ExpandCollapseState != UIAutomationClient.ExpandCollapseState.ExpandCollapseState_Expanded;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.IsMinimized)
+		}
+		
+		private class IsMinimizedEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public IsMinimizedEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.Window)
 				{
 					UIDA_Window window = libraryElement as UIDA_Window;
@@ -718,9 +1214,22 @@ namespace UIAutomationStudio
 						return window.IsMinimized;
 					}
 				}
+				return null;
 			}
-			else if (variable.PropertyId == PropertyId.IsMaximized)
+		}
+		
+		private class IsMaximizedEvaluator: IEvaluator
+		{
+			private ElementBase libraryElement;
+			
+			public IsMaximizedEvaluator(ElementBase libraryElement)
 			{
+				this.libraryElement = libraryElement;
+			}
+			
+			public object Evaluate(Variable variable)
+			{
+				ControlType controlType = variable.Element.ControlType;
 				if (controlType == ControlType.Window)
 				{
 					UIDA_Window window = libraryElement as UIDA_Window;
@@ -729,9 +1238,8 @@ namespace UIAutomationStudio
 						return window.IsMaximized;
 					}
 				}
+				return null;
 			}
-			
-			return null;
 		}
 	}
 }
