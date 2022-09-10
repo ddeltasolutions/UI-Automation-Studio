@@ -67,52 +67,11 @@ namespace UIAutomationStudio
 				{
 					string type = actionNode.Attributes["Type"].InnerText;
 					
-					string weakBond = null;
-					xmlAttribute = actionNode.Attributes["WeakBound"];
-					if (xmlAttribute != null)
+					LoadActionTuple(actionNode, type, allActions);
+					
+					if (type == "Conditional")
 					{
-						weakBond = xmlAttribute.InnerText;
-					}
-				
-					if (type == "Normal")
-					{
-						Action action = new Action();
-						action.LoadFromXml(actionNode);
-						
-						int nextId = -1;
-						xmlAttribute = actionNode.Attributes["NextId"];
-						if (xmlAttribute != null)
-						{
-							string nextIdString = xmlAttribute.InnerText;
-							nextId = int.Parse(nextIdString);
-						}
-						
-						// Store next action id in the NextOnFalse field
-						var tuple = new Tuple<int[], string>(new int[] { nextId }, weakBond);
-						allActions.Add(action, tuple);
-					}
-					else if (type == "Conditional")
-					{
-						ConditionalAction conditionalAction = new ConditionalAction();
-						conditionalAction.LoadFromXml(actionNode);
-						
-						string nextOnFalseIdString = actionNode.Attributes["NextOnFalseId"].InnerText;
-						int nextOnFalseId = int.Parse(nextOnFalseIdString);
-						
-						string nextOnTrueIdString = actionNode.Attributes["NextOnTrueId"].InnerText;
-						int nextOnTrueId = int.Parse(nextOnTrueIdString);
-						
-						var tuple = new Tuple<int[], string>(new int[] { nextOnFalseId, nextOnTrueId }, weakBond);
-						
-						allActions.Add(conditionalAction, tuple);
-						
 						task.ConditionalCount++;
-					}
-					else if (type == "End")
-					{
-						EndAction endAction = new EndAction();
-						endAction.LoadFromXml(actionNode);
-						allActions.Add(endAction, null);
 					}
 				}
 				
@@ -166,90 +125,145 @@ namespace UIAutomationStudio
 				
 				foreach (XmlNode loopActionNode in loopActionNodeList)
 				{
-					xmlAttribute = loopActionNode.Attributes["Type"];
-					if (xmlAttribute == null)
-					{
-						continue;
-					}
-					string loopType = xmlAttribute.InnerText;
-					
-					int startActionId = 0, endActionId = 0;
-					xmlAttribute = loopActionNode.Attributes["StartActionId"];
-					if (xmlAttribute == null)
-					{
-						continue;
-					}
-					
-					try
-					{
-						startActionId = int.Parse(xmlAttribute.InnerText);
-					}
-					catch { continue; }
-					
-					xmlAttribute = loopActionNode.Attributes["EndActionId"];
-					if (xmlAttribute == null)
-					{
-						continue;
-					}
-					
-					try
-					{
-						endActionId = int.Parse(xmlAttribute.InnerText);
-					}
-					catch { continue; }
-
-					Action startAction = task.GetActionById(startActionId) as Action;
-					if (startAction == null)
-					{
-						continue;
-					}
-					Action endAction = task.GetActionById(endActionId) as Action;
-					if (endAction == null)
-					{
-						continue;
-					}
-					
-					LoopAction newLoop = null;
-					if (loopType == "Count")
-					{
-						int initialCount = 0;
-						xmlAttribute = loopActionNode.Attributes["InitialCount"];
-						if (xmlAttribute == null)
-						{
-							continue;
-						}
-						
-						try
-						{
-							initialCount = int.Parse(xmlAttribute.InnerText);
-						}
-						catch { continue; }
-					
-						newLoop = new LoopCount(initialCount) { StartAction = startAction, EndAction = endAction };
-					}
-					else if (loopType == "Conditional")
-					{
-						XmlNodeList condActionNodeList = loopActionNode.SelectNodes("Action");
-						if (condActionNodeList.Count == 0)
-						{
-							continue;
-						}
-						
-						XmlNode condActionNode = condActionNodeList[0];
-						
-						ConditionalAction conditionalAction = new ConditionalAction();
-						conditionalAction.LoadFromXml(condActionNode);
-							
-						newLoop = new LoopConditional() { ConditionalAction = conditionalAction, 
-							StartAction = startAction, EndAction = endAction };
-					}
-					
-					endAction.LoopAction = newLoop;
-					task.LoopActions.Add(newLoop);
+					LoadLoopAction(task, loopActionNode);
 				}
 			}
 			
 			return true;
+		}
+		
+		private static void LoadActionTuple(XmlNode actionNode, string type,
+			Dictionary<ActionBase, Tuple<int[], string>> allActions)
+		{
+			string weakBond = null;
+			XmlAttribute xmlAttribute = actionNode.Attributes["WeakBound"];
+			if (xmlAttribute != null)
+			{
+				weakBond = xmlAttribute.InnerText;
+			}
+		
+			if (type == "Normal")
+			{
+				Action action = new Action();
+				action.LoadFromXml(actionNode);
+				
+				int nextId = -1;
+				xmlAttribute = actionNode.Attributes["NextId"];
+				if (xmlAttribute != null)
+				{
+					string nextIdString = xmlAttribute.InnerText;
+					nextId = int.Parse(nextIdString);
+				}
+				
+				// Store next action id in the NextOnFalse field
+				var tuple = new Tuple<int[], string>(new int[] { nextId }, weakBond);
+				allActions.Add(action, tuple);
+			}
+			else if (type == "Conditional")
+			{
+				ConditionalAction conditionalAction = new ConditionalAction();
+				conditionalAction.LoadFromXml(actionNode);
+				
+				string nextOnFalseIdString = actionNode.Attributes["NextOnFalseId"].InnerText;
+				int nextOnFalseId = int.Parse(nextOnFalseIdString);
+				
+				string nextOnTrueIdString = actionNode.Attributes["NextOnTrueId"].InnerText;
+				int nextOnTrueId = int.Parse(nextOnTrueIdString);
+				
+				var tuple = new Tuple<int[], string>(new int[] { nextOnFalseId, nextOnTrueId }, weakBond);
+				
+				allActions.Add(conditionalAction, tuple);
+			}
+			else if (type == "End")
+			{
+				EndAction endAction = new EndAction();
+				endAction.LoadFromXml(actionNode);
+				allActions.Add(endAction, null);
+			}
+		}
+		
+		private static void LoadLoopAction(Task task, XmlNode loopActionNode)
+		{
+			XmlAttribute xmlAttribute = loopActionNode.Attributes["Type"];
+			if (xmlAttribute == null)
+			{
+				return;
+			}
+			string loopType = xmlAttribute.InnerText;
+			
+			int startActionId = 0, endActionId = 0;
+			xmlAttribute = loopActionNode.Attributes["StartActionId"];
+			if (xmlAttribute == null)
+			{
+				return;
+			}
+			
+			try
+			{
+				startActionId = int.Parse(xmlAttribute.InnerText);
+			}
+			catch { return; }
+			
+			xmlAttribute = loopActionNode.Attributes["EndActionId"];
+			if (xmlAttribute == null)
+			{
+				return;
+			}
+			
+			try
+			{
+				endActionId = int.Parse(xmlAttribute.InnerText);
+			}
+			catch { return; }
+
+			Action startAction = task.GetActionById(startActionId) as Action;
+			if (startAction == null)
+			{
+				return;
+			}
+			Action endAction = task.GetActionById(endActionId) as Action;
+			if (endAction == null)
+			{
+				return;
+			}
+			
+			LoopAction newLoop = null;
+			if (loopType == "Count")
+			{
+				int initialCount = 0;
+				xmlAttribute = loopActionNode.Attributes["InitialCount"];
+				if (xmlAttribute == null)
+				{
+					return;
+				}
+				
+				try
+				{
+					initialCount = int.Parse(xmlAttribute.InnerText);
+				}
+				catch { return; }
+			
+				newLoop = new LoopCount(initialCount) { StartAction = startAction, EndAction = endAction };
+			}
+			else if (loopType == "Conditional")
+			{
+				XmlNodeList condActionNodeList = loopActionNode.SelectNodes("Action");
+				if (condActionNodeList.Count == 0)
+				{
+					return;
+				}
+				
+				XmlNode condActionNode = condActionNodeList[0];
+				
+				ConditionalAction conditionalAction = new ConditionalAction();
+				conditionalAction.LoadFromXml(condActionNode);
+					
+				newLoop = new LoopConditional() { ConditionalAction = conditionalAction, 
+					StartAction = startAction, EndAction = endAction };
+			}
+			
+			endAction.LoopAction = newLoop;
+			task.LoopActions.Add(newLoop);
 		}
 		// **************************************
 		
