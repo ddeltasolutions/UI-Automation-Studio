@@ -33,7 +33,7 @@ namespace UIAutomationStudio
 		}
 		
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+		static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 		
 		public Element(IUIAutomationElement element, bool isParent = false)
 		{
@@ -333,7 +333,7 @@ namespace UIAutomationStudio
 		
 		public ElementBase GetLibraryElement(bool noTimeOut = false)
 		{
-			Engine engine = new Engine();
+			Engine engine = LibraryEngine.GetEngine();
 			
 			int timeOut = 0;
 			if (noTimeOut == true)
@@ -379,7 +379,7 @@ namespace UIAutomationStudio
 				if (ancestors.Count == 0)
 				{
 					// this element is a top level window
-					libraryElement = ElementHelper.GetTopLevelElement(engine, this);
+					libraryElement = ElementHelper.GetTopLevelElement(this);
 					if (libraryElement == null)
 					{
 						return null;
@@ -388,7 +388,7 @@ namespace UIAutomationStudio
 				else
 				{
 					// first get the top level window
-					libraryElement = ElementHelper.GetTopLevelElement(engine, ancestors[0]);
+					libraryElement = ElementHelper.GetTopLevelElement(ancestors[0]);
 					if (libraryElement == null)
 					{
 						return null;
@@ -400,25 +400,18 @@ namespace UIAutomationStudio
 						for (int i = 1; i < ancestors.Count; i++)
 						{
 							Element ancestor = ancestors[i];
-							try
+							
+							libraryElement = ElementHelper.GetNextElement(libraryElement, ancestor, false);
+							if (libraryElement == null)
 							{
-								libraryElement = ElementHelper.GetNextElement(libraryElement, ancestor, false);
-							}
-							catch (Exception ex)
-							{
-								MessageBox.Show(ex.Message);
 								return null;
 							}
 						}
 					}
 					
-					try
+					libraryElement = ElementHelper.GetNextElement(libraryElement, this, !isNameEmpty);
+					if (libraryElement == null)
 					{
-						libraryElement = ElementHelper.GetNextElement(libraryElement, this, !isNameEmpty);
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show(ex.Message);
 						return null;
 					}
 				}
@@ -432,7 +425,7 @@ namespace UIAutomationStudio
 				}
 				catch (Exception ex)
 				{
-					MessageBox.Show(ex.Message);
+					Helper.ShowMessageBoxOnMainThread(ex.Message);
 					return null;
 				}
 			}
