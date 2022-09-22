@@ -3,6 +3,7 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UIAutomationClient;
+using UIDeskAutomationLib;
 
 namespace UIAutomationStudio
 {
@@ -262,6 +263,29 @@ namespace UIAutomationStudio
 			{
 				MessageBox.Show(message);
 			}
+		}
+		
+		public static void ShowMessageBoxOnMainThread(string message)
+		{
+			Application.Current.Dispatcher.Invoke( () =>
+			{
+				// Code to run on the GUI thread.
+				MessageBox.Show(message);
+			} );
+		}
+	}
+	
+	public static class LibraryEngine
+	{
+		private static Engine engine = null;
+		
+		public static Engine GetEngine()
+		{
+			if (engine == null)
+			{
+				engine = new Engine();
+			}
+			return engine;
 		}
 	}
 }

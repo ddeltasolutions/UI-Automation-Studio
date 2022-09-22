@@ -20,8 +20,7 @@ namespace UIAutomationStudio
 			
 			if (element == null)
 			{
-				Engine engine = new Engine();
-				return CallGeneralAction(engine);
+				return CallGeneralAction();
 			}
 			
 			ElementBase libraryElement = element.GetLibraryElement(noTimeOut);
@@ -36,13 +35,15 @@ namespace UIAutomationStudio
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				Helper.ShowMessageBoxOnMainThread(ex.Message);
 				return false;
 			}
 		}
 		
-		private bool CallGeneralAction(Engine engine)
+		private bool CallGeneralAction()
 		{
+			Engine engine = LibraryEngine.GetEngine();
+		
 			if (this.action.ActionId == ActionIds.StartProcess)
 			{
 				if (this.action.Parameters.Count == 1)
@@ -285,7 +286,7 @@ namespace UIAutomationStudio
 			}
 			else if (this.action.ActionId == ActionIds.PredefinedKeysCombination)
 			{
-				return PredefinedKeysCombination(libraryElement);
+				return SendPredefinedKeysCombination(libraryElement);
 			}
 			else if (this.action.ActionId == ActionIds.SimulateSendKeys && this.action.Parameters.Count >= 1)
 			{
@@ -448,7 +449,7 @@ namespace UIAutomationStudio
 			return null;
 		}
 		
-		private bool PredefinedKeysCombination(ElementBase libraryElement)
+		private bool SendPredefinedKeysCombination(ElementBase libraryElement)
 		{
 			if (this.action.Parameters.Count <= 0)
 			{

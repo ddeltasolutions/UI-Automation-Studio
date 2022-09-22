@@ -28,8 +28,9 @@ namespace UIAutomationStudio
 			return crtElement;
 		}
 	
-		public static ElementBase GetTopLevelElement(Engine engine, Element element)
+		public static ElementBase GetTopLevelElement(Element element)
 		{
+			Engine engine = LibraryEngine.GetEngine();
 			ElementBase libraryElement = null;
 			
 			if (element.ControlType == ControlType.Pane && element.Name != null)
@@ -85,7 +86,34 @@ namespace UIAutomationStudio
 			return libraryElement;
 		}
 		
-		public static ElementBase GetNextElement(ElementBase libraryElement, Element element, bool searchDescendants)
+		public static ElementBase GetNextElement(ElementBase libraryElement, Element element, 
+			bool searchDescendants)
+		{
+			Engine engine = LibraryEngine.GetEngine();
+		
+			ElementBase returnElement = null;
+			int initialTimeOut = engine.Timeout;
+			engine.Timeout = 6000; // lower the timeout at 6 seconds for non-toplevel elements
+			
+			try
+			{
+				returnElement = TryGetNextElement(libraryElement, element, searchDescendants);
+			}
+			catch (Exception ex)
+			{
+				Helper.ShowMessageBoxOnMainThread(ex.Message);
+				return null;
+			}
+			finally
+			{
+				engine.Timeout = initialTimeOut;
+			}
+			
+			return returnElement;
+		}
+		
+		private static ElementBase TryGetNextElement(ElementBase libraryElement, Element element, 
+			bool searchDescendants)
 		{
 			string elementName = element.GetWildcardsName(false);
 		
