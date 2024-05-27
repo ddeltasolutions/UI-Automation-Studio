@@ -4,6 +4,9 @@ using UIAutomationClient;
 using System.Collections.Generic;
 using System.Xml;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace UIAutomationStudio
 {
@@ -351,6 +354,22 @@ namespace UIAutomationStudio
 				{
 					description1 = "Set the height to " + Parameters[0];
 				}
+				else if (ActionId == ActionIds.AccessMenu)
+				{
+					description1 = "Access Menu";
+				}
+				else if (ActionId == ActionIds.SelectAll)
+				{
+					description1 = "Select All";
+				}
+				else if (ActionId == ActionIds.BringToForeground)
+				{
+					description1 = "Bring To Foreground";
+				}
+				else if (ActionId == ActionIds.DoubleClick)
+				{
+					description1 = "Double Click";
+				}
 				else
 				{
 					description1 = this.ActionId.ToString();
@@ -431,26 +450,6 @@ namespace UIAutomationStudio
 			}
 			
 			destination.Description1 = null;
-			
-			/*if (source.LoopAction == null)
-			{
-				destination.LoopAction = null;
-				return;
-			}
-			
-			if (source.LoopAction is LoopConditional)
-			{
-				LoopConditional loopConditional = new LoopConditional();
-				LoopConditional.DeepCopy((LoopConditional)source.LoopAction, loopConditional);
-				destination.LoopAction = loopConditional;
-			}
-			else if (source.LoopAction is LoopCount)
-			{
-				LoopCount sourceLoopCount = (LoopCount)source.LoopAction;
-				LoopCount loopCount = new LoopCount(sourceLoopCount.InitialCount);
-				//LoopCount.DeepCopy(sourceLoopCount, loopCount);
-				destination.LoopAction = loopCount;
-			}*/
 		}
 		
 		public bool HasWeakBond
@@ -462,6 +461,33 @@ namespace UIAutomationStudio
 					return this.Next.Previous != this;
 				}
 				return false;
+			}
+		}
+		
+		public override void DrawUnselected()
+		{
+			var brush = Brushes.LightBlue;
+		
+			if (this.Previous == null || this.Next == null)
+			{
+				// this action is either the first or the last action in the task
+				brush = Brushes.Orange;
+			}
+			
+			foreach (FrameworkElement fwElement in this.GridNode.Children)
+			{
+				if (fwElement is Rectangle)
+				{
+					(fwElement as Rectangle).Fill = brush;
+				}
+				else if (fwElement is TextBlock)
+				{
+					(fwElement as TextBlock).Foreground = Brushes.Black;
+				}
+				else if (fwElement is Path)
+				{
+					(fwElement as Path).Fill = brush;
+				}
 			}
 		}
 	}

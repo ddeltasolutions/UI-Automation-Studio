@@ -127,15 +127,26 @@ namespace UIAutomationStudio
 				return;
 			}
 			
+			InsertConditionalWindow insertConditionalWindow = null;
 			if (selectedArrow != null && !(selectedArrow.NextAction is EndAction))
 			{
-				MessageBoxResult mbResult = MessageBox.Show(this, 
-					"All actions that follow the selected arrow will be deleted. Do you want to continue?", "", 
-					MessageBoxButton.YesNoCancel);
-					
-				if (mbResult != MessageBoxResult.Yes)
+				insertConditionalWindow = new InsertConditionalWindow();
+				insertConditionalWindow.Owner = this;
+				if (insertConditionalWindow.ShowDialog() == false)
 				{
 					return;
+				}
+			
+				if (insertConditionalWindow.InsertConditional == InsertConditionalEnum.Delete)
+				{
+					MessageBoxResult mbResult = MessageBox.Show(this, 
+						"All actions that follow the selected arrow will be deleted. Do you want to continue?", "", 
+						MessageBoxButton.YesNoCancel);
+						
+					if (mbResult != MessageBoxResult.Yes)
+					{
+						return;
+					}
 				}
 			}
 			
@@ -190,7 +201,33 @@ namespace UIAutomationStudio
 					}
 					
 					conditionalAction.Previous = selectedArrow.PrevAction;
-					actionToDelete.Deleted();
+					
+					if (insertConditionalWindow != null && 
+						insertConditionalWindow.InsertConditional != InsertConditionalEnum.Delete)
+					{
+						if (insertConditionalWindow.InsertConditional == InsertConditionalEnum.True)
+						{
+							conditionalAction.NextOnTrue = actionToDelete;
+						}
+						else
+						{
+							conditionalAction.NextOnFalse = actionToDelete;
+						}
+						
+						actionToDelete.Previous = conditionalAction;
+						
+						Action lastAction = null;
+						if (Helper.HasAnEndAction(actionToDelete, ref lastAction) == false)
+						{
+							EndAction endAction = new EndAction();
+							lastAction.Next = endAction;
+							endAction.Previous = lastAction;
+						}
+					}
+					else
+					{
+						actionToDelete.Deleted();
+					}
 				}
 				Task.ConditionalCount++;
 				

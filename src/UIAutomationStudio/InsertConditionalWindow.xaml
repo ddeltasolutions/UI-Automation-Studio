@@ -1,0 +1,27 @@
+﻿<Window x:Class="UIAutomationStudio.InsertConditionalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIAutomationStudio"
+        mc:Ignorable="d"
+        Title="Insert Conditional Action" Height="200" Width="470" Loaded="OnLoaded" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40" />
+			<RowDefinition />
+			<RowDefinition Height="40" />
+		</Grid.RowDefinitions>
+		
+		<TextBlock Grid.Row="0" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center">What to do with all the actions that follow the selected arrow?</TextBlock>
+		
+		<StackPanel Grid.Row="1" Margin="10,5,0,0" Orientation="Vertical">
+			<RadioButton IsChecked="True" x:Name="radioDelete" FontWeight="Bold" Foreground="Blue" Margin="0,5,0,0">Delete them</RadioButton>
+			<RadioButton x:Name="radioTrue" FontWeight="Bold" Foreground="Blue" Margin="0,7,0,0">Insert them in the "True" branch</RadioButton>
+			<RadioButton x:Name="radioFalse" FontWeight="Bold" Foreground="Blue" Margin="0,7,0,0">Insert them in the "False" branch</RadioButton>
+		</StackPanel>
+		
+		<Button Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,120,0" Height="30" Width="100" IsDefault="True" Click="OnOK">OK</Button>
+		<Button Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,10,0" Height="30" Width="100" IsCancel="True">Cancel</Button>
+    </Grid>
+</Window>

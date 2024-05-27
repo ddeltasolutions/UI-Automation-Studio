@@ -12,7 +12,7 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class App : Application
     {
-		public StopPauseResumeWindow window = null;
+		public static StopPauseResumeWindow stopPauseWindow = null;
 	
 		private void Application_Startup(object sender, StartupEventArgs e)
 		{
@@ -22,9 +22,9 @@ namespace UIAutomationStudio
 				Task task = new Task();
 				task.OnTaskCompleted += () => 
 				{
-					if (window != null)
+					if (stopPauseWindow != null)
 					{
-						window.Close();
+						stopPauseWindow.Close();
 					}
 					Shutdown();
 				};
@@ -41,8 +41,8 @@ namespace UIAutomationStudio
 					MessageBox.Show(ex.Message);
 				}
 				
-				window = new StopPauseResumeWindow(task);
-				window.ShowDialog();
+				stopPauseWindow = new StopPauseResumeWindow(task);
+				stopPauseWindow.ShowDialog();
 				
 				Shutdown();
 			}

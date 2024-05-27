@@ -29,7 +29,7 @@
 				</StackPanel>
 				
 				<StackPanel Margin="0,10,0,0" x:Name="spElement">
-					<TextBlock Margin="0,0,0,5">Element Text:</TextBlock>
+					<TextBlock x:Name="txbElementText" Margin="0,0,0,5">Element Text:</TextBlock>
 					<Grid>
 						<TextBox IsReadOnly="True" Margin="0,0,55,0" HorizontalAlignment="Stretch" x:Name="txtElement" />
 						<Button HorizontalAlignment="Right" Width="50" x:Name="btnChangeElement" Click="OnChange">Change</Button>

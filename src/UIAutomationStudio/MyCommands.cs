@@ -24,6 +24,7 @@ namespace UIAutomationStudio
 		public static RoutedUICommand DeleteConditionCommand;
 		public static RoutedUICommand EvaluatePropertyCommand;
 		public static RoutedUICommand EvaluateConditionCommand;
+		public static RoutedUICommand EvaluateConditionalActionCommand;
 		public static RoutedUICommand DuplicateConditionCommand;
 		public static RoutedUICommand AddConditionalCommand;
 		public static RoutedUICommand ChangeDestinationCommand;
@@ -83,6 +84,7 @@ namespace UIAutomationStudio
 			
 			EvaluatePropertyCommand = new RoutedUICommand("Evaluate Property", "EvaluateProperty", typeof(MyCommands));
 			EvaluateConditionCommand = new RoutedUICommand("Evaluate Condition", "EvaluateCondition", typeof(MyCommands));
+			EvaluateConditionalActionCommand = new RoutedUICommand("Evaluate Conditional Action", "EvaluateConditionalAction", typeof(MyCommands));
 			DuplicateConditionCommand = new RoutedUICommand("Duplicate Property with Condition", "DuplicateCondition", typeof(MyCommands));
 			
 			AddConditionalCommand = new RoutedUICommand("Add Conditional Statement", "AddConditional", typeof(MyCommands));

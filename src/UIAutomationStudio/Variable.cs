@@ -57,7 +57,7 @@ namespace UIAutomationStudio
 				{
 					this.PropertyType = PropertyType.Number;
 				}
-				else if (propertyId == PropertyId.IsEnabled || propertyId == PropertyId.IsAlive || 
+				else if (propertyId == PropertyId.IsEnabled || propertyId == PropertyId.IsFound || 
 					propertyId == PropertyId.IsPressed || propertyId == PropertyId.IsChecked || 
 					propertyId == PropertyId.CanSelectMultiple || propertyId == PropertyId.IsSelected || 
 					propertyId == PropertyId.IsExpanded || propertyId == PropertyId.IsCollapsed || 
@@ -193,7 +193,7 @@ namespace UIAutomationStudio
 		Width,
 		Height,
 		IsEnabled,
-		IsAlive,
+		IsFound,
 		
 		// button
 		IsPressed,

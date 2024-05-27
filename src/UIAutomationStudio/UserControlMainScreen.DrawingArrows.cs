@@ -401,18 +401,6 @@ namespace UIAutomationStudio
 				return;
 			}
 			
-			/*if (arrowDragged == arrow)
-			{
-				return;
-			}*/
-			
-			/*if (str == "move arrow")
-			{
-				path.Stroke = previousStroke;
-				MessageBox.Show(MainWindow.Instance, "You cannot drop an arrow over another arrow. You can drop an arrow over an action in order to change the destination of the dragged arrow.");
-				return;
-			}*/
-			
 			if (str != "move action")
 			{
 				return;

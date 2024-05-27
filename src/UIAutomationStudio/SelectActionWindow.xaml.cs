@@ -114,7 +114,7 @@ namespace UIAutomationStudio
 				{
 					actionDescription.Visibility = Visibility.Visible;
 					
-					txbType.Text = element.ControlType.ToString();
+					txbType.Text = element.ControlTypeName;
 					txbName.Text = "\"" + element.Name + "\"";
 				}
 				else

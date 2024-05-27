@@ -22,7 +22,8 @@ namespace UIAutomationStudio
 	{
 		public const int NODE_WIDTH = 220;
 		public const int NODE_HEIGHT = 95;
-		private const int NODE_AND_ARROW_HEIGHT = 145; // arrow is 50
+		public const int ARROW_HEIGHT = 50;
+		private const int NODE_AND_ARROW_HEIGHT = NODE_HEIGHT + ARROW_HEIGHT;
 		private const int GRID_MIN_WIDTH = 400;
 		public const int LEFT_RIGHT_PADDING = 10;
 		private const int NODE_WIDTH_WITH_PADDING = NODE_WIDTH + 2 * LEFT_RIGHT_PADDING;
@@ -36,6 +37,34 @@ namespace UIAutomationStudio
 		public UserControlMainScreen()
         {
             InitializeComponent();
+			
+			CommandBinding cb = new CommandBinding(MyCommands.EvaluateConditionalActionCommand, (sender, e) => 
+			{
+				try
+				{
+					ConditionalAction condAction = this.SelectedAction as ConditionalAction;
+					if (condAction == null)
+					{
+						return;
+					}
+					
+					bool? val = condAction.Evaluate(true, true);
+					if (val.HasValue)
+					{
+						MessageBox.Show(MainWindow.Instance, "This Conditional Action evaluates to: " + val);
+					}
+					else
+					{
+						MessageBox.Show(MainWindow.Instance, "This Conditional Action could not be evaluated");
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(MainWindow.Instance, "Evaluate Conditional Action failed: " + ex.Message);
+				}
+			},
+			(sender, e) => e.CanExecute = this.SelectedAction is ConditionalAction);
+			this.CommandBindings.Add(cb);
         }
 		
 		private Task task = null;
@@ -87,6 +116,21 @@ namespace UIAutomationStudio
 				{
 					MainWindow.Instance.Title = title.Remove(title.Length - 1, 1);
 				}
+			}
+		}
+		
+		public void ScrollActionIntoView(ActionBase action)
+		{
+			double top = action.Row * NODE_AND_ARROW_HEIGHT;
+			double bottom = top + NODE_HEIGHT;
+			
+			if (bottom > scrollViewer.ViewportHeight)
+			{
+				try
+				{
+					scrollViewer.ScrollToVerticalOffset(bottom - scrollViewer.ViewportHeight + TOP_OFFSET + 10);
+				}
+				catch { }
 			}
 		}
 		
@@ -284,7 +328,7 @@ namespace UIAutomationStudio
 				{
 					if (this.selectedAction != null)
 					{
-						DrawUnselected(this.selectedAction);
+						this.selectedAction.DrawUnselected();
 					}
 					this.selectedAction = null;
 					
@@ -300,7 +344,7 @@ namespace UIAutomationStudio
 				
 				if (this.selectedAction == value)
 				{
-					DrawUnselected(value);
+					value.DrawUnselected();
 					this.selectedAction = null;
 					
 					btnEditAction.IsEnabled = false;
@@ -313,7 +357,7 @@ namespace UIAutomationStudio
 				{
 					if (this.selectedAction != null)
 					{
-						DrawUnselected(this.selectedAction);
+						this.selectedAction.DrawUnselected();
 					}
 					
 					DrawSelected(value);
@@ -418,38 +462,15 @@ namespace UIAutomationStudio
 				
 				if (rect != null)
 				{
-					rect.Fill = Brushes.Blue;
+					rect.Fill = Brushes.DarkBlue;
 				}
 				else if (txb != null)
 				{
-					txb.Foreground = Brushes.Yellow;
+					txb.Foreground = Brushes.White;
 				}
 				else if (path != null)
 				{
-					path.Fill = Brushes.Blue;
-				}
-			}
-		}
-		
-		private void DrawUnselected(ActionBase action)
-		{
-			foreach (FrameworkElement fwElement in action.GridNode.Children)
-			{
-				Rectangle rect = fwElement as Rectangle;
-				Path path = fwElement as Path;
-				TextBlock txb = fwElement as TextBlock;
-				
-				if (rect != null)
-				{
-					rect.Fill = Brushes.Orange;
-				}
-				else if (txb != null)
-				{
-					txb.Foreground = Brushes.Black;
-				}
-				else if (path != null)
-				{
-					path.Fill = Brushes.Orange;
+					path.Fill = Brushes.DarkBlue;
 				}
 			}
 		}
@@ -487,6 +508,8 @@ namespace UIAutomationStudio
 			{
 				this.SelectedAction = action;
 			}
+			
+			//action.GridNode.CaptureMouse();
 		}
 		
 		private void OnArrowClick(object sender, MouseButtonEventArgs e)
@@ -541,8 +564,6 @@ namespace UIAutomationStudio
 				}
 				
 				ChangeArrowDestination(arrow, this.SelectedAction);
-				
-				//HelpMessages.Show(MessageId.ChangeDestination);
 			};
 			
 			changeDestinationWindow.Show();
@@ -836,7 +857,7 @@ namespace UIAutomationStudio
 		
 		public void PauseResume(Task task)
 		{
-			if (task.IsAttemptingPause == true)
+			if (Task.IsAttemptingPause == true)
 			{
 				return;
 			}

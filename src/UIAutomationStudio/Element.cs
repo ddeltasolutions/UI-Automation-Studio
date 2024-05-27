@@ -254,13 +254,94 @@ namespace UIAutomationStudio
 			return wildcardsName;
 		}
 		
+		public override string ToString()
+		{
+			return this.ControlTypeName + " (" + GetShortName(20) + ")";
+		}
+		
 		public string ControlTypeName
 		{
 			get
 			{
 				if (this.ControlType == ControlType.Tab)
 				{
-					return "TabCtrl";
+					return "Tab Ctrl";
+				}
+				else if (this.ControlType == ControlType.CheckBox)
+				{
+					return "Check Box";
+				}
+				else if (this.ControlType == ControlType.ComboBox)
+				{
+					return "Combo Box";
+				}
+				else if (this.ControlType == ControlType.DatePicker)
+				{
+					return "Date Picker";
+				}
+				else if (this.ControlType == ControlType.ListItem)
+				{
+					return "List Item";
+				}
+				else if (this.ControlType == ControlType.MenuBar)
+				{
+					return "Menu Bar";
+				}
+				else if (this.ControlType == ControlType.MenuItem)
+				{
+					return "Menu Item";
+				}
+				else if (this.ControlType == ControlType.ProgressBar)
+				{
+					return "Progress Bar";
+				}
+				else if (this.ControlType == ControlType.RadioButton)
+				{
+					return "Radio Button";
+				}
+				else if (this.ControlType == ControlType.ScrollBar)
+				{
+					return "Scroll Bar";
+				}
+				else if (this.ControlType == ControlType.StatusBar)
+				{
+					return "Status Bar";
+				}
+				else if (this.ControlType == ControlType.TabItem)
+				{
+					return "Tab Item";
+				}
+				else if (this.ControlType == ControlType.ToolBar)
+				{
+					return "Tool Bar";
+				}
+				else if (this.ControlType == ControlType.ToolTip)
+				{
+					return "Tool Tip";
+				}
+				else if (this.ControlType == ControlType.TreeItem)
+				{
+					return "Tree Item";
+				}
+				else if (this.ControlType == ControlType.DataGrid)
+				{
+					return "Data Grid";
+				}
+				else if (this.ControlType == ControlType.DataItem)
+				{
+					return "Data Item";
+				}
+				else if (this.ControlType == ControlType.SplitButton)
+				{
+					return "Split Button";
+				}
+				else if (this.ControlType == ControlType.HeaderItem)
+				{
+					return "Header Item";
+				}
+				else if (this.ControlType == ControlType.TitleBar)
+				{
+					return "Title Bar";
 				}
 				else
 				{
@@ -326,12 +407,7 @@ namespace UIAutomationStudio
 			}
 		}
 		
-		public override string ToString()
-		{
-			return this.ControlTypeName + " (" + GetShortName(20) + ")";
-		}
-		
-		public ElementBase GetLibraryElement(bool noTimeOut = false)
+		public ElementBase GetLibraryElement(bool noTimeOut = false, bool supressMsg = false)
 		{
 			Engine engine = LibraryEngine.GetEngine();
 			
@@ -344,7 +420,8 @@ namespace UIAutomationStudio
 			
 			try
 			{
-				return GetLibraryElement(engine);
+				ElementBase result = GetLibraryElement(engine, supressMsg);
+				return result;
 			}
 			catch
 			{
@@ -359,7 +436,7 @@ namespace UIAutomationStudio
 			}
 		}
 
-		private ElementBase GetLibraryElement(Engine engine)
+		private ElementBase GetLibraryElement(Engine engine, bool supressMsg = false)
 		{
 			engine.ThrowExceptionsForSearchFunctions = true;
 			List<Element> ancestors = new List<Element>();
@@ -379,7 +456,7 @@ namespace UIAutomationStudio
 				if (ancestors.Count == 0)
 				{
 					// this element is a top level window
-					libraryElement = ElementHelper.GetTopLevelElement(this);
+					libraryElement = ElementHelper.GetTopLevelElement(this, supressMsg);
 					if (libraryElement == null)
 					{
 						return null;
@@ -388,7 +465,7 @@ namespace UIAutomationStudio
 				else
 				{
 					// first get the top level window
-					libraryElement = ElementHelper.GetTopLevelElement(ancestors[0]);
+					libraryElement = ElementHelper.GetTopLevelElement(ancestors[0], supressMsg);
 					if (libraryElement == null)
 					{
 						return null;
@@ -401,7 +478,7 @@ namespace UIAutomationStudio
 						{
 							Element ancestor = ancestors[i];
 							
-							libraryElement = ElementHelper.GetNextElement(libraryElement, ancestor, false);
+							libraryElement = ElementHelper.GetNextElement(libraryElement, ancestor, false, supressMsg);
 							if (libraryElement == null)
 							{
 								return null;
@@ -409,7 +486,7 @@ namespace UIAutomationStudio
 						}
 					}
 					
-					libraryElement = ElementHelper.GetNextElement(libraryElement, this, !isNameEmpty);
+					libraryElement = ElementHelper.GetNextElement(libraryElement, this, !isNameEmpty, supressMsg);
 					if (libraryElement == null)
 					{
 						return null;
@@ -425,7 +502,10 @@ namespace UIAutomationStudio
 				}
 				catch (Exception ex)
 				{
-					Helper.ShowMessageBoxOnMainThread(ex.Message);
+					if (supressMsg == false)
+					{
+						Helper.ShowMessageBoxOnMainThread(ex.Message);
+					}
 					return null;
 				}
 			}

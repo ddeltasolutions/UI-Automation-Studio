@@ -29,6 +29,8 @@ namespace UIAutomationStudio
 			
 			if (element != null)
 			{
+				txbElementText.Text = "Element (" + element.ControlType + ") Text:";
+			
 				Element parent = element.Parent;
 				while (parent != null)
 				{
@@ -76,13 +78,18 @@ namespace UIAutomationStudio
 				{
 					if (this.ancestors[1].Name != editFieldWindow.FieldValue)
 					{
+						UndoRedo.AddSnapshot(this.Task);
+					
 						this.ancestors[1].Name = editFieldWindow.FieldValue;
 						txtWindow.Text = editFieldWindow.FieldValue;
 						this.Task.IsModified = true;
+						this.Task.Changed();
 					}
 				}
 				else if (this.element.Name != editFieldWindow.FieldValue)
 				{
+					UndoRedo.AddSnapshot(this.Task);
+				
 					this.element.Name = editFieldWindow.FieldValue;
 					txtElement.Text = editFieldWindow.FieldValue;
 					this.HasChanged = true;

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UIAutomationStudio"
         mc:Ignorable="d"
         Title="UIDeskAutomation Studio" Height="700" Width="1000" Loaded="OnLoaded" ResizeMode="CanResizeWithGrip" MinWidth="400" MinHeight="200" WindowStartupLocation="CenterScreen" Closing="OnWindowClosing" 
-		KeyDown="OnKeyDown" PreviewKeyDown="OnPreviewKeyDown">
+		KeyDown="OnKeyDown" PreviewKeyDown="OnPreviewKeyDown" AllowDrop="True" Drop="OnDropFiles">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Tasks" x:Name="fileMenu">
@@ -50,7 +50,7 @@
 			<MenuItem Header="_View" Visibility="Collapsed">
 				<MenuItem Header="Action _Properties" Command="local:MyCommands.ActionInfoCommand" x:Name="menuItemActionInfo" />
 			</MenuItem>
-			<MenuItem Header="Arr_ow">
+			<MenuItem Header="Arr_ows">
 				<MenuItem Header="_Change Arrow Destination" Command="local:MyCommands.ChangeDestinationCommand" />
 				<MenuItem Header="_Delete Selected Arrow" Command="local:MyCommands.DeleteArrowCommand" />
 			</MenuItem>
@@ -89,6 +89,14 @@
 				</Button>
 				<Button Command="local:MyCommands.PauseResumeTaskCommand" ToolTip="Pause Task" x:Name="btnToolbarPauseTask">
 					<Image Source="Pictures/pause.png" Stretch="Fill" />
+				</Button>
+			</ToolBar>
+			<ToolBar Height="28">
+				<Button Command="Undo" ToolTip="Undo (Ctrl+Z)">
+					<Image Source="Pictures/undo.png" Stretch="Fill" />
+				</Button>
+				<Button Command="Redo" ToolTip="Redo (Ctrl+Y)">
+					<Image Source="Pictures/redo.png" Stretch="Fill" />
 				</Button>
 			</ToolBar>
 		</ToolBarTray>

@@ -237,7 +237,7 @@ namespace UIAutomationStudio
 			{
 				if (message == true)
 				{
-					MessageBox.Show("Condition could not be evaluated. The UI element may not be available.");
+					Helper.MessageBoxShow("Condition could not be evaluated. The UI element may not be available.");
 				}
 				return null;
 			}
@@ -260,7 +260,7 @@ namespace UIAutomationStudio
 				{
 					if (double.TryParse(val.ToString(), out dVal) == false)
 					{
-						MessageBox.Show(MainWindow.Instance, "Condition could not be evaluated. The value is expected to be a number but it's not.");
+						Helper.MessageBoxShow("Condition could not be evaluated. The value is expected to be a number but it's not.");
 						return null;
 					}
 				}
@@ -272,7 +272,7 @@ namespace UIAutomationStudio
 					}
 					catch (Exception ex)
 					{
-						MessageBox.Show("Cast: " + ex.Message);
+						Helper.MessageBoxShow("Cast: " + ex.Message);
 						return null;
 					}
 				}
@@ -313,7 +313,7 @@ namespace UIAutomationStudio
 				{
 					if (DateTime.TryParse(val.ToString(), out dateVal) == false)
 					{
-						MessageBox.Show(MainWindow.Instance, "Condition could not be evaluated. The value is expected to be a date but it's not.");
+						Helper.MessageBoxShow("Condition could not be evaluated. The value is expected to be a date but it's not.");
 						return null;
 					}
 				}
@@ -325,7 +325,7 @@ namespace UIAutomationStudio
 					}
 					catch (Exception ex)
 					{
-						MessageBox.Show("Cast: " + ex.Message);
+						Helper.MessageBoxShow("Cast: " + ex.Message);
 						return null;
 					}
 				}

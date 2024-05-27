@@ -31,7 +31,7 @@ namespace UIAutomationStudio
 		}
 		
 		private bool isModified = false;
-		public bool IsModified 
+		public bool IsModified
 		{
 			get
 			{
@@ -353,7 +353,7 @@ namespace UIAutomationStudio
 		private BackgroundWorker backgroundWorker = null;
 		public void RunStartingWith(ActionBase startAction)
 		{
-			/*BackgroundWorker*/ backgroundWorker = new BackgroundWorker();
+			backgroundWorker = new BackgroundWorker();
 			backgroundWorker.DoWork += backgroundWorker_DoWork;
 			backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
 			
@@ -440,6 +440,10 @@ namespace UIAutomationStudio
 				
 				return;
 			}
+			else
+			{
+				UIDeskAutomationLib.Engine.IsCancelled = true;
+			}
 			
 			cancelled = true;
 			
@@ -468,12 +472,14 @@ namespace UIAutomationStudio
 			mbw.Show();
 		}
 		
-		private bool attemptPause = false;
+		private static bool attemptPause = false;
 		private bool paused = false;
 		private ActionBase actionResume = null;
 		public void Pause()
 		{
 			attemptPause = true;
+			
+			UIDeskAutomationLib.Engine.IsCancelled = true;
 			
 			DisplayMessage("Pausing...");
 		}
@@ -486,6 +492,8 @@ namespace UIAutomationStudio
 			{
 				paused = false;
 				
+				UIDeskAutomationLib.Engine.IsCancelled = false;
+				
 				isResumed = true;
 				backgroundWorker.RunWorkerAsync(actionResume);
 			}
@@ -496,9 +504,9 @@ namespace UIAutomationStudio
 			get	{ return paused; }
 		}
 		
-		public bool IsAttemptingPause
+		public static bool IsAttemptingPause
 		{
-			get	{ return attemptPause; }
+			get	{ return Task.attemptPause; }
 		}
 		
 		public void RunStartingWith_InBackground(ActionBase startAction)
@@ -513,6 +521,31 @@ namespace UIAutomationStudio
 					
 					if (runAction.Run() == false)
 					{
+						if (MainWindow.Instance != null)
+						{
+							Application.Current.Dispatcher.Invoke( () =>
+							{
+								// select the action where it cannot find the element
+								if (MainWindow.Instance.mainScreen.SelectedAction != currentAction)
+								{
+									MainWindow.Instance.mainScreen.SelectedAction = currentAction;
+								}
+								MainWindow.Instance.mainScreen.ScrollActionIntoView(currentAction);
+							} );
+						}
+						
+						if (attemptPause == true)
+						{
+							attemptPause = false;
+							paused = true;
+							actionResume = currentAction;
+							
+							if (this.OnPauseSucceeded != null)
+							{
+								this.OnPauseSucceeded();
+							}
+						}
+						
 						break;
 					}
 					
@@ -546,7 +579,7 @@ namespace UIAutomationStudio
 					bool? result = currentActionConditional.Evaluate(true, false);
 					if (result == null)
 					{
-						MessageBox.Show("The Conditional \"" + currentActionConditional.Name + 
+						Helper.ShowMessageBoxOnMainThread("The Conditional \"" + currentActionConditional.Name + 
 							"\" could not be evaluated. The UI Element may not be available anymore.");
 						break;
 					}

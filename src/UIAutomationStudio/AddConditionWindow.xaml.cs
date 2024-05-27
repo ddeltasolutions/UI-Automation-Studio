@@ -237,6 +237,10 @@ namespace UIAutomationStudio
 			{
 				element = selectedConditionWrapper.Condition.Variable.Element;
 			}
+			else
+			{
+				return;
+			}
 			
 			HelpMessages.Show(MessageId.Properties);
 			

@@ -2,6 +2,9 @@ using System;
 using System.Windows;
 using System.Collections.Generic;
 using System.Xml;
+using System.Windows.Media;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace UIAutomationStudio
 {
@@ -75,7 +78,7 @@ namespace UIAutomationStudio
 					{
 						if (message == true)
 						{
-							MessageBox.Show(MainWindow.Instance, "First Condition could not be evaluated");
+							Helper.MessageBoxShow("First Condition could not be evaluated");
 						}
 						return null;
 					}
@@ -97,7 +100,7 @@ namespace UIAutomationStudio
 					{
 						if (message == true)
 						{
-							MessageBox.Show(MainWindow.Instance, Helper.GetOrdinalAsString(i) + " Condition could not be evaluated");
+							Helper.MessageBoxShow(Helper.GetOrdinalAsString(i) + " Condition could not be evaluated");
 						}
 						return null;
 					}
@@ -205,6 +208,33 @@ namespace UIAutomationStudio
 			get
 			{
 				return this.NextOnTrue.Previous != this;
+			}
+		}
+		
+		public override void DrawUnselected()
+		{
+			var brush = Brushes.LightGreen;
+		
+			if (this.Previous == null)
+			{
+				// this action is the first action in the task
+				brush = Brushes.Orange;
+			}
+			
+			foreach (FrameworkElement fwElement in this.GridNode.Children)
+			{
+				if (fwElement is Rectangle)
+				{
+					(fwElement as Rectangle).Fill = brush;
+				}
+				else if (fwElement is TextBlock)
+				{
+					(fwElement as TextBlock).Foreground = Brushes.Black;
+				}
+				else if (fwElement is Path)
+				{
+					(fwElement as Path).Fill = brush;
+				}
 			}
 		}
 	}

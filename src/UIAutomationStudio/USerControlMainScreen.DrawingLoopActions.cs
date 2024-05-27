@@ -234,6 +234,8 @@ namespace UIAutomationStudio
 		{
 			Grid gridNode = new Grid() { VerticalAlignment = VerticalAlignment.Top, 
 				HorizontalAlignment = HorizontalAlignment.Left };
+				
+			gridNode.ContextMenu = GetLoopContextMenu();
 			
 			gridNode.Width = LOOP_ACTION_WIDTH;
 			gridNode.Height = LOOP_ACTION_HEIGHT;
@@ -243,12 +245,14 @@ namespace UIAutomationStudio
 			loopAction.GridNode = gridNode;
 			
 			gridNode.MouseLeftButtonDown += new MouseButtonEventHandler(OnGridNodeClick);
+			gridNode.MouseRightButtonDown += new MouseButtonEventHandler(OnGridNodeClick);
 			workflowDiagram.Children.Add(gridNode);
 			
 			Rectangle rect = new Rectangle() { StrokeThickness = 1, Stroke = System.Windows.Media.Brushes.Gray };
 			if (loopAction != this.selectedAction)
 			{
-				rect.Fill = Brushes.Orange;
+				//rect.Fill = Brushes.Orange;
+				rect.Fill = Brushes.LightBlue;
 			}
 			
 			gridNode.Children.Add(rect);
@@ -301,6 +305,21 @@ namespace UIAutomationStudio
 			{
 				DrawSelected(loopAction);
 			}
+		}
+		
+		private ContextMenu GetLoopContextMenu()
+		{
+			ContextMenu contextMenu = new ContextMenu();
+			
+			MenuItem editMenuItem = new MenuItem();
+			editMenuItem.Command = MyCommands.EditActionCommand;
+			contextMenu.Items.Add(editMenuItem);
+			
+			MenuItem deleteMenuItem = new MenuItem();
+			deleteMenuItem.Command = MyCommands.DeleteActionCommand;
+			contextMenu.Items.Add(deleteMenuItem);
+			
+			return contextMenu;
 		}
 		
 		public const int DISTANCE_GO_UP = 15;

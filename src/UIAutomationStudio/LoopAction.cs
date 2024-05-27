@@ -1,4 +1,8 @@
 using System;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace UIAutomationStudio
 {
@@ -14,12 +18,6 @@ namespace UIAutomationStudio
 			StartAction = null;
 			EndAction = null;
 		}
-		
-		/*public static void DeepCopy(LoopAction source, LoopAction destination)
-		{
-			destination.StartAction = source.StartAction;
-			destination.EndAction = source.EndAction;
-		}*/
 		
 		public bool IsDrawnOnLeft
 		{
@@ -76,6 +74,27 @@ namespace UIAutomationStudio
 				return false;
 			}
 		}
+		
+		public override void DrawUnselected()
+		{
+			var brush = Brushes.LightBlue;
+			
+			foreach (FrameworkElement fwElement in this.GridNode.Children)
+			{
+				if (fwElement is Rectangle)
+				{
+					(fwElement as Rectangle).Fill = brush;
+				}
+				else if (fwElement is TextBlock)
+				{
+					(fwElement as TextBlock).Foreground = Brushes.Black;
+				}
+				else if (fwElement is Path)
+				{
+					(fwElement as Path).Fill = brush;
+				}
+			}
+		}
 	}
 	
 	public class LoopConditional: LoopAction
@@ -96,20 +115,6 @@ namespace UIAutomationStudio
 			
 			return this.StartAction;
 		}
-		
-		/*public static void DeepCopy(LoopConditional source, LoopConditional destination)
-		{
-			LoopAction.DeepCopy(source, destination);
-		
-			if (source.ConditionalAction == null)
-			{
-				destination.ConditionalAction = null;
-				return;
-			}
-			
-			destination.ConditionalAction = new ConditionalAction();
-			source.ConditionalAction.DeepCopy(destination.ConditionalAction);
-		}*/
 	}
 	
 	public class LoopCount: LoopAction
@@ -142,13 +147,5 @@ namespace UIAutomationStudio
 			
 			return this.StartAction;
 		}
-		
-		/*public static void DeepCopy(LoopCount source, LoopCount destination)
-		{
-			LoopAction.DeepCopy(source, destination);
-			
-			destination.InitialCount = source.InitialCount;
-			destination.currentCount = source.currentCount;
-		}*/
 	}
 }

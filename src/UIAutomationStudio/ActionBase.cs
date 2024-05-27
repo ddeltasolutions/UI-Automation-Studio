@@ -141,5 +141,7 @@ namespace UIAutomationStudio
 				}
 			}
 		}
+		
+		public virtual void DrawUnselected() { }
 	}
 }

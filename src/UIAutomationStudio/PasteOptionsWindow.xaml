@@ -17,7 +17,7 @@
         <TextBlock Grid.Row="0" VerticalAlignment="Center">Do you want to</TextBlock>
 		<RadioButton Grid.Row="1" x:Name="checkBoxInsertFirst" VerticalAlignment="Center">Insert as First</RadioButton>
 		<RadioButton Grid.Row="2" IsChecked="True" x:Name="checkBoxInsertLast" VerticalAlignment="Center">Insert as Last</RadioButton>
-		<TextBlock Grid.Row="3" Margin="0,5,0,0" TextWrapping="Wrap">action in task, or do you want to Cancel this dialog box and select an arrow and Paste again?</TextBlock>
+		<TextBlock Grid.Row="3" Margin="0,5,0,0" TextWrapping="Wrap" x:Name="txtMsg">action in task, or do you want to Cancel this dialog box and select an arrow and Paste again?</TextBlock>
 		<Button Grid.Row="4" HorizontalAlignment="Right" Margin="0,0,120,0" Height="30" Width="100" IsDefault="True" Click="OnOK">OK</Button>
 		<Button Grid.Row="4" HorizontalAlignment="Right" Margin="0,0,10,0" Height="30" Width="100" IsCancel="True">Cancel</Button>
     </Grid>

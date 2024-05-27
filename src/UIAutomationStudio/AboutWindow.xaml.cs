@@ -18,7 +18,7 @@ namespace UIAutomationStudio
             InitializeComponent();
 			
 			this.Title = "About " + MainWindow.TITLE;
-			txbName.Text = MainWindow.TITLE + " 2021 " + MainWindow.VERSION;
+			txbName.Text = MainWindow.TITLE + " 2023 " + MainWindow.VERSION;
 		}
 		
 		private void OnLoaded(object sender, RoutedEventArgs e)

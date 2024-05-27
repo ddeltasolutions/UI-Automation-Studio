@@ -95,18 +95,31 @@ namespace UIAutomationStudio
 					if (this.SpeedValue < 0)
 					{
 						MessageBox.Show(this, "The custom value must be a positive number");
+						txtSpeedValue.Focus();
 						return;
 					}
+				}
+				catch (OverflowException)
+				{
+					MessageBox.Show(this, "Number too big or too small");
+					txtSpeedValue.Focus();
+					return;
 				}
 				catch 
 				{
 					MessageBox.Show(this, "The custom value is not a valid number");
+					txtSpeedValue.Focus();
 					return;
 				}
 			}
 
 			this.DialogResult = true;
 			this.Close();
+		}
+		
+		private void OnCustomClick(object sender, RoutedEventArgs e)
+		{
+			txtSpeedValue.Focus();
 		}
 	}
 }

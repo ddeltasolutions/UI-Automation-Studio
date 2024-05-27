@@ -48,6 +48,9 @@ namespace UIAutomationStudio
 		public void DrawConditionalAction(ConditionalAction conditionalAction)
 		{
 			Grid gridNode = new Grid();
+			
+			gridNode.ContextMenu = GetConditionalContextMenu();
+			
 			gridNode.Width = NODE_WIDTH_WITH_PADDING;
 			gridNode.Height = NODE_HEIGHT;
 			
@@ -63,6 +66,7 @@ namespace UIAutomationStudio
 			conditionalAction.GridNode = gridNode;
 			
 			gridNode.MouseLeftButtonDown += new MouseButtonEventHandler(OnGridNodeClick);
+			gridNode.MouseRightButtonDown += new MouseButtonEventHandler(OnGridNodeClick);
 			
 			//if (conditionalAction.Previous == null)
 			{
@@ -79,7 +83,8 @@ namespace UIAutomationStudio
 			
 			if (conditionalAction != this.selectedAction)
 			{
-				path.Fill = Brushes.Orange;
+				//path.Fill = Brushes.Orange;
+				path.Fill = Brushes.LightGreen;
 			}
 			
 			PathFigure pathFigure1 = new PathFigure();
@@ -145,6 +150,30 @@ namespace UIAutomationStudio
 			}
 		}
 		
+		private ContextMenu GetConditionalContextMenu()
+		{
+			ContextMenu contextMenu = new ContextMenu();
+			
+			MenuItem evaluateMenuItem = new MenuItem();
+			evaluateMenuItem.Command = MyCommands.EvaluateConditionalActionCommand;
+			evaluateMenuItem.Header = "Evaluate";
+			contextMenu.Items.Add(evaluateMenuItem);
+			
+			MenuItem editMenuItem = new MenuItem();
+			editMenuItem.Command = MyCommands.EditActionCommand;
+			contextMenu.Items.Add(editMenuItem);
+			
+			MenuItem deleteMenuItem = new MenuItem();
+			deleteMenuItem.Command = MyCommands.DeleteActionCommand;
+			contextMenu.Items.Add(deleteMenuItem);
+			
+			MenuItem runStartingMenuItem = new MenuItem();
+			runStartingMenuItem.Command = MyCommands.RunStartingCommand;
+			contextMenu.Items.Add(runStartingMenuItem);
+			
+			return contextMenu;
+		}
+		
 		public void DrawAction(Action action, bool isFirstOrLast = false)
 		{
 			Grid gridNode = new Grid();
@@ -164,6 +193,7 @@ namespace UIAutomationStudio
 			action.GridNode = gridNode;
 			
 			gridNode.MouseLeftButtonDown += new MouseButtonEventHandler(OnGridNodeClick);
+			gridNode.MouseRightButtonDown += new MouseButtonEventHandler(OnGridNodeClick);
 			gridNode.MouseMove += new MouseEventHandler(OnMouseMove);
 			
 			// enable drop only for start and end nodes
@@ -185,7 +215,14 @@ namespace UIAutomationStudio
 			
 			if (action != this.selectedAction)
 			{
-				rect.Fill = Brushes.Orange;
+				if (isFirstOrLast)
+				{
+					rect.Fill = Brushes.Orange;
+				}
+				else
+				{
+					rect.Fill = Brushes.LightBlue;
+				}
 			}
 			
 			if (isFirstOrLast)
@@ -240,7 +277,7 @@ namespace UIAutomationStudio
 				txb3.Width = 210;
 				txb3.Height = 20;
 				txb3.Inlines.Add("on element of type ");
-				txb3.Inlines.Add(new Run(action.Element.ControlType.ToString()) { FontWeight = FontWeights.Bold });
+				txb3.Inlines.Add(new Run(action.Element.ControlTypeName) { FontWeight = FontWeights.Bold });
 				
 				txb3.Margin = new Thickness(0, 45, 0, 0);
 				gridNode.Children.Add(txb3);
@@ -352,18 +389,10 @@ namespace UIAutomationStudio
 				DragDrop.DoDragDrop(gridNode, "move action", DragDropEffects.Move);
 				return;
 			}
-			
-			/*Path path = sender as Path;
-			if (path != null && e.LeftButton == MouseButtonState.Pressed)
-			{
-				arrowDragged = path.Tag as Arrow;
-				DragDrop.DoDragDrop(path, "move arrow", DragDropEffects.Move);
-			}*/
 		}
 		
 		private Brush previousStroke = null;
 		private Action actionDragged = null;
-		//private Arrow arrowDragged = null;
 		
 		private void OnActionDragEnter(object sender, DragEventArgs e)
 		{
@@ -488,21 +517,6 @@ namespace UIAutomationStudio
 					return;
 				}
 			}
-			/*else if (str == "move arrow")
-			{
-				if (arrowDragged == null)
-				{
-					return;
-				}
-				
-				if (ChangeArrowDestination(arrowDragged, targetAction) == false)
-				{
-					DrawActionWithoutBorder(grid);
-				}
-				
-				this.SelectedArrow = null;
-				return;
-			}*/
 			
 			UndoRedo.AddSnapshot(this.task);
 			
@@ -517,13 +531,6 @@ namespace UIAutomationStudio
 				
 				this.task.StartAction = actionDragged;
 			}
-			/*else if (targetAction is Action) // drop over the end action
-			{
-				Action endAction = (Action)targetAction;
-				endAction.Next = actionDragged;
-				actionDragged.Previous = endAction;
-				actionDragged.Next = null;
-			}*/
 			
 			this.task.IsModified = true;
 			this.task.Changed();
