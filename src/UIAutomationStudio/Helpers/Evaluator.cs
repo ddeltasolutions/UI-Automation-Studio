@@ -7,7 +7,15 @@ namespace UIAutomationStudio
 	{
 		public static object Evaluate(Variable variable)
 		{
-			ElementBase libraryElement = variable.Element.GetLibraryElement(true);
+			ElementBase libraryElement = null;
+		
+			if (variable.PropertyId == PropertyId.IsFound)
+			{
+				libraryElement = variable.Element.GetLibraryElement(noTimeOut: true, supressMsg: true);
+				return (libraryElement != null);
+			}
+		
+			libraryElement = variable.Element.GetLibraryElement(noTimeOut: true);
 			if (libraryElement == null)
 			{
 				return null;
@@ -38,10 +46,10 @@ namespace UIAutomationStudio
 			{
 				return libraryElement.IsEnabled;
 			}
-			else if (variable.PropertyId == PropertyId.IsAlive)
+			/*else if (variable.PropertyId == PropertyId.IsAlive)
 			{
 				return libraryElement.IsAlive;
-			}
+			}*/
 			
 			IEvaluator evaluator = EvaluatorFactory(variable.PropertyId, libraryElement);
 			if (evaluator != null)
@@ -174,7 +182,7 @@ namespace UIAutomationStudio
 			return null;
 		}
 		
-		public interface IEvaluator
+		private interface IEvaluator
 		{
 			object Evaluate(Variable variable);
 		}

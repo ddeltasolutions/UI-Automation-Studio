@@ -7,6 +7,9 @@ namespace UIAutomationStudio
 {
 	public class ElementHelper
 	{
+		private static string TOPLEVEL_NOT_FOUND = "Top Level Window not found";
+		private static string TOPLEVEL_WITH_NAME_NOT_FOUND = "Top Level Window \"{0}\" not found";
+	
 		public static IUIAutomationElement GetTopLevelElement(IUIAutomationElement element)
 		{
 			IUIAutomationElement parent = MainWindow.uiAutomation.ControlViewWalker.GetParentElement(element);
@@ -28,20 +31,25 @@ namespace UIAutomationStudio
 			return crtElement;
 		}
 	
-		public static ElementBase GetTopLevelElement(Element element)
+		public static ElementBase GetTopLevelElement(Element element, bool supressMsg = false)
 		{
 			Engine engine = LibraryEngine.GetEngine();
 			ElementBase libraryElement = null;
+			string wildcardsName = element.GetWildcardsName(false);
 			
 			if (element.ControlType == ControlType.Pane && element.Name != null)
 			{
 				try
 				{
-					libraryElement = engine.GetDesktopPane().Pane(element.GetWildcardsName(false));
+					libraryElement = engine.GetDesktopPane().Pane(wildcardsName);
 				}
 				catch (Exception ex)
 				{
-					MessageBox.Show(ex.Message);
+					if (Task.IsAttemptingPause == false && supressMsg == false)
+					{
+						string message = string.IsNullOrEmpty(wildcardsName) ? TOPLEVEL_NOT_FOUND : string.Format(TOPLEVEL_WITH_NAME_NOT_FOUND, wildcardsName);
+						Helper.ShowMessageBoxOnMainThread(message);
+					}
 					return null;
 				}
 				
@@ -51,7 +59,7 @@ namespace UIAutomationStudio
 				}
 			}
 			
-			if (string.IsNullOrEmpty(element.GetWildcardsName(false)))
+			if (string.IsNullOrEmpty(wildcardsName))
 			{
 				try
 				{
@@ -59,7 +67,10 @@ namespace UIAutomationStudio
 				}
 				catch (Exception ex)
 				{
-					MessageBox.Show(ex.Message);
+					if (Task.IsAttemptingPause == false && supressMsg == false)
+					{
+						Helper.ShowMessageBoxOnMainThread(TOPLEVEL_NOT_FOUND);
+					}
 					return null;
 				}
 			}
@@ -69,16 +80,20 @@ namespace UIAutomationStudio
 				{
 					if (element.FrameworkId == "WPF" || element.ClassName == null)
 					{
-						libraryElement = engine.GetTopLevel(element.GetWildcardsName(false));
+						libraryElement = engine.GetTopLevel(wildcardsName);
 					}
 					else
 					{
-						libraryElement = engine.GetTopLevel(element.GetWildcardsName(false), element.ClassName);
+						libraryElement = engine.GetTopLevel(wildcardsName, element.ClassName);
 					}
 				}
 				catch (Exception ex)
 				{
-					MessageBox.Show(ex.Message);
+					if (Task.IsAttemptingPause == false && supressMsg == false)
+					{
+						string message = string.Format(TOPLEVEL_WITH_NAME_NOT_FOUND, wildcardsName);
+						Helper.ShowMessageBoxOnMainThread(message);
+					}
 					return null;
 				}
 			}
@@ -87,13 +102,21 @@ namespace UIAutomationStudio
 		}
 		
 		public static ElementBase GetNextElement(ElementBase libraryElement, Element element, 
-			bool searchDescendants)
+			bool searchDescendants, bool supressMsg = false)
 		{
 			Engine engine = LibraryEngine.GetEngine();
-		
 			ElementBase returnElement = null;
+			
+			int lowerTimeOut = 6000;
 			int initialTimeOut = engine.Timeout;
-			engine.Timeout = 6000; // lower the timeout at 6 seconds for non-toplevel elements
+			if (initialTimeOut > lowerTimeOut)
+			{
+				engine.Timeout = lowerTimeOut; // lower the timeout at 6 seconds for non-toplevel elements
+			}
+			else
+			{
+				engine.Timeout = 500;
+			}
 			
 			try
 			{
@@ -101,12 +124,30 @@ namespace UIAutomationStudio
 			}
 			catch (Exception ex)
 			{
-				Helper.ShowMessageBoxOnMainThread(ex.Message);
+				if (Task.IsAttemptingPause == false && supressMsg == false)
+				{
+					string message = element.ControlType.ToString();
+					string wildcardsName = element.GetWildcardsName(false);
+					if (string.IsNullOrEmpty(wildcardsName))
+					{
+						message += " not found";
+					}
+					else
+					{
+						message += " \"" + wildcardsName + "\" not found";
+					}
+				
+					Helper.ShowMessageBoxOnMainThread(message);
+				}
+				
 				return null;
 			}
 			finally
 			{
-				engine.Timeout = initialTimeOut;
+				//if (initialTimeOut > lowerTimeOut)
+				//{
+					engine.Timeout = initialTimeOut;
+				//}
 			}
 			
 			return returnElement;

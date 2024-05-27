@@ -37,7 +37,12 @@ namespace UIAutomationStudio
 				{ MessageId.Properties, new Message { Text = "If the text of either the top level window or the inner selected element is changing during execution, or from one execution to another, but it also has a fixed part then you can use wildcards (* and ?) so the task can find your UI element. " +
 					enter + "For example you can replace \"Untitled - Notepad\" text of the top level window with \"* - Notepad\" when you automate Notepad application." } },
 				{ MessageId.AddLoop, new Message { Text = "A Loop Action executes repeatedly a part of the task while a condition is true or for a specified number of times." +
-					enter + "First, you need to specify the first action and the last action of the sequence you want to repeat. The last action must be a descendent of the first action, i.e. there should be a path between the first and the last action of the sequence." } }
+					enter + "First, you need to specify the first action and the last action of the sequence you want to repeat. The last action must be a descendent of the first action, i.e. there should be a path between the first and the last action of the sequence." } },
+				{ MessageId.AppOpened, new Message { Text = "You can open the sample tasks " + 
+					"(located in the Samples folder inside the application folder) via menu \"Tasks/Open Task\" and select a .cmd file to open. " + 
+					enter + "Run the task using the \"Run All\" button." } },
+				{ MessageId.NewActionWithShift, new Message { Text = "The new Action will be, by default, appended " + 
+					"at the end of the task." + enter + "If you want to insert it as first press \"New Action\" button (or menu) while holding Shift pressed." } }
 			};
 		}
 		
@@ -102,7 +107,9 @@ namespace UIAutomationStudio
 		AddCondition,
 		SaveTask,
 		Properties,
-		AddLoop
+		AddLoop,
+		AppOpened,
+		NewActionWithShift
 	}
 	
 	public class Message

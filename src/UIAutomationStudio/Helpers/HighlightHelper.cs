@@ -53,7 +53,7 @@ namespace UIAutomationStudio
 			if (frmHighlightTop == null)
 			{
 				frmHighlightTop = new System.Windows.Forms.Form();
-                frmHighlightTop.Text = "AutomationSpy_rect_top";
+                frmHighlightTop.Text = "#653749_rect_top";
 				
 				InitBorderWindow(ref frmHighlightTop);
 				
@@ -74,7 +74,7 @@ namespace UIAutomationStudio
 			if (frmHighlightLeft == null)
 			{
 				frmHighlightLeft = new System.Windows.Forms.Form();
-                frmHighlightLeft.Text = "AutomationSpy_rect_left";
+                frmHighlightLeft.Text = "#653749_rect_left";
 				
 				InitBorderWindow(ref frmHighlightLeft);
 				
@@ -95,7 +95,7 @@ namespace UIAutomationStudio
 			if (frmHighlightBottom == null)
 			{
 				frmHighlightBottom = new System.Windows.Forms.Form();
-                frmHighlightBottom.Text = "AutomationSpy_rect_bottom";
+                frmHighlightBottom.Text = "#653749_rect_bottom";
 				
 				InitBorderWindow(ref frmHighlightBottom);
 				
@@ -116,7 +116,7 @@ namespace UIAutomationStudio
 			if (frmHighlightRight == null)
 			{
 				frmHighlightRight = new System.Windows.Forms.Form();
-                frmHighlightRight.Text = "AutomationSpy_rect_right";
+                frmHighlightRight.Text = "#653749_rect_right";
 				
 				InitBorderWindow(ref frmHighlightRight);
 				

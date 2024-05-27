@@ -257,7 +257,14 @@ namespace UIAutomationStudio
 		{
 			if (MainWindow.Instance != null)
 			{
+				MainWindow.Instance.Activate();
 				MessageBox.Show(MainWindow.Instance, message);
+			}
+			else if (App.stopPauseWindow != null)
+			{
+				App.stopPauseWindow.Activate();
+				//App.stopPauseWindow.Focus();
+				MessageBox.Show(App.stopPauseWindow, message);
 			}
 			else
 			{
@@ -270,8 +277,42 @@ namespace UIAutomationStudio
 			Application.Current.Dispatcher.Invoke( () =>
 			{
 				// Code to run on the GUI thread.
-				MessageBox.Show(message);
+				MessageBoxShow(message);
 			} );
+		}
+		
+		public static bool HasAnEndAction(ActionBase action, ref Action lastAction)
+		{
+			ActionBase crt = action;
+			Action crtAction = null;
+			
+			while (true)
+			{
+				if (crt is ConditionalAction)
+				{
+					return true;
+				}
+				else if (crt is EndAction)
+				{
+					return true;
+				}
+				
+				crtAction = (Action)crt;
+				if (crtAction.HasWeakBond == true)
+				{
+					return true;
+				}
+				
+				if (crtAction.Next == null)
+				{
+					break;
+				}
+				
+				crt = crtAction.Next;
+			}
+			
+			lastAction = crtAction;
+			return false;
 		}
 	}
 	

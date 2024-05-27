@@ -6,11 +6,17 @@ namespace UIAutomationStudio
 {
 	public class DrawArrowHelper
 	{
-		private static int INSERT_OFFSET = 12;
+		//private static int INSERT_OFFSET = 25;
 		
 		public static Path CreateArrowPathRightTopLeft(int nodeLeft, int nodeTop, int nextNodeLeft, int nextNodeTop)
 		{
 			Path path = new Path();
+			
+			int INSERT_OFFSET = UserControlMainScreen.ARROW_HEIGHT / 2;
+			if (nextNodeTop < 50)
+			{
+				INSERT_OFFSET = 12;
+			}
 			
 			path.Margin = new Thickness(UserControlMainScreen.LEFT_OFFSET + nextNodeLeft + UserControlMainScreen.NODE_WIDTH / 2 - 5, 
 				UserControlMainScreen.TOP_OFFSET + nextNodeTop - INSERT_OFFSET, 0, 0);
@@ -61,6 +67,12 @@ namespace UIAutomationStudio
 		public static Path CreateArrowPathLeftTopRight(int nodeLeft, int nodeTop, int nextNodeLeft, int nextNodeTop)
 		{
 			Path path = new Path();
+			
+			int INSERT_OFFSET = UserControlMainScreen.ARROW_HEIGHT / 2;
+			if (nextNodeTop < 50)
+			{
+				INSERT_OFFSET = 12;
+			}
 			
 			int arrowHeight = INSERT_OFFSET + nodeTop - nextNodeTop + UserControlMainScreen.NODE_HEIGHT / 2;
 			int arrowWidth = 10 + nextNodeLeft - nodeLeft + UserControlMainScreen.NODE_WIDTH / 2;

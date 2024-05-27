@@ -1,5 +1,6 @@
 using System;
 using System.Windows;
+using System.IO;
 using System.Collections.Generic;
 using UIDeskAutomationLib;
 
@@ -20,10 +21,18 @@ namespace UIAutomationStudio
 			
 			if (element == null)
 			{
-				return CallGeneralAction();
+				try
+				{
+					return CallGeneralAction();
+				}
+				catch (Exception ex)
+				{
+					Helper.ShowMessageBoxOnMainThread(ex.Message);
+					return false;
+				}
 			}
 			
-			ElementBase libraryElement = element.GetLibraryElement(noTimeOut);
+			ElementBase libraryElement = element.GetLibraryElement(noTimeOut: noTimeOut);
 			if (libraryElement == null)
 			{
 				return false;
@@ -48,12 +57,13 @@ namespace UIAutomationStudio
 			{
 				if (this.action.Parameters.Count == 1)
 				{
-					engine.StartProcess((string)this.action.Parameters[0]);
+					engine.StartProcess(GetExecutableFile(this.action.Parameters));
 					return true;
 				}
 				else if (this.action.Parameters.Count == 2)
 				{
-					engine.StartProcess((string)this.action.Parameters[0], (string)this.action.Parameters[1]);
+					engine.StartProcess(GetExecutableFile(this.action.Parameters), 
+						(string)this.action.Parameters[1]);
 					return true;
 				}
 			}
@@ -61,12 +71,13 @@ namespace UIAutomationStudio
 			{
 				if (this.action.Parameters.Count == 1)
 				{
-					engine.StartProcessAndWaitForInputIdle((string)this.action.Parameters[0]);
+					engine.StartProcessAndWaitForInputIdle(GetExecutableFile(this.action.Parameters));
 					return true;
 				}
 				else if (this.action.Parameters.Count == 2)
 				{
-					engine.StartProcessAndWaitForInputIdle((string)this.action.Parameters[0], (string)this.action.Parameters[1]);
+					engine.StartProcessAndWaitForInputIdle(GetExecutableFile(this.action.Parameters), 
+						(string)this.action.Parameters[1]);
 					return true;
 				}
 			}
@@ -173,6 +184,18 @@ namespace UIAutomationStudio
 			}
 			
 			return false;
+		}
+		
+		private static string GetExecutableFile(List<object> parameters)
+		{
+			string exePath = (string)parameters[0];
+				
+			if (exePath == "MyCalculator.exe" && !File.Exists(exePath))
+			{
+				exePath = "Samples\\MyCalculator.exe";
+			}
+			
+			return exePath;
 		}
 		
 		private bool CallAction(ElementBase libraryElement)
