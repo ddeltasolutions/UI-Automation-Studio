@@ -20,7 +20,7 @@ namespace UIAutomationStudio
 			else if (controlType == ControlType.Calendar)
 			{
 				specificActions.Add(
-					new ActionInfo { Description = "Select the specified date and deselects other selected dates", 
+					new ActionInfo { Description = "Select the specified date and deselect other selected dates", 
 					ActionId = ActionIds.SelectDate });
 				specificActions.Add(
 					new ActionInfo { Description = "Add the specified date to selection", 
@@ -29,7 +29,7 @@ namespace UIAutomationStudio
 			else if (controlType == ControlType.CheckBox)
 			{
 				specificActions.Add(
-					new ActionInfo { Description = "Toggle between the states of a checkbox", 
+					new ActionInfo { Description = "Toggle between the states of the checkbox", 
 					ActionId = ActionIds.Toggle });
 				specificActions.Add(
 					new ActionInfo { Description = "Set the checked state of the checkbox", 
@@ -38,7 +38,7 @@ namespace UIAutomationStudio
 			else if (controlType == ControlType.ComboBox)
 			{
 				specificActions.Add(
-					new ActionInfo { Description = "Set the text of a combobox", 
+					new ActionInfo { Description = "Set the text of the combobox", 
 					ActionId = ActionIds.SetText });
 				specificActions.Add(
 					new ActionInfo { Description = "Expand the combobox", 
@@ -56,10 +56,10 @@ namespace UIAutomationStudio
 			else if (controlType == ControlType.DataGrid)
 			{
 				specificActions.Add(
-					new ActionInfo { Description = "Select all items in a DataGrid control", 
+					new ActionInfo { Description = "Select all items in the DataGrid control", 
 					ActionId = ActionIds.SelectAll });
 				specificActions.Add(
-					new ActionInfo { Description = "Clear all selected items in a DataGrid control", 
+					new ActionInfo { Description = "Clear all selected items in the DataGrid control", 
 					ActionId = ActionIds.ClearAllSelection });
 				specificActions.Add(
 					new ActionInfo { Description = "Scroll vertically and/or horizontally using the specified percents", 
@@ -68,10 +68,10 @@ namespace UIAutomationStudio
 					new ActionInfo { Description = "Select an item by index", 
 					ActionId = ActionIds.SelectByIndex });
 				specificActions.Add(
-					new ActionInfo { Description = "Add an item to selection in a DataGrid by the item index", 
+					new ActionInfo { Description = "Add an item to selection in the DataGrid by the item index", 
 					ActionId = ActionIds.AddToSelection });
 				specificActions.Add(
-					new ActionInfo { Description = "Remove an item from selection in a DataGrid by the item index", 
+					new ActionInfo { Description = "Remove an item from selection in the DataGrid by the item index", 
 					ActionId = ActionIds.RemoveFromSelection });
 			}
 			else if (controlType == ControlType.Group)
@@ -97,10 +97,10 @@ namespace UIAutomationStudio
 					new ActionInfo { Description = "Select the item and deselect all other selected items", 
 					ActionId = ActionIds.Select });
 				specificActions.Add(
-					new ActionInfo { Description = "Add the item to the selected items", 
+					new ActionInfo { Description = "Add the item to selection", 
 					ActionId = ActionIds.AddToSelection });
 				specificActions.Add(
-					new ActionInfo { Description = "Remove the item from the selected items", 
+					new ActionInfo { Description = "Remove the item from selection", 
 					ActionId = ActionIds.RemoveFromSelection });
 			}
 			else if (controlType == ControlType.DatePicker)
@@ -112,7 +112,7 @@ namespace UIAutomationStudio
 			else if (controlType == ControlType.Edit || controlType == ControlType.Document)
 			{
 				specificActions.Add(
-					new ActionInfo { Description = "Set text to this Edit element", 
+					new ActionInfo { Description = "Set the text of the edit control", 
 					ActionId = ActionIds.SetText });
 				specificActions.Add(
 					new ActionInfo { Description = "Clear the text of the edit control", 
@@ -163,13 +163,13 @@ namespace UIAutomationStudio
 			else if (controlType == ControlType.ListItem)
 			{
 				specificActions.Add(
-					new ActionInfo { Description = "Select the list item and deselect any selected items", 
+					new ActionInfo { Description = "Select the list item and deselect any other selected items", 
 					ActionId = ActionIds.Select });
 				specificActions.Add(
-					new ActionInfo { Description = "Remove the list item from the collection of selected list items", 
+					new ActionInfo { Description = "Remove the list item from selection", 
 					ActionId = ActionIds.RemoveFromSelection });
 				specificActions.Add(
-					new ActionInfo { Description = "Add the list item to the collection of selected list items", 
+					new ActionInfo { Description = "Add the list item to selection", 
 					ActionId = ActionIds.AddToSelection });
 				specificActions.Add(
 					new ActionInfo { Description = "Bring the list item into viewable area of the parent List control", 
@@ -184,37 +184,37 @@ namespace UIAutomationStudio
 					new ActionInfo { Description = "Access the menu item, like clicking on it", 
 					ActionId = ActionIds.AccessMenu });
 				specificActions.Add(
-					new ActionInfo { Description = "Expand this menu item", 
+					new ActionInfo { Description = "Expand the menu item", 
 					ActionId = ActionIds.Expand });
 				specificActions.Add(
-					new ActionInfo { Description = "Collapse this menu item", 
+					new ActionInfo { Description = "Collapse the menu item", 
 					ActionId = ActionIds.Collapse });
 				specificActions.Add(
-					new ActionInfo { Description = "Toggle a menu item through its checked states (checked/unchecked)", 
+					new ActionInfo { Description = "Toggle the menu item through its checked states (checked/unchecked)", 
 					ActionId = ActionIds.Toggle });
 				specificActions.Add(
-					new ActionInfo { Description = "Set the checked state of a menu item", 
+					new ActionInfo { Description = "Set the checked state of the menu item", 
 					ActionId = ActionIds.IsChecked });
 			}
 			else if (controlType == ControlType.RadioButton)
 			{
 				specificActions.Add(
-					new ActionInfo { Description = "Select a radio button", 
+					new ActionInfo { Description = "Select the radio button", 
 					ActionId = ActionIds.Select });
 			}
 			else if (controlType == ControlType.ScrollBar)
 			{
 				specificActions.Add(
-					new ActionInfo { Description = "Small Increment a scrollbar", 
+					new ActionInfo { Description = "Small Increment the scrollbar", 
 					ActionId = ActionIds.SmallIncrement });
 				specificActions.Add(
-					new ActionInfo { Description = "Large Increment a scrollbar", 
+					new ActionInfo { Description = "Large Increment the scrollbar", 
 					ActionId = ActionIds.LargeIncrement });
 				specificActions.Add(
-					new ActionInfo { Description = "Small Decrement a scrollbar", 
+					new ActionInfo { Description = "Small Decrement the scrollbar", 
 					ActionId = ActionIds.SmallDecrement });
 				specificActions.Add(
-					new ActionInfo { Description = "Large Decrement a scrollbar", 
+					new ActionInfo { Description = "Large Decrement the scrollbar", 
 					ActionId = ActionIds.LargeDecrement });
 				specificActions.Add(
 					new ActionInfo { Description = "Set the value of the scrollbar", 
@@ -223,16 +223,16 @@ namespace UIAutomationStudio
 			else if (controlType == ControlType.Slider)
 			{
 				specificActions.Add(
-					new ActionInfo { Description = "Increments the value of Slider. Is like pressing the arrow \"Right\" key.", 
+					new ActionInfo { Description = "Small Increment the slider. Is like pressing the arrow \"Right\" key.", 
 					ActionId = ActionIds.SmallIncrement });
 				specificActions.Add(
-					new ActionInfo { Description = "Increments the value of Slider. Is like pressing in the right side of the thumb or \"Page Up\" key.", 
+					new ActionInfo { Description = "Large Increment the slider. Is like pressing in the right side of the thumb or \"Page Up\" key.", 
 					ActionId = ActionIds.LargeIncrement });
 				specificActions.Add(
-					new ActionInfo { Description = "Decrements the value of Slider. Is like pressing the arrow \"Left\" key.", 
+					new ActionInfo { Description = "Small Decrement the slider. Is like pressing the arrow \"Left\" key.", 
 					ActionId = ActionIds.SmallDecrement });
 				specificActions.Add(
-					new ActionInfo { Description = "Decrements the value of Slider. Is like pressing in the left side of the thumb or \"Page Down\" key.", 
+					new ActionInfo { Description = "Large Decrement the slider. Is like pressing in the left side of the thumb or \"Page Down\" key.", 
 					ActionId = ActionIds.LargeDecrement });
 				specificActions.Add(
 					new ActionInfo { Description = "Set the value of the slider", 
@@ -262,7 +262,7 @@ namespace UIAutomationStudio
 					new ActionInfo { Description = "Select a Tab Item in a Tab Control by the tab item index", 
 					ActionId = ActionIds.SelectByIndex });
 				specificActions.Add(
-					new ActionInfo { Description = "Selects a Tab Item in a Tab Control by the tab item text", 
+					new ActionInfo { Description = "Select a Tab Item in a Tab Control by the tab item text", 
 					ActionId = ActionIds.SelectByText });
 			}
 			else if (controlType == ControlType.TabItem)
@@ -277,16 +277,16 @@ namespace UIAutomationStudio
 					new ActionInfo { Description = "Select the tree item and deselect all other selected tree items", 
 					ActionId = ActionIds.Select });
 				specificActions.Add(
-					new ActionInfo { Description = "Expand a Tree Item", 
+					new ActionInfo { Description = "Expand the tree item", 
 					ActionId = ActionIds.Expand });
 				specificActions.Add(
-					new ActionInfo { Description = "Collapse a Tree Item", 
+					new ActionInfo { Description = "Collapse the tree item", 
 					ActionId = ActionIds.Collapse });
 				specificActions.Add(
-					new ActionInfo { Description = "Cycles through the check states (checked, unchecked, indeterminate)", 
+					new ActionInfo { Description = "Cycle through the check states (checked, unchecked, indeterminate)", 
 					ActionId = ActionIds.Toggle });
 				specificActions.Add(
-					new ActionInfo { Description = "Bring the Tree Item into viewable area of the parent Tree control", 
+					new ActionInfo { Description = "Bring the tree item into viewable area of the parent Tree control", 
 					ActionId = ActionIds.BringIntoView });
 				specificActions.Add(
 					new ActionInfo { Description = "Set the checked state of the tree item if supported", 
@@ -326,19 +326,19 @@ namespace UIAutomationStudio
 					new ActionInfo { Description = "Bring the window to foreground", 
 					ActionId = ActionIds.BringToForeground });
 				specificActions.Add(
-					new ActionInfo { Description = "Move this window to specified x and y screen coordinates", 
+					new ActionInfo { Description = "Move the window to specified x and y screen coordinates", 
 					ActionId = ActionIds.Move });
 				specificActions.Add(
-					new ActionInfo { Description = "Move a window relatively with horizontal and vertical offsets", 
+					new ActionInfo { Description = "Move the window relatively with horizontal and vertical offsets", 
 					ActionId = ActionIds.MoveOffset });
 				specificActions.Add(
-					new ActionInfo { Description = "Set both width and height of this window", 
+					new ActionInfo { Description = "Set both width and height of the window", 
 					ActionId = ActionIds.Resize });
 				specificActions.Add(
-					new ActionInfo { Description = "Set the width of this window", 
+					new ActionInfo { Description = "Set the width of the window", 
 					ActionId = ActionIds.WindowWidth });
 				specificActions.Add(
-					new ActionInfo { Description = "Set the height of this window", 
+					new ActionInfo { Description = "Set the height of the window", 
 					ActionId = ActionIds.WindowHeight });
 			}
 			tabSpecific.DataContext = specificActions;
@@ -347,37 +347,37 @@ namespace UIAutomationStudio
 			if (mouseActions.Count == 0)
 			{
 				mouseActions.Add(
-					new ActionInfo { Description = "Click an element in the center", 
+					new ActionInfo { Description = "Click element in the center", 
 					ActionId = ActionIds.Click, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Right Click an element in the center", 
+					new ActionInfo { Description = "Right Click element in the center", 
 					ActionId = ActionIds.RightClick, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Middle Click an element in the center using the middle mouse button", 
+					new ActionInfo { Description = "Middle Click element in the center using the middle mouse button", 
 					ActionId = ActionIds.MiddleClick, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Double Click an element in the center", 
+					new ActionInfo { Description = "Double Click element in the center", 
 					ActionId = ActionIds.DoubleClick, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Click an element at specified relative coordinates", 
+					new ActionInfo { Description = "Click element at specified relative coordinates", 
 					ActionId = ActionIds.ClickAt, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Right Click an element at specified relative coordinates", 
+					new ActionInfo { Description = "Right Click element at specified relative coordinates", 
 					ActionId = ActionIds.RightClickAt, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Middle Click an element at specified relative coordinates using the middle mouse button", 
+					new ActionInfo { Description = "Middle Click element at specified relative coordinates using the middle mouse button", 
 					ActionId = ActionIds.MiddleClickAt, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Double Click an element at specified relative coordinates", 
+					new ActionInfo { Description = "Double Click element at specified relative coordinates", 
 					ActionId = ActionIds.DoubleClickAt, GroupName = "Mouse Events" });
 				mouseActions.Add(
 					new ActionInfo { Description = "Move the mouse cursor at specified relative coordinates", 
 					ActionId = ActionIds.MoveMouse, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Scroll the Mouse Wheel Up over an element with specified number of ticks", 
+					new ActionInfo { Description = "Scroll the Mouse Wheel Up over the element with specified number of ticks", 
 					ActionId = ActionIds.MouseScrollUp, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Scroll the Mouse Wheel Down over an element with specified number of ticks", 
+					new ActionInfo { Description = "Scroll the Mouse Wheel Down over the element with specified number of ticks", 
 					ActionId = ActionIds.MouseScrollDown , GroupName = "Mouse Events"});
 				tabMouse.DataContext = mouseActions;
 			}
@@ -390,7 +390,7 @@ namespace UIAutomationStudio
 			if (keyboardActions.Count == 0)
 			{
 				keyboardActions.Add(
-					new ActionInfo { Description = "Send keys to an element", 
+					new ActionInfo { Description = "Send keys to element", 
 					ActionId = ActionIds.SendKeys, GroupName = "Keyboard Events" });
 				keyboardActions.Add(
 					new ActionInfo { Description = "Press a Key (without releasing it)", 
@@ -418,19 +418,19 @@ namespace UIAutomationStudio
 			if (otherActions.Count == 0)
 			{
 				otherActions.Add(
-					new ActionInfo { Description = "Invoke the default action of an element", 
+					new ActionInfo { Description = "Invoke the default action of the element", 
 					ActionId = ActionIds.Invoke, GroupName = "Other Events" });
 				otherActions.Add(
-					new ActionInfo { Description = "Bring keyboard Focus to an element", 
+					new ActionInfo { Description = "Bring keyboard Focus to element", 
 					ActionId = ActionIds.Focus, GroupName = "Other Events" });
 				otherActions.Add(
-					new ActionInfo { Description = "Bring an element into Foreground", 
+					new ActionInfo { Description = "Bring element into Foreground", 
 					ActionId = ActionIds.BringToForeground, GroupName = "Other Events" });
 				otherActions.Add(
-					new ActionInfo { Description = "Capture an element and save the image into a file", 
+					new ActionInfo { Description = "Capture element and save the image into a file", 
 					ActionId = ActionIds.CaptureToFile, GroupName = "Other Events" });
 				otherActions.Add(
-					new ActionInfo { Description = "Waits for the process that created an element to enter an idle state", 
+					new ActionInfo { Description = "Wait for the process that created the element to enter an idle state", 
 					ActionId = ActionIds.WaitForInputIdle, GroupName = "Other Events" });
 				tabOther.DataContext = otherActions;
 			}
@@ -443,31 +443,31 @@ namespace UIAutomationStudio
 			if (simulateActions.Count == 0)
 			{
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates sending keys to an element - doesn't bring the element into focus", 
+					new ActionInfo { Description = "Simulate sending keys to element - doesn't bring the element into focus", 
 					ActionId = ActionIds.SimulateSendKeys, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates a left mouse button click in the center - doesn't bring the element into focus", 
+					new ActionInfo { Description = "Simulate a left mouse button click in the center - doesn't bring the element into focus", 
 					ActionId = ActionIds.SimulateClick, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates a right mouse button click in the center - doesn't bring the element into focus", 
+					new ActionInfo { Description = "Simulate a right mouse button click in the center - doesn't bring the element into focus", 
 					ActionId = ActionIds.SimulateRightClick, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates a middle mouse button click in the center - doesn't bring the element into focus", 
+					new ActionInfo { Description = "Simulate a middle mouse button click in the center - doesn't bring the element into focus", 
 					ActionId = ActionIds.SimulateMiddleClick, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates a left mouse button double click in the center - doesn't bring the element into focus", 
+					new ActionInfo { Description = "Simulate a left mouse button double click in the center - doesn't bring the element into focus", 
 					ActionId = ActionIds.SimulateDoubleClick, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates a left mouse button click at relative location - doesn't bring the element into focus", 
+					new ActionInfo { Description = "Simulate a left mouse button click at relative location - doesn't bring the element into focus", 
 					ActionId = ActionIds.SimulateClickAt, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates a right mouse button click at relative location - doesn't bring the element into focus", 
+					new ActionInfo { Description = "Simulate a right mouse button click at relative location - doesn't bring the element into focus", 
 					ActionId = ActionIds.SimulateRightClickAt, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates a middle mouse button click at relative location - doesn't bring the element into focus", 
+					new ActionInfo { Description = "Simulate a middle mouse button click at relative location - doesn't bring the element into focus", 
 					ActionId = ActionIds.SimulateMiddleClickAt, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates a double click at relative location - doesn't bring the element into focus", 
+					new ActionInfo { Description = "Simulate a double click at relative location - doesn't bring the element into focus", 
 					ActionId = ActionIds.SimulateDoubleClickAt, GroupName = "Simulate Events" });
 				tabSimulate.DataContext = simulateActions;
 			}

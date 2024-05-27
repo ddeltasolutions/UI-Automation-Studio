@@ -11,6 +11,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlSetValue : UserControl, IParameters
     {
+		private ActionIds actionId = ActionIds.Value;
+	
         public UserControlSetValue(Element element, ActionIds actionId = ActionIds.Value)
         {
             InitializeComponent();
@@ -131,7 +133,5 @@ namespace UIAutomationStudio
 			
 			txtValue.Text = parameters[0].ToString();
 		}
-		
-		private ActionIds actionId = ActionIds.Value;
     }
 }

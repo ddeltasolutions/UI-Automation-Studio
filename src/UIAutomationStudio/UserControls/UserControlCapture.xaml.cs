@@ -11,6 +11,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlCapture : UserControl, IParameters
     {
+		private string defaultFileName = null;
+	
         public UserControlCapture(string defaultFileName)
         {
             InitializeComponent();
@@ -59,7 +61,5 @@ namespace UIAutomationStudio
 			
 			txtFile.Text = parameters[0].ToString();
 		}
-		
-		private string defaultFileName = null;
     }
 }

@@ -17,6 +17,12 @@ namespace UIAutomationStudio
 		private ForegroundColors foregroundColors;
 		public static UserControlPickElement Instance = null;
 		
+		public Element SelectedElement { get; set; }
+		public bool SelectedElementChanged { get; set; }
+		
+		private System.Windows.Forms.Timer timer = null;
+		private static ObservableCollection<Element> lastSelectedElements = new ObservableCollection<Element>();
+		
         public UserControlPickElement(Element element, bool isGeneral, bool isVariable = false)
         {
             InitializeComponent();
@@ -35,19 +41,26 @@ namespace UIAutomationStudio
 			
 			if (isGeneral == true)
 			{
-				chkChooseElement.IsChecked = true;
+				radioGeneral.IsChecked = true;
 				OnCheckChooseElement(null, null);
+			}
+			else
+			{
+				radioUIElement.IsChecked = true;
 			}
 			
 			if (isVariable == true)
 			{
-				chkChooseElement.Visibility = Visibility.Hidden;
+				radioGeneral.Visibility = Visibility.Hidden;
 			}
 			
 			cmbLastSelected.ItemsSource = lastSelectedElements;
 			
 			foregroundColors = new ForegroundColors();
 			this.DataContext = foregroundColors;
+			
+			btnChooseElement.IsChecked = true;
+			OnSelectElement(null, null);
 			
 			btnHighlight.IsChecked = true;
 			OnHighlight(null, null);
@@ -90,7 +103,7 @@ namespace UIAutomationStudio
 		
 		public bool CheckEmptyElement()
 		{
-			if (chkChooseElement.IsChecked.Value == false && SelectedElement == null)
+			if (radioUIElement.IsChecked.Value == true && SelectedElement == null)
 			{
 				return false;
 			}
@@ -99,12 +112,12 @@ namespace UIAutomationStudio
 		
 		private void OnCheckChooseElement(object sender, RoutedEventArgs e)
 		{
-			if (chkChooseElement.IsChecked.Value == true)
+			if (radioGeneral.IsChecked.Value == true)
 			{
 				VerifyControls();
 			}
 			
-			if (chkChooseElement.IsChecked.Value == true)
+			if (radioGeneral.IsChecked.Value == true)
 			{
 				btnSelectParent.IsEnabled = false;
 			}
@@ -113,7 +126,7 @@ namespace UIAutomationStudio
 				btnSelectParent.IsEnabled = true;
 			}
 			
-			if (chkChooseElement.IsChecked.Value == true)
+			if (radioGeneral.IsChecked.Value == true)
 			{
 				txbLastSelected.Foreground = Brushes.Gray;
 				txtElementType.Foreground = Brushes.Gray;
@@ -138,7 +151,7 @@ namespace UIAutomationStudio
 				btnHighlight.IsEnabled = true;
 			}
 			
-			this.IsGeneralAction = chkChooseElement.IsChecked.Value;
+			this.IsGeneralAction = radioGeneral.IsChecked.Value;
 		}
 		
 		public bool IsGeneralAction { get; set; }
@@ -174,13 +187,12 @@ namespace UIAutomationStudio
 			}
 		}
 		
+		private bool mbDisplayed = false;
 		void timer_Tick(object sender, EventArgs e)
         {
             try
             {
-                //bool leftCtrlIsPressed = ((int)Keyboard.GetKeyStates(Key.LeftCtrl) & (int)KeyStates.Down) != 0;
 				bool leftCtrlIsPressed = ((int)Keyboard.GetKeyStates(Key.LeftShift) & (int)KeyStates.Down) != 0;
-                //bool rightCtrlIsPressed = ((int)Keyboard.GetKeyStates(Key.RightCtrl) & (int)KeyStates.Down) != 0;
 				bool rightCtrlIsPressed = ((int)Keyboard.GetKeyStates(Key.RightShift) & (int)KeyStates.Down) != 0;
 
                 if (leftCtrlIsPressed || rightCtrlIsPressed)
@@ -191,6 +203,15 @@ namespace UIAutomationStudio
 					tagPOINT mousePoint = new tagPOINT {x = xMouse, y = yMouse};
 					IUIAutomationElement automationElement = MainWindow.uiAutomation.ElementFromPoint(mousePoint);
 					
+					try
+					{
+						if (automationElement.CurrentName.StartsWith("#653749_rect_") == true)
+						{
+							return;
+						}
+					}
+					catch {}
+					
 					Element element = new Element(automationElement);
 					SelectElement(element);
 					InsertToLastSelected(element);
@@ -198,7 +219,13 @@ namespace UIAutomationStudio
             }
             catch (Exception ex) 
             {
+				if (mbDisplayed == true)
+				{
+					return;
+				}
+				mbDisplayed = true;
                 MessageBox.Show(Window.GetWindow(this), "Exception: " + ex.Message);
+				mbDisplayed = false;
             }
         }
 		
@@ -260,7 +287,7 @@ namespace UIAutomationStudio
 				HighlightHelper.HighlightElement(element.InnerElement);
 			}
 			
-			txtElementType.Text = this.SelectedElement.ControlType.ToString();
+			txtElementType.Text = this.SelectedElement.ControlTypeName;
 			txtElementText.Text = this.SelectedElement.GetShortName(70);
 		}
 		
@@ -311,12 +338,6 @@ namespace UIAutomationStudio
 			
 			SelectElement(selectedElement);
 		}
-		
-		public Element SelectedElement { get; set; }
-		public bool SelectedElementChanged { get; set; }
-		
-		private System.Windows.Forms.Timer timer = null;
-		private static ObservableCollection<Element> lastSelectedElements = new ObservableCollection<Element>();
     }
 	
 	public class ForegroundColors: INotifyPropertyChanged

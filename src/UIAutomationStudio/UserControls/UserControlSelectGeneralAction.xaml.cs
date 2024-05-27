@@ -13,6 +13,21 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlSelectGeneralAction : UserControl
     {
+		private Action action = null;
+		private ObservableCollection<ActionInfo> generalActions = new ObservableCollection<ActionInfo>();
+		private List<ActionInfo> mouseActions = new List<ActionInfo>();
+		private List<ActionInfo> keyboardActions = new List<ActionInfo>();
+		private List<ActionInfo> simulateActions = new List<ActionInfo>();
+		
+		private ActionIds currentActionId = ActionIds.None;
+		
+		private UserControlMouseCoordinates ucMouseCoordinates = null;
+		private UserControlMouseTicks ucMouseTicks = null;
+		private UserControlSendKeys ucSendKeys = null;
+		private UserControlPressKey ucPressKey = null;
+		private UserControlStartProcess ucStartProcess = null;
+		private UserControlSleep ucSleep = null;
+	
         public UserControlSelectGeneralAction(Action action)
         {
             InitializeComponent();
@@ -26,9 +41,9 @@ namespace UIAutomationStudio
 			if (generalActions.Count == 0)
 			{
 				generalActions.Add(
-					new ActionInfo { Description = "Start a process", ActionId = ActionIds.StartProcess });
+					new ActionInfo { Description = "Start a process and wait for input idle (Recommended)", ActionId = ActionIds.StartProcessAndWaitForInputIdle });
 				generalActions.Add(
-					new ActionInfo { Description = "Start a process and wait for input idle", ActionId = ActionIds.StartProcessAndWaitForInputIdle });
+					new ActionInfo { Description = "Start a process", ActionId = ActionIds.StartProcess });
 				generalActions.Add(
 					new ActionInfo { Description = "Make a pause in the task", ActionId = ActionIds.Sleep });
 				generalActions.Add(
@@ -45,19 +60,19 @@ namespace UIAutomationStudio
 			if (mouseActions.Count == 0)
 			{
 				mouseActions.Add(
-					new ActionInfo { Description = "Left mouse click at screen coordinates", 
+					new ActionInfo { Description = "Left mouse Click at screen coordinates", 
 					ActionId = ActionIds.ClickAt, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Right mouse button click at specified screen coordinates", 
+					new ActionInfo { Description = "Right mouse button Click at specified screen coordinates", 
 					ActionId = ActionIds.RightClickAt, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Middle mouse button click at specified screen coordinates", 
+					new ActionInfo { Description = "Middle mouse button Click at specified screen coordinates", 
 					ActionId = ActionIds.MiddleClickAt, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Left mouse button double click at specified screen coordinates", 
+					new ActionInfo { Description = "Left mouse button Double Click at specified screen coordinates", 
 					ActionId = ActionIds.DoubleClickAt, GroupName = "Mouse Events" });
 				mouseActions.Add(
-					new ActionInfo { Description = "Moves mouse pointer at the specified screen coordinates", 
+					new ActionInfo { Description = "Move mouse pointer at specified screen coordinates", 
 					ActionId = ActionIds.MoveMouse, GroupName = "Mouse Events" });
 				mouseActions.Add(
 					new ActionInfo { Description = "Scroll the Mouse Wheel Up with specified number of ticks", 
@@ -76,7 +91,7 @@ namespace UIAutomationStudio
 			if (keyboardActions.Count == 0)
 			{
 				keyboardActions.Add(
-					new ActionInfo { Description = "Sends keystrokes to the window which currently has the focus", 
+					new ActionInfo { Description = "Send keystrokes to the window which currently has the focus", 
 					ActionId = ActionIds.SendKeys, GroupName = "Keyboard Events" });
 				keyboardActions.Add(
 					new ActionInfo { Description = "Press a key (without releasing it)", 
@@ -105,16 +120,16 @@ namespace UIAutomationStudio
 					ActionId = ActionIds.SimulateSendKeys, GroupName = "Simulate Events" });
 				
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates left mouse button click at screen coordinates", 
+					new ActionInfo { Description = "Simulate left mouse button click at screen coordinates", 
 					ActionId = ActionIds.SimulateClickAt, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates right mouse button click at screen coordinates", 
+					new ActionInfo { Description = "Simulate right mouse button click at screen coordinates", 
 					ActionId = ActionIds.SimulateRightClickAt, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates middle mouse button click at screen coordinates", 
+					new ActionInfo { Description = "Simulate middle mouse button click at screen coordinates", 
 					ActionId = ActionIds.SimulateMiddleClickAt, GroupName = "Simulate Events" });
 				simulateActions.Add(
-					new ActionInfo { Description = "Simulates left mouse button double click at screen coordinates", 
+					new ActionInfo { Description = "Simulate left mouse button double click at screen coordinates", 
 					ActionId = ActionIds.SimulateDoubleClickAt, GroupName = "Simulate Events" });
 				tabSimulate.DataContext = simulateActions;
 			}
@@ -321,20 +336,5 @@ namespace UIAutomationStudio
 			}
 			return false;
 		}
-		
-		private Action action = null;
-		private ObservableCollection<ActionInfo> generalActions = new ObservableCollection<ActionInfo>();
-		private List<ActionInfo> mouseActions = new List<ActionInfo>();
-		private List<ActionInfo> keyboardActions = new List<ActionInfo>();
-		private List<ActionInfo> simulateActions = new List<ActionInfo>();
-		
-		private ActionIds currentActionId = ActionIds.None;
-		
-		private UserControlMouseCoordinates ucMouseCoordinates = null;
-		private UserControlMouseTicks ucMouseTicks = null;
-		private UserControlSendKeys ucSendKeys = null;
-		private UserControlPressKey ucPressKey = null;
-		private UserControlStartProcess ucStartProcess = null;
-		private UserControlSleep ucSleep = null;
     }
 }

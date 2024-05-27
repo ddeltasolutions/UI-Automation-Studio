@@ -12,6 +12,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlPressKey : UserControl, IParameters
     {
+		private ActionIds actionId;
+	
 		public UserControlPressKey(ActionIds actionId)
         {
             InitializeComponent();
@@ -148,7 +150,5 @@ namespace UIAutomationStudio
 				}
 			}
 		}
-		
-		private ActionIds actionId;
     }
 }

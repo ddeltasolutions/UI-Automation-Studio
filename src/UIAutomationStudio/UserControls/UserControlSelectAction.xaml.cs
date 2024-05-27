@@ -11,6 +11,31 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlSelectAction : UserControl
     {
+		private Action action = null;
+		private ControlType initialControlType = ControlType.None;
+		
+		private ObservableCollection<ActionInfo> specificActions = new ObservableCollection<ActionInfo>();
+		private List<ActionInfo> mouseActions = new List<ActionInfo>();
+		private List<ActionInfo> keyboardActions = new List<ActionInfo>();
+		private List<ActionInfo> otherActions = new List<ActionInfo>();
+		private List<ActionInfo> simulateActions = new List<ActionInfo>();
+		
+		private ActionIds currentActionId = ActionIds.None;
+		
+		private UserControlMouseCoordinates ucMouseCoordinates = null;
+		private UserControlMouseTicks ucMouseTicks = null;
+		private UserControlSendKeys ucSendKeys = null;
+		private UserControlPressKey ucPressKey = null;
+		private UserControlCapture ucCapture = null;
+		private UserControlSelectDate ucSelectDate = null;
+		private UserControlCheckBox ucCheckBox = null;
+		private UserControlSetText ucSetText = null;
+		private UserControlSelectByIndex ucSelectByIndex = null;
+		private UserControlSelectByText ucSelectByText = null;
+		private UserControlScroll ucScroll = null;
+		private UserControlSetValue ucSetValue = null;
+		private UserControlKeysCombination ucKeysCombination = null;
+	
         public UserControlSelectAction(Action action, ControlType controlType)
         {
             InitializeComponent();
@@ -310,31 +335,6 @@ namespace UIAutomationStudio
 			}
 			return false;
 		}
-		
-		private Action action = null;
-		private ControlType initialControlType = ControlType.None;
-		
-		private ObservableCollection<ActionInfo> specificActions = new ObservableCollection<ActionInfo>();
-		private List<ActionInfo> mouseActions = new List<ActionInfo>();
-		private List<ActionInfo> keyboardActions = new List<ActionInfo>();
-		private List<ActionInfo> otherActions = new List<ActionInfo>();
-		private List<ActionInfo> simulateActions = new List<ActionInfo>();
-		
-		private ActionIds currentActionId = ActionIds.None;
-		
-		private UserControlMouseCoordinates ucMouseCoordinates = null;
-		private UserControlMouseTicks ucMouseTicks = null;
-		private UserControlSendKeys ucSendKeys = null;
-		private UserControlPressKey ucPressKey = null;
-		private UserControlCapture ucCapture = null;
-		private UserControlSelectDate ucSelectDate = null;
-		private UserControlCheckBox ucCheckBox = null;
-		private UserControlSetText ucSetText = null;
-		private UserControlSelectByIndex ucSelectByIndex = null;
-		private UserControlSelectByText ucSelectByText = null;
-		private UserControlScroll ucScroll = null;
-		private UserControlSetValue ucSetValue = null;
-		private UserControlKeysCombination ucKeysCombination = null;
     }
 	
 	public class ActionInfo

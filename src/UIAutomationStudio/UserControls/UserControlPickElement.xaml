@@ -8,13 +8,21 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="40" />
-			<RowDefinition Height="30" />
+			<!-- <RowDefinition Height="40" /> -->
+			<RowDefinition Height="70" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold">Select UI Element</TextBlock>
-		<CheckBox x:Name="chkChooseElement" Click="OnCheckChooseElement" Grid.Row="1" Height="24" HorizontalAlignment="Center" IsChecked="False">Don't choose a specific UI Element, make a general action</CheckBox>
-		<GroupBox Header="UI Element" Grid.Row="2" HorizontalAlignment="Center" Padding="10" x:Name="groupBoxUIElement">
+        <!-- <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold">Select UI Element</TextBlock> -->
+		<!-- <CheckBox x:Name="chkChooseElement" Click="OnCheckChooseElement" Grid.Row="1" Height="24" HorizontalAlignment="Center" IsChecked="False">Don't choose a specific UI Element, make a general action</CheckBox> -->
+		<StackPanel Grid.Row="0" Margin="60,25,0,0" Orientation="Horizontal">
+			<RadioButton x:Name="radioUIElement" Click="OnCheckChooseElement" FontSize="17" FontWeight="Bold" Height="30" ToolTip="Make an action upon a specified UI element">Select a UI Element</RadioButton>
+			<RadioButton x:Name="radioGeneral" Click="OnCheckChooseElement" FontSize="17" FontWeight="Bold" Margin="40,0,0,0" Height="30">Make a General action</RadioButton>
+		</StackPanel>
+		<!-- <Grid Grid.Row="1">
+			<RadioButton x:Name="radioUIElement" FontSize="14">Select a UI Element</RadioButton>
+			<RadioButton x:Name="radioGeneral" FontSize="14">Make a General action</RadioButton>
+		</Grid> -->
+		<GroupBox Header="UI Element" Grid.Row="1" HorizontalAlignment="Center" Padding="10" x:Name="groupBoxUIElement">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="30" />
@@ -49,7 +57,7 @@
 					<TextBlock x:Name="txtElementText" FontWeight="Bold" Grid.Row="2" Grid.Column="1" Foreground="{Binding TextForegroundColor}"></TextBlock>
 				</Grid>
 				
-				<TextBlock Grid.Row="2" TextWrapping="Wrap" x:Name="txtDescription" Foreground="{Binding LabelForegroundColor}">When "Select Element" button is pressed you can pick an UI Element from screen by moving the mouse cursor over the desired element and holding Shift pressed for a second or two.</TextBlock>
+				<TextBlock Grid.Row="2" TextWrapping="Wrap" x:Name="txtDescription" Foreground="{Binding LabelForegroundColor}">When "Select Element" button is pressed (and shows "Selecting Element...") you can pick an UI Element from screen by moving the mouse cursor over the desired element and holding Shift pressed for a second or two.</TextBlock>
 			</Grid>
 		</GroupBox>
     </Grid>

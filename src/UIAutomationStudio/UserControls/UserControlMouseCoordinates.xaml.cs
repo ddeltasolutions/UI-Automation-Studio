@@ -13,6 +13,9 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlMouseCoordinates : UserControl, IParameters
     {
+		private Element element = null;
+		private System.Windows.Forms.Timer timer = null;
+	
         public UserControlMouseCoordinates(CoordinatesType coordType, ActionIds actionId, bool screen, Element element = null)
         {
             InitializeComponent();
@@ -247,9 +250,6 @@ namespace UIAutomationStudio
 			txtX.Text = parameters[0].ToString();
 			txtY.Text = parameters[1].ToString();
 		}
-		
-		private Element element = null;
-		private System.Windows.Forms.Timer timer = null;
     }
 	
 	public enum CoordinatesType
