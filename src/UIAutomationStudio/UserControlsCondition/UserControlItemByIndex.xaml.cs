@@ -10,6 +10,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlItemByIndex : UserControl, IParameters
     {
+		private PropertyId propertyId = PropertyId.None;
+	
         public UserControlItemByIndex(PropertyId propertyId)
         {
             InitializeComponent();
@@ -86,7 +88,5 @@ namespace UIAutomationStudio
 			
 			txtIndex.Text = parameters[0].ToString();
 		}
-		
-		private PropertyId propertyId = PropertyId.None;
     }
 }

@@ -10,6 +10,9 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlCondition : UserControl
     {
+		private Condition condition = null;
+		private bool guard = false;
+	
         public UserControlCondition(Condition condition)
         {
 			guard = true;
@@ -135,8 +138,5 @@ namespace UIAutomationStudio
 				condGroupBox.Content = new UserControlDate();
 			}
 		}
-		
-		private Condition condition = null;
-		private bool guard = false;
     }
 }

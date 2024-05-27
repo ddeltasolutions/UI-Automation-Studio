@@ -13,6 +13,19 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlSelectProperty : UserControl
     {
+		public bool PropertyIdChanged { get; set; }
+		
+		private Variable variable = null;
+		private ControlType initialControlType = ControlType.None;
+		
+		private ObservableCollection<PropertyInfo> specificProperties = new ObservableCollection<PropertyInfo>();
+		private List<PropertyInfo> generalProperties = new List<PropertyInfo>();
+		
+		private PropertyId currentPropertyId = PropertyId.None;
+		
+		private UserControlItemByIndex ucItemByIndex = null;
+		private UserControlValueByRowAndColumn ucValueByRowAndColumn = null;
+	
         public UserControlSelectProperty(Variable variable, ControlType controlType)
         {
             InitializeComponent();
@@ -220,8 +233,8 @@ namespace UIAutomationStudio
 					PropertyId = PropertyId.Height });
 				generalProperties.Add(new PropertyInfo { Description = "Element Is Enabled", 
 					PropertyId = PropertyId.IsEnabled });
-				generalProperties.Add(new PropertyInfo { Description = "Element Is Alive", 
-					PropertyId = PropertyId.IsAlive });
+				generalProperties.Add(new PropertyInfo { Description = "Element Is Found", 
+					PropertyId = PropertyId.IsFound });
 				
 				tabGeneral.DataContext = generalProperties;
 			}
@@ -407,19 +420,6 @@ namespace UIAutomationStudio
 			}
 			return false;
 		}
-		
-		public bool PropertyIdChanged { get; set; }
-		
-		private Variable variable = null;
-		private ControlType initialControlType = ControlType.None;
-		
-		private ObservableCollection<PropertyInfo> specificProperties = new ObservableCollection<PropertyInfo>();
-		private List<PropertyInfo> generalProperties = new List<PropertyInfo>();
-		
-		private PropertyId currentPropertyId = PropertyId.None;
-		
-		private UserControlItemByIndex ucItemByIndex = null;
-		private UserControlValueByRowAndColumn ucValueByRowAndColumn = null;
     }
 	
 	public class PropertyInfo

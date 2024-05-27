@@ -10,6 +10,8 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class UserControlValueByRowAndColumn : UserControl, IParameters
     {
+		private PropertyId propertyId;
+	
         public UserControlValueByRowAndColumn(PropertyId propertyId)
         {
             InitializeComponent();
@@ -102,7 +104,5 @@ namespace UIAutomationStudio
 				txtColumnIndex.Text = parameters[1].ToString();
 			}
 		}
-		
-		private PropertyId propertyId;
     }
 }
