@@ -22,15 +22,15 @@ namespace UIAutomationStudio
 	public partial class MainWindow : Window
 	{
 		internal static CUIAutomation uiAutomation = new CUIAutomation();
-		private UserControlMainScreen mainScreen = null;
+		internal UserControlMainScreen mainScreen = null;
 		private UserControlVariables variablesScreen = null;
 		private AppScreen currentScreen = AppScreen.Intro;
 		public static string TITLE = "UI Automation Studio";
-		public static string VERSION = "v3.4";
+		public static string VERSION = "v4.5";
 	
-        public MainWindow()
-        {
-            InitializeComponent();
+		public MainWindow()
+		{
+			InitializeComponent();
 			this.Task = null;
 			this.Title = MainWindow.TITLE;
 			
@@ -43,14 +43,14 @@ namespace UIAutomationStudio
 				LoadPreferences();
 			}
 			catch { }
-        }
+		}
 		
 		public static MainWindow Instance = null;
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-			
-        }
+		private void OnLoaded(object sender, RoutedEventArgs e)
+		{
+			HelpMessages.Show(MessageId.AppOpened);
+		}
 		
 		private void OnNewTask(object sender, ExecutedRoutedEventArgs e)
 		{
@@ -66,6 +66,11 @@ namespace UIAutomationStudio
 		
 		public void TryOnNewTask()
 		{
+			if (this.Task != null && this.IsTaskRunning)
+			{
+				this.Task.Stop();
+			}
+		
 			if (this.Task != null && this.Task.IsModified)
 			{
 				MessageBoxResult mbResult = MessageBox.Show(this, "Do you want to save the task before closing?", "", 
@@ -139,6 +144,11 @@ namespace UIAutomationStudio
 			if (newtask.LoadFromXmlFile(xmlFile) == false)
 			{
 				return;
+			}
+			
+			if (this.Task != null && this.IsTaskRunning)
+			{
+				this.Task.Stop();
 			}
 			
 			if (this.Task != null && CloseTask() == false)
@@ -307,6 +317,11 @@ namespace UIAutomationStudio
 		
 		private void TryOnCloseTask()
 		{
+			if (this.Task != null && this.IsTaskRunning)
+			{
+				this.Task.Stop();
+			}
+		
 			if (CloseTask() == false)
 			{
 				return;
@@ -391,7 +406,9 @@ namespace UIAutomationStudio
 			}
 			
 			Arrow selectedArrow = this.mainScreen.SelectedArrow;
-			if (selectedArrow == null && this.Task.HasAtLeastOneConditional == true)
+			bool shiftIsPressed = (System.Windows.Forms.Control.ModifierKeys & System.Windows.Forms.Keys.Shift) == System.Windows.Forms.Keys.Shift;
+			
+			if (selectedArrow == null && this.Task.HasAtLeastOneConditional == true && !shiftIsPressed)
 			{
 				MessageBox.Show(this, "This task contains at least one conditional action. " + 
 					"Please select an arrow to specify where to insert the new action.");
@@ -401,6 +418,29 @@ namespace UIAutomationStudio
 			{
 				MessageBox.Show(this, "Cannot add a new action on this arrow");
 				return;
+			}
+			
+			bool insertAsFirst = false;
+			if (selectedArrow == null && Task.StartAction != null)
+			{
+				if (shiftIsPressed)
+				{
+					PasteOptionsWindow wnd = new PasteOptionsWindow() { Owner = this, IsInsertFirstChecked = true };
+					wnd.UseItForNewAction();
+					if (wnd.ShowDialog() == true)
+					{
+						insertAsFirst = wnd.IsInsertFirstChecked;
+					}
+					else
+					{
+						return;
+					}
+				}
+				else
+				{
+					// helper message
+					HelpMessages.Show(MessageId.NewActionWithShift);
+				}
 			}
 			
 			Action action = new Action();
@@ -452,6 +492,12 @@ namespace UIAutomationStudio
 					{
 						Task.StartAction = action;
 					}
+					else if (insertAsFirst == true)
+					{
+						action.Next = crtAction;
+						crtAction.Previous = action;
+						Task.StartAction = action;
+					}
 					else
 					{
 						Action crtActionNormal = null;
@@ -495,7 +541,7 @@ namespace UIAutomationStudio
 				Task.IsModified = true;
 				Task.Changed();
 				
-				if (mainScreen.SelectedArrow == null)
+				if (mainScreen.SelectedArrow == null && insertAsFirst == false)
 				{
 					mainScreen.ScrollToBottom();
 				}
@@ -1117,7 +1163,7 @@ namespace UIAutomationStudio
 			IUIAutomationElement uiElement = selectedAction.Element.InnerElement;
 			if (uiElement == null)
 			{
-				UIDeskAutomationLib.ElementBase libraryElement = selectedAction.Element.GetLibraryElement(true);
+				UIDeskAutomationLib.ElementBase libraryElement = selectedAction.Element.GetLibraryElement(noTimeOut: true);
 				if (libraryElement != null)
 				{
 					uiElement = libraryElement.InnerElement;
@@ -1293,6 +1339,10 @@ namespace UIAutomationStudio
 				}
 				
 				this.btnToolbarPauseTask.ToolTip = "Resume Task";
+				if (this.mainScreen != null)
+				{
+					this.mainScreen.txbPaused.Text = "Paused";
+				}
 			}
 			else
 			{
@@ -1308,6 +1358,10 @@ namespace UIAutomationStudio
 				}
 				
 				this.btnToolbarPauseTask.ToolTip = "Pause Task";
+				if (this.mainScreen != null)
+				{
+					this.mainScreen.txbPaused.Text = "";
+				}
 			}
 		}
 		
@@ -1321,6 +1375,12 @@ namespace UIAutomationStudio
 			set
 			{
 				this.isTaskRunning = value;
+				
+				if (value == false)
+				{
+					UIDeskAutomationLib.Engine.IsCancelled = false;
+				}
+				
 				if (this.mainScreen != null)
 				{
 					this.mainScreen.SetTaskRunningButtons(value);
@@ -1392,6 +1452,58 @@ namespace UIAutomationStudio
 				{
 					this.Title = title + "*";
 				}
+			}
+		}
+		
+		private void OnDropFiles(object sender, DragEventArgs e)
+		{
+			try
+			{
+				TryOnDropFiles(sender, e);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(this, ex.Message);
+			}
+		}
+		
+		private void TryOnDropFiles(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
+				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+				
+				if (files.Length == 0)
+				{
+					return;
+				}
+				
+				string fileNameCmd = files[0];
+				string fileNameXml = null;
+				string fileExtension = Path.GetExtension(fileNameCmd).ToLower();
+				
+				if (fileExtension == ".cmd")
+				{
+					fileNameXml = Path.GetDirectoryName(fileNameCmd) + "\\" + 
+						Path.GetFileNameWithoutExtension(fileNameCmd) + ".xml";
+						
+					if (!File.Exists(fileNameXml))
+					{
+						MessageBox.Show(this, "File " + fileNameXml + " does not exist");
+						return;
+					}
+				}
+				else if (fileExtension == ".xml")
+				{
+					fileNameXml = fileNameCmd;
+				}
+				else
+				{
+					MessageBox.Show(this, "Format not supported. Supported file formats: cmd and xml.");
+					return;
+				}
+				
+				OpenTask(fileNameXml);
 			}
 		}
     }

@@ -105,7 +105,7 @@
 	<Compile Include="Helpers\HighlightHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-	<Compile Include="MainWindowCmdsAndPrefs.cs">
+	<Compile Include="MainWindow.CmdsAndPrefs.cs">
       <SubType>Code</SubType>
     </Compile>
 	<Compile Include="MainWindow.Conditions.xaml.cs">
@@ -298,6 +298,14 @@
     </Page>
 	<Compile Include="LoopTypeWindow.xaml.cs">
       <DependentUpon>LoopTypeWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+	<Page Include="InsertConditionalWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+	<Compile Include="InsertConditionalWindow.xaml.cs">
+      <DependentUpon>InsertConditionalWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
 	
@@ -523,30 +531,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Pictures\New.png" />
+	<Resource Include="Pictures\Folder.png" />
+	<Resource Include="Pictures\Save.png" />
+	<Resource Include="Pictures\Close.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Pictures\Folder.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\Save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\Close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\NewAction.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\play.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\stop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\pause.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pictures\resume.png" />
+	<Resource Include="Pictures\NewAction.png" />
+	<Resource Include="Pictures\play.png" />
+	<Resource Include="Pictures\stop.png" />
+	<Resource Include="Pictures\pause.png" />
+	<Resource Include="Pictures\resume.png" />
+	<Resource Include="Pictures\undo.png" />
+    <Resource Include="Pictures\redo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="appicon.ico" />

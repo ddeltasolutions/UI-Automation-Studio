@@ -13,18 +13,35 @@ namespace UIAutomationStudio
     /// </summary>
     public partial class PasteOptionsWindow : Window
     {
-		public bool IsInsertFirstChecked { get; set; }
+		private bool isInsertFirstChecked = false;
+		public bool IsInsertFirstChecked 
+		{
+			get
+			{
+				return isInsertFirstChecked;
+			}
+			set
+			{
+				isInsertFirstChecked = value;
+				checkBoxInsertFirst.IsChecked = isInsertFirstChecked;
+			}
+		}
 	
         public PasteOptionsWindow(bool hasAtLeastOneConditional = false)
         {
             InitializeComponent();
-			IsInsertFirstChecked = false;
 			
 			if (hasAtLeastOneConditional == true)
 			{
 				checkBoxInsertFirst.IsChecked = true;
 				checkBoxInsertLast.Visibility = Visibility.Hidden;
 			}
+		}
+		
+		public void UseItForNewAction()
+		{
+			Title = "New Action Options";
+			txtMsg.Text = "action in task?";
 		}
 		
 		private void OnLoaded(object sender, RoutedEventArgs e)
@@ -34,7 +51,7 @@ namespace UIAutomationStudio
 		
 		private void OnOK(object sender, RoutedEventArgs e)
 		{
-			IsInsertFirstChecked = (checkBoxInsertFirst.IsChecked == null ? false : checkBoxInsertFirst.IsChecked.Value);
+			isInsertFirstChecked = (checkBoxInsertFirst.IsChecked == null ? false : checkBoxInsertFirst.IsChecked.Value);
 			this.DialogResult = true;
 			this.Close();
 		}
